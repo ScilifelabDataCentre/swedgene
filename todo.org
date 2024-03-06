@@ -1,0 +1,26 @@
+* Inbox
+** TODO Replace Asp Nid RefSeq with remote .2bit
+- Modify script
+  - add_local_assembly
+  - add_remote_assembly
+- Edit configuration inplace to setup remote
+  - Remote aliases
+- Keep local annotation tracks for remote assembly
+
+** TODO Add local track to CH
+- Download from NCBI [[https://ftp.ncbi.nlm.nih.gov/genomes/refseq/vertebrate_other/Clupea_harengus/latest_assembly_versions/GCF_900700415.2_Ch_v2.0.2/][FTP]]
+- Try a format other than GFF
+** TODO Draft Yaml config format
+- species
+  - clupea_harengus
+    - assemblies
+    - tracks
+    - hubs
+  - aspergilus_nidulans
+    - assemblies
+    - tracks
+    - hubs
+** TODO Reformat local hub to use one file
+- Simulate hub on k8s network
+** TODO Cleanup asp scripts.sh
+** TODO Draft README.org

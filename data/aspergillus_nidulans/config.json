@@ -1,0 +1,179 @@
+{
+  "assemblies": [
+    {
+      "name": "GCA_000011425.1",
+      "sequence": {
+        "type": "ReferenceSequenceTrack",
+        "trackId": "GCA_000011425.1-ReferenceSequenceTrack",
+        "adapter": {
+          "type": "IndexedFastaAdapter",
+          "fastaLocation": {
+            "uri": "GCA_000011425.1/GCA_000011425.1_ASM1142v1_genomic.fna.gz",
+            "locationType": "UriLocation"
+          },
+          "faiLocation": {
+            "uri": "GCA_000011425.1/GCA_000011425.1_ASM1142v1_genomic.fna.fai",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "refNameAliases": {
+        "adapter": {
+          "type": "RefNameAliasAdapter",
+          "location": {
+            "uri": "GCA_000011425.1/aliases.txt",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "displayName": "Aspergilus nidulans (GenBank)"
+    },
+    {
+      "name": "GCF_000011425.1",
+      "sequence": {
+        "type": "ReferenceSequenceTrack",
+        "trackId": "GCF_000011425.1-ReferenceSequenceTrack",
+        "adapter": {
+          "type": "IndexedFastaAdapter",
+          "fastaLocation": {
+            "uri": "GCF_000011425.1/GCF_000011425.1_ASM1142v1_genomic.fna.gz",
+            "locationType": "UriLocation"
+          },
+          "faiLocation": {
+            "uri": "GCF_000011425.1/GCF_000011425.1_ASM1142v1_genomic.fna.fai",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "refNameAliases": {
+        "adapter": {
+          "type": "RefNameAliasAdapter",
+          "location": {
+            "uri": "GCF_000011425.1/aliases.txt",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "displayName": "Aspergilus nidulans (RefSeq)"
+    }
+  ],
+  "configuration": {},
+  "connections": [
+    {
+      "type": "UCSCTrackHubConnection",
+      "name": "Aspergilus nidulans (USBC assembly hub)",
+      "hubTxtLocation": {
+        "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/000/011/425/GCF_000011425.1/hub.txt",
+        "locationType": "UriLocation"
+      },
+      "connectionId": "UCSCTrackHubConnection-1709037214731"
+    }
+  ],
+  "defaultSession": {
+    "name": "Parallel assemblies",
+    "views": [
+      {
+        "type": "LinearGenomeView",
+        "offsetPx": 11979,
+        "bpPerPx": 169.3262154144449,
+        "displayedRegions": [
+          {
+            "refName": "BN001301.1",
+            "start": 0,
+            "end": 3704807,
+            "reversed": false,
+            "assemblyName": "GCA_000011425.1"
+          }
+        ],
+        "tracks": [
+          {
+            "type": "FeatureTrack",
+            "configuration": "GCA_000011425.1-GFF",
+            "minimized": false,
+            "displays": [
+              {
+                "type": "LinearBasicDisplay",
+                "heightPreConfig": 234,
+                "configuration": "GCA_000011425.1-GFF-LinearBasicDisplay"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "LinearGenomeView",
+        "offsetPx": 11979,
+        "bpPerPx": 169.32630035525506,
+        "displayedRegions": [
+          {
+            "refName": "NC_066257.1",
+            "start": 0,
+            "end": 3704807,
+            "reversed": false,
+            "assemblyName": "GCF_000011425.1"
+          }
+        ],
+        "tracks": [
+          {
+            "type": "FeatureTrack",
+            "configuration": "GCF_000011425.1-GFF",
+            "minimized": false,
+            "displays": [
+              {
+                "type": "LinearBasicDisplay",
+                "heightPreConfig": 277,
+                "configuration": "GCF_000011425.1-GFF-LinearBasicDisplay"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "tracks": [
+    {
+      "type": "FeatureTrack",
+      "trackId": "GCA_000011425.1-GFF",
+      "name": "Gene annotations",
+      "adapter": {
+        "type": "Gff3TabixAdapter",
+        "gffGzLocation": {
+          "uri": "GCA_000011425.1/genomic.sorted.gff.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "GCA_000011425.1/genomic.sorted.gff.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "assemblyNames": [
+        "GCA_000011425.1"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "GCF_000011425.1-GFF",
+      "name": "Gene annotations",
+      "adapter": {
+        "type": "Gff3TabixAdapter",
+        "gffGzLocation": {
+          "uri": "GCF_000011425.1/genomic.sorted.gff.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "GCF_000011425.1/genomic.sorted.gff.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "assemblyNames": [
+        "GCF_000011425.1"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+#+TITLE: Swedish Genome Portal
+#+OPTIONS: ^:nil
+#+OPTIONS: toc:nil html-postamble:nil num:nil
+
+* Featured species
+
+** Aspergillus Nidulans
+
+- Facts
+- [[file:browser/?config=/data/aspergilus_nidulans/config.json][Browse]]
+
+*** Assemblies
+
+| Name      | Accession       | Source        | Format | Data location |
+|-----------+-----------------+---------------+--------+---------------|
+| ASM1142v1 | GCA_000011425.1 | NCBI GeneBank | FASTA  | local         |
+| ASM1142v1 | GCF_000011425.1 | NCBI RefSeq   | FASTA  | local         |
+
+*** Tracks
+
+| Name                 | Assembly        | Source        | Format      | Data location |
+|----------------------+-----------------+---------------+-------------+---------------|
+| GeneBank annotations | GCA_000011425.1 | NCBI GeneBank | GFF         | local         |
+| RefSeq annotations   | GCF_000011425.1 | NCBI RefSeq   | GFF         | local         |
+| UCSC track hub       | GCF_000011425.1 | UCSC GenArk   | trackDb.txt | [[https://hgdownload.soe.ucsc.edu/hubs/GCF/000/011/425/GCF_000011425.1/hub.txt][hub.txt]]       |
+
+
+
+** Clupea Harengus
+
+- Facts
+- [[file:browser/?config=/data/clupea_harrengus/config.json][Browse]]
+  
+*** Assemblies
+
+| Name      | Accession       | Source      | Format | Data location               |
+|-----------+-----------------+-------------+--------+-----------------------------|
+| Ch_v2.0.2 | GCF_900700415.2 | NCBI RefSeq | 2bit   | GenArk [[https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/GCF_900700415.2.2bit][GCF_900700415.2.2bit]] |
+
+
+*** Tracks
+
+| Name           | Assembly        | Source      | Format      | Data location |
+|----------------+-----------------+-------------+-------------+---------------|
+| UCSC track hub | GCF_900700415.2 | UCSC GenArk | trackDb.txt | [[https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/hub.txt][hub.txt]]       |
+
