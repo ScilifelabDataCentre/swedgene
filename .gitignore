@@ -2,6 +2,7 @@ browser
 .#*
 \#*
 data/aspergillus_nidulans/*
+data/clupea_harengus/G*
 !data/aspergillus_nidulans/config.json
 !data/aspergillus_nidulans/scripts.sh
 todo.org
