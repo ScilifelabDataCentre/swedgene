@@ -10,19 +10,14 @@ add_remote_assembly() {
     URL=https://hgdownload.soe.ucsc.edu/hubs/GCF/000/011/425/GCF_000011425.1/GCF_000011425.1.2bit
     ALIASES_URL=https://hgdownload.soe.ucsc.edu/hubs/GCF/000/011/425/GCF_000011425.1/GCF_000011425.1.chromAlias.txt
     jbrowse add-assembly "$URL" --name="GCF_000011425.1" \
-	    --displayName="Aspergilus Nidulans (RefSeq, UCSC hosted)" \
+	    --displayName="Aspergilus Nidulans (RefSeq@UCSC)" \
 	    --refNameAliases="$ALIASES_URL" 
 }
 
-add_local_assemblies() {
-    if [[ "$1" == "A" ]]; then
-	src="GenBank"
-    else
-	src="RefSeq"
-    fi
-    jbrowse add-assembly "GC$1"*/*.fna --load inPlace \
-	 --displayName "Aspergilus nidulans ($src)" \
-	 --refNameAliases "GC$1"*/aliases.txt
+add_local_assembly() {
+    jbrowse add-assembly "GCA_000011425.1/*.fna?(.gz)" --load inPlace \
+	 --displayName "Aspergilus nidulans (GenBank@localhost)" \
+	 --refNameAliases "GCA_000011425.1/aliases.txt"
 }
 
 add_connection() {

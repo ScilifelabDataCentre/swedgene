@@ -7,8 +7,11 @@
 ** Aspergillus Nidulans
 
 - Facts
-- [[file:browser/?config=/data/aspergilus_nidulans/config.json][Browse]]
-
+- [[file:browser/?config=/data/aspergillus_nidulans/config.json][Browse]]
+- Links
+  - [[https://hgdownload.soe.ucsc.edu/hubs/GCF/000/011/425/GCF_000011425.1/][GenArk assembly hub]]
+  - [[https://ftp.ncbi.nlm.nih.gov/genomes/refseq/fungi/Aspergillus_nidulans/latest_assembly_versions/GCF_000011425.1_ASM1142v1/][NCBI RefSeq assembly]]
+    
 *** Assemblies
 
 | Name      | Accession       | Source        | Format | Data location |
