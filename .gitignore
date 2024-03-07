@@ -4,3 +4,5 @@ browser
 data/aspergillus_nidulans/*
 !data/aspergillus_nidulans/config.json
 !data/aspergillus_nidulans/scripts.sh
+todo.org
+todo.org_archive

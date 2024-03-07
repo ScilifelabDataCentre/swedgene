@@ -1,0 +1,25 @@
+#+title: Swedish genome portal
+#+subtitle: A prototype
+
+This early-stage prototype demonstrates how a genome browser can be
+embedded to a static website, and display pre-configured assemblies
+and annotation tracks.
+
+Two organisms are used for the puropose of demonstration:
+- Aspergillus Nidulans
+- Clupea Harengus (Atlantic herring)
+
+A detailed inventory of assemblies and annotation tracks displayed can
+be found in [[file:index.org][index.org]].
+
+Data files and browser code are not included in this repository, to
+avoid versioning large files and third-party browser releases, but
+bootstrap scripts to fetch these elements are goind to be provided.
+
+Once browser code and genomic data are downloaded to the appropriate
+locations, launching a web server in the root directory is all that is
+needed, e.g.
+
+#+begin_src bash
+npx serve 
+#+end_src
