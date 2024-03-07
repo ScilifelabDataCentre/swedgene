@@ -10,19 +10,19 @@ add_remote_assembly() {
     URL=https://hgdownload.soe.ucsc.edu/hubs/GCF/000/011/425/GCF_000011425.1/GCF_000011425.1.2bit
     ALIASES_URL=https://hgdownload.soe.ucsc.edu/hubs/GCF/000/011/425/GCF_000011425.1/GCF_000011425.1.chromAlias.txt
     jbrowse add-assembly "$URL" --name="GCF_000011425.1" \
-	    --displayName="Aspergilus Nidulans (RefSeq@UCSC)" \
+	    --displayName="GCF_000011425.1@UCSC - Aspergillus Nidulans" \
 	    --refNameAliases="$ALIASES_URL" 
 }
 
 add_local_assembly() {
     jbrowse add-assembly "GCA_000011425.1/*.fna?(.gz)" --load inPlace \
-	 --displayName "Aspergilus nidulans (GenBank@localhost)" \
+	 --displayName "GCA_000011425.1@localhost - Aspergillus nidulans" \
 	 --refNameAliases "GCA_000011425.1/aliases.txt"
 }
 
 add_connection() {
     url="https://hgdownload.soe.ucsc.edu/hubs/GCF/000/011/425/GCF_000011425.1/hub.txt"
-    jbrowse add-connection --name="Aspergilus nidulans (USBC)" $url 
+    jbrowse add-connection --name="GCF_000011425.1 track hub" $url 
 }
 
 make_gff_index() {
@@ -55,7 +55,7 @@ add_gff_tracks() {
     for ASMBLY in GC*; do	
 	jbrowse add-track "$ASMBLY/$GFF_SORTED" \
 		--assemblyNames="$ASMBLY" \
-		--load inPlace --name "Gene annotations" \
+		--load inPlace --name "GFF annotations" \
 		--trackId="$ASMBLY"-GFF
     done
 }

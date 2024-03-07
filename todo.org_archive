@@ -32,3 +32,19 @@ Archived entries from file /home/kwentine/src/swedgene/todo.org
 :ARCHIVE_CATEGORY: todo
 :ARCHIVE_TODO: DONE
 :END:
+
+* DONE Replace Asp Nid RefSeq with remote .2bit
+:PROPERTIES:
+:ARCHIVE_TIME: 2024-03-07 tor 10:49
+:ARCHIVE_FILE: ~/src/swedgene/todo.org
+:ARCHIVE_OLPATH: Inbox
+:ARCHIVE_CATEGORY: todo
+:ARCHIVE_TODO: DONE
+:END:
+- Edit configuration inplace to setup remote
+  - Remote aliases
+- Modify script
+  - add_local_assembly
+  - add_remote_assembly
+- Keep local annotation tracks for remote assembly
+
