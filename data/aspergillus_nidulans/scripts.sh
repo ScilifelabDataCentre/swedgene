@@ -11,7 +11,24 @@ add_remote_assembly() {
     ALIASES_URL=https://hgdownload.soe.ucsc.edu/hubs/GCF/000/011/425/GCF_000011425.1/GCF_000011425.1.chromAlias.txt
     jbrowse add-assembly "$URL" --name="GCF_000011425.1" \
 	    --displayName="GCF_000011425.1@UCSC - Aspergillus Nidulans" \
-	    --refNameAliases="$ALIASES_URL" 
+	    --refNameAliases="$ALIASES_URL"
+}
+
+download_local_tracks() {
+    for KEY in A F; do
+	ASM="GC${KEY}_000011425.1"
+	echo "Downloading tracks for $ASM..."
+	TRACKS="GENOME_GFF"
+	if [[ $KEY == "A" ]]; then
+	    TRACKS="$TRACKS,GENOME_FASTA"
+	fi
+	URL="https://api.ncbi.nlm.nih.gov/datasets/v2alpha/genome/accession/$ASM/download?include_annotation_type=$TRACKS"
+	TMP_ZIP=ncbi_data.zip
+	mkdir -p "$ASM"
+	curl -o "$TMP_ZIP" "$URL"
+	unzip -j -o "$TMP_ZIP" '*.fna' '*.gff' -d "$ASM"
+	rm "$TMP_ZIP"
+    done
 }
 
 add_local_assembly() {
@@ -22,13 +39,13 @@ add_local_assembly() {
 
 add_connection() {
     url="https://hgdownload.soe.ucsc.edu/hubs/GCF/000/011/425/GCF_000011425.1/hub.txt"
-    jbrowse add-connection --name="GCF_000011425.1 track hub" $url 
+    jbrowse add-connection --name="GCF_000011425.1 track hub" $url
 }
 
 make_gff_index() {
     ROOT_DIR=$(git rev-parse --show-toplevel)
     cd "$ROOT_DIR/data/aspergilus_nidulans/" || exit
-    
+
     GFF=genomic.gff
     GFF_SORTED=genomic.sorted.gff.gz
 
@@ -37,7 +54,7 @@ make_gff_index() {
 	# file by landmark and start position
 	gff="$ASMBLY/$GFF"
 	gff_sorted="$ASMBLY/$GFF_SORTED"
-	
+
 	echo "Sorting, compressing and indexing $gff"
 	(grep "^#" "$gff"; grep -v "^#" "$gff" | sort -t$'\t' -k1,1 -k4,4n) \
 	    | bgzip > "$gff_sorted"
@@ -49,14 +66,13 @@ make_gff_index() {
 add_gff_tracks() {
     ROOT_DIR=$(git rev-parse --show-toplevel)
     cd "$ROOT_DIR/data/aspergilus_nidulans/" || exit
-    
+
     GFF_SORTED="genomic.sorted.gff.gz"
     # Add GFF tracks copied from NCBI
-    for ASMBLY in GC*; do	
+    for ASMBLY in GC*; do
 	jbrowse add-track "$ASMBLY/$GFF_SORTED" \
 		--assemblyNames="$ASMBLY" \
 		--load inPlace --name "GFF annotations" \
 		--trackId="$ASMBLY"-GFF
     done
 }
-
