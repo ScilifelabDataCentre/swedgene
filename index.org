@@ -17,7 +17,7 @@
 | Name      | Accession       | Source        | Format | Data location |
 |-----------+-----------------+---------------+--------+---------------|
 | ASM1142v1 | GCA_000011425.1 | NCBI GeneBank | FASTA  | local         |
-| ASM1142v1 | GCF_000011425.1 | NCBI RefSeq   | FASTA  | local         |
+| ASM1142v1 | GCF_000011425.1 | NCBI RefSeq   | FASTA  | [[https://hgdownload.soe.ucsc.edu/hubs/GCF/000/011/425/GCF_000011425.1/GCF_000011425.1.2bit][UCSC GenArk]]   |
 
 *** Tracks
 
