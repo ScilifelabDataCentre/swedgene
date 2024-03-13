@@ -12,14 +12,47 @@ Two organisms are used for the puropose of demonstration:
 A detailed inventory of assemblies and annotation tracks displayed can
 be found in [[file:index.org][index.org]].
 
-Data files and browser code are not included in this repository, to
-avoid versioning large files and third-party browser releases, but
-bootstrap scripts to fetch these elements are goind to be provided.
 
-Once browser code and genomic data are downloaded to the appropriate
-locations, launching a web server in the root directory is all that is
-needed, e.g.
+* Data organization
+
+Data files are not included in this repository, to avoid versioning
+large files and third-party browser releases, but a =Makefile= with
+recipes to fetch these elements is being setup.
+
+Each organism gets a directory in the =data/= directory, for example
+=data/aspergillus_nidulans= for the fungi species used for
+prototyping.
+
+Each organism directory must include a =config.yml= file specifying
+which assemblies and tracks are to be displayed in JBrowse. A =make=
+recipe (under development) uses this information to generate a
+=config.json= used by JBrowse
+
+* Data operations
+
+In principles, all the genomic assemblies and annotations tracks
+should be hosted remotely. However, for some data formats such as =FASTA=
+and =GFF=, JBrowse expects acompanying index files.
+
+Therefore, remote FASTA and GFF files need to be downloaded to
+generate an index. Whether we then use the downloaded copies, or
+remove them and keep only indices, is an implementation detail.
+
+* Up and running!
+
+Browser code is provided by JBrowse and should be downloaded in the
+=browser= directory. A =make= recipe is going to be provided to
+automate this.
+
+Once:
+  - browser code is in place 
+  - genomic data indices are generated
+  - browser configurations are updated
+
+launching a web server in the root directory is the last remaining step.
 
 #+begin_src bash
-npx serve 
+  make index
+  make browser
+  make serve 
 #+end_src
