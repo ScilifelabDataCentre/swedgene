@@ -3,3 +3,16 @@ browser
 \#*
 *.fna*
 *.gff*
+
+# Hugo default output directory
+hugo/public
+
+# more Hugo stuff
+hugo/.hugo_build.lock
+
+# OSX
+*.DS_Store
+
+# backups
+*~
+\#*\#
