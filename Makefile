@@ -1,7 +1,14 @@
 SHELL=/bin/bash
-CONFIGS = $(subst .yml,.json,$(shell find data/ -type f -name 'config.yml'))
+DATADIRS = $(shell find data -type d -execdir test -e '{}'/config.yml ';' -print)
+CONFIGS = $(addsuffix /config.json, $(DATADIRS))
+DL_LIST = $(shell ./scripts/list_all_download_targets.sh | cut -d" " -f1)
 
-DL_LIST = $(shell ./dl_list.sh)
+.PHONY: debug
+debug:
+	$(info Data directories: $(DATADIRS))	
+	$(info Configuration files to generate: $(CONFIGS))
+	$(info Files to download for indexing: $(DL_LIST))			
+
 
 .PHONY: all
 all: $(CONFIGS);
@@ -27,13 +34,4 @@ index-gff: $(addsuffix .tbi,$(GFF));
 %:
 	@URL=$$(grep -oE "https://.+$(@F)" "$(@D)/config.yml"); \
 	echo curl --output-dir $(@D) "https://[...]/$${URL##*/}" 
-
-
-
-a = a.txt
-b = b.txt
-c = $(addprefix foo/,c.txt d.txt)
-test: $(c) $(b)
-	@echo $^
-%.txt:;
 
