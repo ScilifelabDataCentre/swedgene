@@ -40,19 +40,12 @@ remove them and keep only indices, is an implementation detail.
 
 * Up and running!
 
-Browser code is provided by JBrowse and should be downloaded in the
-=browser= directory. A =make= recipe is going to be provided to
-automate this.
+Browser code is provided by JBrowse and should is placed in the
+=static/browser= directory.
 
-Once:
-  - browser code is in place 
-  - genomic data indices are generated
-  - browser configurations are updated
+Sample data and configuration for two species is placed in =static/data=
 
-launching a web server in the root directory is the last remaining step.
-
+To run the demo:
 #+begin_src bash
-  make index
-  make browser
-  make serve 
+  hugo server
 #+end_src
