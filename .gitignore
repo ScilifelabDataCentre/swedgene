@@ -1,6 +1,9 @@
 .#*
 \#*
 
+/data/**/*gff*
+/data/**/*fna*
+
 # Hugo default output directory
 hugo/public
 
