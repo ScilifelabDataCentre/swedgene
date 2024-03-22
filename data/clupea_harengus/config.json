@@ -1,0 +1,703 @@
+{
+  "assemblies": [
+    {
+      "name": "GCF_900700415.2",
+      "sequence": {
+        "type": "ReferenceSequenceTrack",
+        "trackId": "GCF_900700415.2-ReferenceSequenceTrack",
+        "adapter": {
+          "type": "TwoBitAdapter",
+          "twoBitLocation": {
+            "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/GCF_900700415.2.2bit",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "refNameAliases": {
+        "adapter": {
+          "type": "RefNameAliasAdapter",
+          "location": {
+            "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/GCF_900700415.2.chromAlias.txt",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "displayName": "Clupea harengus - RefSeq"
+    }
+  ],
+  "configuration": {},
+  "connections": [
+    {
+      "type": "UCSCTrackHubConnection",
+      "name": "Clupea Harengus (USBC)",
+      "hubTxtLocation": {
+        "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/hub.txt",
+        "locationType": "UriLocation"
+      },
+      "connectionId": "UCSCTrackHubConnection-Ch_v2.0.2-1709716390565",
+      "assemblyNames": [
+        "GCF_900700415.2"
+      ]
+    }
+  ],
+  "defaultSession": {
+    "drawerPosition": "right",
+    "drawerWidth": 384,
+    "widgets": {
+      "GridBookmark": {
+        "id": "GridBookmark",
+        "type": "GridBookmarkWidget"
+      },
+      "hierarchicalTrackSelector": {
+        "id": "hierarchicalTrackSelector",
+        "type": "HierarchicalTrackSelectorWidget",
+        "initialized": true,
+        "collapsed": {},
+        "view": "aQlm4KNbLl0eJgs4sH75U",
+        "faceted": {
+          "filterText": "",
+          "showSparse": false,
+          "showFilters": true,
+          "showOptions": false,
+          "panelWidth": 400
+        }
+      }
+    },
+    "activeWidgets": {
+      "hierarchicalTrackSelector": "hierarchicalTrackSelector"
+    },
+    "name": "Default session",
+    "views": [
+      {
+        "id": "aQlm4KNbLl0eJgs4sH75U",
+        "type": "LinearGenomeView",
+        "offsetPx": -172,
+        "bpPerPx": 395.0226671338359,
+        "displayedRegions": [
+          {
+            "refName": "NC_045152.1",
+            "start": 0,
+            "end": 33084258,
+            "reversed": false,
+            "assemblyName": "GCF_900700415.2"
+          }
+        ],
+        "tracks": [
+          {
+            "type": "FeatureTrack",
+            "configuration": "ucsc-trackhub-1853847906",
+            "minimized": false,
+            "displays": [
+              {
+                "type": "LinearBasicDisplay",
+                "heightPreConfig": 274,
+                "configuration": "ucsc-trackhub-1853847906-LinearBasicDisplay"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "connectionInstances": [
+      {
+        "name": "Clupea Harengus (USBC)",
+        "tracks": [
+          {
+            "type": "FeatureTrack",
+            "trackId": "ucsc-trackhub-1547320976",
+            "name": "Assembly",
+            "assemblyNames": [
+              "GCF_900700415.2"
+            ],
+            "description": "Assembly",
+            "adapter": {
+              "type": "BigBedAdapter",
+              "bigBedLocation": {
+                "locationType": "UriLocation",
+                "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/bbi/GCF_900700415.2_Ch_v2.0.2.assembly.bb"
+              }
+            },
+            "displays": [
+              {
+                "type": "LinearBasicDisplay",
+                "displayId": "ucsc-trackhub-1547320976-LinearBasicDisplay"
+              },
+              {
+                "type": "LinearArcDisplay",
+                "displayId": "ucsc-trackhub-1547320976-LinearArcDisplay"
+              }
+            ]
+          },
+          {
+            "type": "FeatureTrack",
+            "trackId": "ucsc-trackhub-1678543386",
+            "name": "Gap (AGP defined)",
+            "assemblyNames": [
+              "GCF_900700415.2"
+            ],
+            "description": "AGP gap",
+            "adapter": {
+              "type": "BigBedAdapter",
+              "bigBedLocation": {
+                "locationType": "UriLocation",
+                "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/bbi/GCF_900700415.2_Ch_v2.0.2.gap.bb"
+              }
+            },
+            "displays": [
+              {
+                "type": "LinearBasicDisplay",
+                "displayId": "ucsc-trackhub-1678543386-LinearBasicDisplay"
+              },
+              {
+                "type": "LinearArcDisplay",
+                "displayId": "ucsc-trackhub-1678543386-LinearArcDisplay"
+              }
+            ]
+          },
+          {
+            "type": "FeatureTrack",
+            "trackId": "ucsc-trackhub-418849597",
+            "name": "Chromosome Band (Ideogram)",
+            "assemblyNames": [
+              "GCF_900700415.2"
+            ],
+            "description": "Ideogram for Orientation",
+            "adapter": {
+              "type": "BigBedAdapter",
+              "bigBedLocation": {
+                "locationType": "UriLocation",
+                "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/bbi/GCF_900700415.2_Ch_v2.0.2.cytoBand.bb"
+              }
+            },
+            "displays": [
+              {
+                "type": "LinearBasicDisplay",
+                "displayId": "ucsc-trackhub-418849597-LinearBasicDisplay"
+              },
+              {
+                "type": "LinearArcDisplay",
+                "displayId": "ucsc-trackhub-418849597-LinearArcDisplay"
+              }
+            ]
+          },
+          {
+            "type": "QuantitativeTrack",
+            "trackId": "ucsc-trackhub--703948529",
+            "name": "GC Percent",
+            "assemblyNames": [
+              "GCF_900700415.2"
+            ],
+            "description": "GC Percent in 5-Base Windows",
+            "adapter": {
+              "type": "BigWigAdapter",
+              "bigWigLocation": {
+                "locationType": "UriLocation",
+                "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/bbi/GCF_900700415.2_Ch_v2.0.2.gc5Base.bw"
+              }
+            },
+            "displays": [
+              {
+                "type": "LinearWiggleDisplay",
+                "displayId": "ucsc-trackhub--703948529-LinearWiggleDisplay"
+              }
+            ]
+          },
+          {
+            "type": "FeatureTrack",
+            "trackId": "ucsc-trackhub--2030781004",
+            "name": "Tandem Dups",
+            "assemblyNames": [
+              "GCF_900700415.2"
+            ],
+            "description": "Paired identical sequences",
+            "adapter": {
+              "type": "BigBedAdapter",
+              "bigBedLocation": {
+                "locationType": "UriLocation",
+                "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/hub.txt"
+              }
+            },
+            "displays": [
+              {
+                "type": "LinearBasicDisplay",
+                "displayId": "ucsc-trackhub--2030781004-LinearBasicDisplay"
+              },
+              {
+                "type": "LinearArcDisplay",
+                "displayId": "ucsc-trackhub--2030781004-LinearArcDisplay"
+              }
+            ]
+          },
+          {
+            "type": "FeatureTrack",
+            "trackId": "ucsc-trackhub--1007578074",
+            "name": "Gap Overlaps",
+            "assemblyNames": [
+              "GCF_900700415.2"
+            ],
+            "description": "Paired exactly identical sequence on each side of a gap",
+            "category": [
+              "Tandem Dups"
+            ],
+            "adapter": {
+              "type": "BigBedAdapter",
+              "bigBedLocation": {
+                "locationType": "UriLocation",
+                "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/bbi/GCF_900700415.2_Ch_v2.0.2.gapOverlap.bb"
+              }
+            },
+            "displays": [
+              {
+                "type": "LinearBasicDisplay",
+                "displayId": "ucsc-trackhub--1007578074-LinearBasicDisplay"
+              },
+              {
+                "type": "LinearArcDisplay",
+                "displayId": "ucsc-trackhub--1007578074-LinearArcDisplay"
+              }
+            ]
+          },
+          {
+            "type": "FeatureTrack",
+            "trackId": "ucsc-trackhub--1640640184",
+            "name": "Tandem Dups",
+            "assemblyNames": [
+              "GCF_900700415.2"
+            ],
+            "description": "Paired exactly identical sequence survey over entire genome assembly",
+            "category": [
+              "Tandem Dups"
+            ],
+            "adapter": {
+              "type": "BigBedAdapter",
+              "bigBedLocation": {
+                "locationType": "UriLocation",
+                "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/bbi/GCF_900700415.2_Ch_v2.0.2.tandemDups.bb"
+              }
+            },
+            "displays": [
+              {
+                "type": "LinearBasicDisplay",
+                "displayId": "ucsc-trackhub--1640640184-LinearBasicDisplay"
+              },
+              {
+                "type": "LinearArcDisplay",
+                "displayId": "ucsc-trackhub--1640640184-LinearArcDisplay"
+              }
+            ]
+          },
+          {
+            "type": "FeatureTrack",
+            "trackId": "ucsc-trackhub--1449318620",
+            "name": "RepeatMasker (Unknown)",
+            "assemblyNames": [
+              "GCF_900700415.2"
+            ],
+            "description": "Could not determine track type for \"bigRmsk\"",
+            "displays": [
+              {
+                "type": "LinearBasicDisplay",
+                "displayId": "ucsc-trackhub--1449318620-LinearBasicDisplay"
+              },
+              {
+                "type": "LinearArcDisplay",
+                "displayId": "ucsc-trackhub--1449318620-LinearArcDisplay"
+              }
+            ]
+          },
+          {
+            "type": "FeatureTrack",
+            "trackId": "ucsc-trackhub--1710411045",
+            "name": "Simple Repeats",
+            "assemblyNames": [
+              "GCF_900700415.2"
+            ],
+            "description": "Simple Tandem Repeats by TRF",
+            "adapter": {
+              "type": "BigBedAdapter",
+              "bigBedLocation": {
+                "locationType": "UriLocation",
+                "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/bbi/GCF_900700415.2_Ch_v2.0.2.simpleRepeat.bb"
+              }
+            },
+            "displays": [
+              {
+                "type": "LinearBasicDisplay",
+                "displayId": "ucsc-trackhub--1710411045-LinearBasicDisplay"
+              },
+              {
+                "type": "LinearArcDisplay",
+                "displayId": "ucsc-trackhub--1710411045-LinearArcDisplay"
+              }
+            ]
+          },
+          {
+            "type": "FeatureTrack",
+            "trackId": "ucsc-trackhub--915451946",
+            "name": "NCBI RefSeq",
+            "assemblyNames": [
+              "GCF_900700415.2"
+            ],
+            "description": "RefSeq gene predictions from NCBI",
+            "adapter": {
+              "type": "BigBedAdapter",
+              "bigBedLocation": {
+                "locationType": "UriLocation",
+                "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/hub.txt"
+              }
+            },
+            "displays": [
+              {
+                "type": "LinearBasicDisplay",
+                "displayId": "ucsc-trackhub--915451946-LinearBasicDisplay"
+              },
+              {
+                "type": "LinearArcDisplay",
+                "displayId": "ucsc-trackhub--915451946-LinearArcDisplay"
+              }
+            ]
+          },
+          {
+            "type": "FeatureTrack",
+            "trackId": "ucsc-trackhub-1853847906",
+            "name": "RefSeq All",
+            "assemblyNames": [
+              "GCF_900700415.2"
+            ],
+            "description": "NCBI RefSeq genes, curated and predicted sets (NM_*, XM_*, NR_*, XR_*, NP_* or YP_*)",
+            "category": [
+              "NCBI RefSeq"
+            ],
+            "adapter": {
+              "type": "BigBedAdapter",
+              "bigBedLocation": {
+                "locationType": "UriLocation",
+                "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/bbi/GCF_900700415.2_Ch_v2.0.2.ncbiRefSeq.bb"
+              }
+            },
+            "displays": [
+              {
+                "type": "LinearBasicDisplay",
+                "displayId": "ucsc-trackhub-1853847906-LinearBasicDisplay"
+              },
+              {
+                "type": "LinearArcDisplay",
+                "displayId": "ucsc-trackhub-1853847906-LinearArcDisplay"
+              }
+            ]
+          },
+          {
+            "type": "FeatureTrack",
+            "trackId": "ucsc-trackhub--253095358",
+            "name": "RefSeq Curated",
+            "assemblyNames": [
+              "GCF_900700415.2"
+            ],
+            "description": "NCBI RefSeq genes, curated subset (NM_*, NR_*, NP_* or YP_*)",
+            "category": [
+              "NCBI RefSeq"
+            ],
+            "adapter": {
+              "type": "BigBedAdapter",
+              "bigBedLocation": {
+                "locationType": "UriLocation",
+                "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/bbi/GCF_900700415.2_Ch_v2.0.2.ncbiRefSeqCurated.bb"
+              }
+            },
+            "displays": [
+              {
+                "type": "LinearBasicDisplay",
+                "displayId": "ucsc-trackhub--253095358-LinearBasicDisplay"
+              },
+              {
+                "type": "LinearArcDisplay",
+                "displayId": "ucsc-trackhub--253095358-LinearArcDisplay"
+              }
+            ]
+          },
+          {
+            "type": "FeatureTrack",
+            "trackId": "ucsc-trackhub-847427123",
+            "name": "RefSeq Predicted",
+            "assemblyNames": [
+              "GCF_900700415.2"
+            ],
+            "description": "NCBI RefSeq genes, predicted subset (XM_* or XR_*)",
+            "category": [
+              "NCBI RefSeq"
+            ],
+            "adapter": {
+              "type": "BigBedAdapter",
+              "bigBedLocation": {
+                "locationType": "UriLocation",
+                "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/bbi/GCF_900700415.2_Ch_v2.0.2.ncbiRefSeqPredicted.bb"
+              }
+            },
+            "displays": [
+              {
+                "type": "LinearBasicDisplay",
+                "displayId": "ucsc-trackhub-847427123-LinearBasicDisplay"
+              },
+              {
+                "type": "LinearArcDisplay",
+                "displayId": "ucsc-trackhub-847427123-LinearArcDisplay"
+              }
+            ]
+          },
+          {
+            "type": "FeatureTrack",
+            "trackId": "ucsc-trackhub--52596042",
+            "name": "RefSeq Other",
+            "assemblyNames": [
+              "GCF_900700415.2"
+            ],
+            "description": "NCBI RefSeq other annotations (not NM_*, NR_*, XM_*, XR_*, NP_* or YP_*)",
+            "category": [
+              "NCBI RefSeq"
+            ],
+            "adapter": {
+              "type": "BigBedAdapter",
+              "bigBedLocation": {
+                "locationType": "UriLocation",
+                "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/bbi/GCF_900700415.2_Ch_v2.0.2.ncbiRefSeqOther.bb"
+              }
+            },
+            "displays": [
+              {
+                "type": "LinearBasicDisplay",
+                "displayId": "ucsc-trackhub--52596042-LinearBasicDisplay"
+              },
+              {
+                "type": "LinearArcDisplay",
+                "displayId": "ucsc-trackhub--52596042-LinearArcDisplay"
+              }
+            ]
+          },
+          {
+            "type": "FeatureTrack",
+            "trackId": "ucsc-trackhub--1233013576",
+            "name": "RefSeq Alignments",
+            "assemblyNames": [
+              "GCF_900700415.2"
+            ],
+            "description": "RefSeq Alignments of RNAs",
+            "category": [
+              "NCBI RefSeq"
+            ],
+            "adapter": {
+              "type": "BigBedAdapter",
+              "bigBedLocation": {
+                "locationType": "UriLocation",
+                "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/bbi/GCF_900700415.2_Ch_v2.0.2.bigPsl.bb"
+              }
+            },
+            "displays": [
+              {
+                "type": "LinearBasicDisplay",
+                "displayId": "ucsc-trackhub--1233013576-LinearBasicDisplay"
+              },
+              {
+                "type": "LinearArcDisplay",
+                "displayId": "ucsc-trackhub--1233013576-LinearArcDisplay"
+              }
+            ]
+          },
+          {
+            "type": "FeatureTrack",
+            "trackId": "ucsc-trackhub--1618420468",
+            "name": "CpG Islands",
+            "assemblyNames": [
+              "GCF_900700415.2"
+            ],
+            "description": "CpG Islands (Islands < 300 Bases are Light Green)",
+            "adapter": {
+              "type": "BigBedAdapter",
+              "bigBedLocation": {
+                "locationType": "UriLocation",
+                "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/hub.txt"
+              }
+            },
+            "displays": [
+              {
+                "type": "LinearBasicDisplay",
+                "displayId": "ucsc-trackhub--1618420468-LinearBasicDisplay"
+              },
+              {
+                "type": "LinearArcDisplay",
+                "displayId": "ucsc-trackhub--1618420468-LinearArcDisplay"
+              }
+            ]
+          },
+          {
+            "type": "FeatureTrack",
+            "trackId": "ucsc-trackhub-1963450163",
+            "name": "CpG Islands",
+            "assemblyNames": [
+              "GCF_900700415.2"
+            ],
+            "description": "CpG Islands (Islands < 300 Bases are Light Green)",
+            "category": [
+              "CpG Islands"
+            ],
+            "adapter": {
+              "type": "BigBedAdapter",
+              "bigBedLocation": {
+                "locationType": "UriLocation",
+                "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/bbi/GCF_900700415.2_Ch_v2.0.2.cpgIslandExt.bb"
+              }
+            },
+            "displays": [
+              {
+                "type": "LinearBasicDisplay",
+                "displayId": "ucsc-trackhub-1963450163-LinearBasicDisplay"
+              },
+              {
+                "type": "LinearArcDisplay",
+                "displayId": "ucsc-trackhub-1963450163-LinearArcDisplay"
+              }
+            ]
+          },
+          {
+            "type": "FeatureTrack",
+            "trackId": "ucsc-trackhub--803783706",
+            "name": "Unmasked CpG",
+            "assemblyNames": [
+              "GCF_900700415.2"
+            ],
+            "description": "CpG Islands on All Sequence (Islands < 300 Bases are Light Green)",
+            "category": [
+              "CpG Islands"
+            ],
+            "adapter": {
+              "type": "BigBedAdapter",
+              "bigBedLocation": {
+                "locationType": "UriLocation",
+                "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/bbi/GCF_900700415.2_Ch_v2.0.2.cpgIslandExtUnmasked.bb"
+              }
+            },
+            "displays": [
+              {
+                "type": "LinearBasicDisplay",
+                "displayId": "ucsc-trackhub--803783706-LinearBasicDisplay"
+              },
+              {
+                "type": "LinearArcDisplay",
+                "displayId": "ucsc-trackhub--803783706-LinearArcDisplay"
+              }
+            ]
+          },
+          {
+            "type": "FeatureTrack",
+            "trackId": "ucsc-trackhub--1270445532",
+            "name": "WM + SDust",
+            "assemblyNames": [
+              "GCF_900700415.2"
+            ],
+            "description": "Genomic Intervals Masked by WindowMasker + SDust",
+            "adapter": {
+              "type": "BigBedAdapter",
+              "bigBedLocation": {
+                "locationType": "UriLocation",
+                "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/bbi/GCF_900700415.2_Ch_v2.0.2.windowMasker.bb"
+              }
+            },
+            "displays": [
+              {
+                "type": "LinearBasicDisplay",
+                "displayId": "ucsc-trackhub--1270445532-LinearBasicDisplay"
+              },
+              {
+                "type": "LinearArcDisplay",
+                "displayId": "ucsc-trackhub--1270445532-LinearArcDisplay"
+              }
+            ]
+          },
+          {
+            "type": "FeatureTrack",
+            "trackId": "ucsc-trackhub-779094791",
+            "name": "All Gaps",
+            "assemblyNames": [
+              "GCF_900700415.2"
+            ],
+            "description": "All gaps of unknown nucleotides (N's), including AGP annotated gaps",
+            "adapter": {
+              "type": "BigBedAdapter",
+              "bigBedLocation": {
+                "locationType": "UriLocation",
+                "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/bbi/GCF_900700415.2_Ch_v2.0.2.allGaps.bb"
+              }
+            },
+            "displays": [
+              {
+                "type": "LinearBasicDisplay",
+                "displayId": "ucsc-trackhub-779094791-LinearBasicDisplay"
+              },
+              {
+                "type": "LinearArcDisplay",
+                "displayId": "ucsc-trackhub-779094791-LinearArcDisplay"
+              }
+            ]
+          },
+          {
+            "type": "FeatureTrack",
+            "trackId": "ucsc-trackhub--1933136030",
+            "name": "Augustus",
+            "assemblyNames": [
+              "GCF_900700415.2"
+            ],
+            "description": "Augustus Gene Predictions",
+            "adapter": {
+              "type": "BigBedAdapter",
+              "bigBedLocation": {
+                "locationType": "UriLocation",
+                "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/bbi/GCF_900700415.2_Ch_v2.0.2.augustus.bb"
+              }
+            },
+            "displays": [
+              {
+                "type": "LinearBasicDisplay",
+                "displayId": "ucsc-trackhub--1933136030-LinearBasicDisplay"
+              },
+              {
+                "type": "LinearArcDisplay",
+                "displayId": "ucsc-trackhub--1933136030-LinearArcDisplay"
+              }
+            ]
+          },
+          {
+            "type": "FeatureTrack",
+            "trackId": "ucsc-trackhub-367141750",
+            "name": "RefSeq mRNAs",
+            "assemblyNames": [
+              "GCF_900700415.2"
+            ],
+            "description": "RefSeq mRNAs mapped to this assembly",
+            "adapter": {
+              "type": "BigBedAdapter",
+              "bigBedLocation": {
+                "locationType": "UriLocation",
+                "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/bbi/GCF_900700415.2_Ch_v2.0.2.xenoRefGene.bb"
+              }
+            },
+            "displays": [
+              {
+                "type": "LinearBasicDisplay",
+                "displayId": "ucsc-trackhub-367141750-LinearBasicDisplay"
+              },
+              {
+                "type": "LinearArcDisplay",
+                "displayId": "ucsc-trackhub-367141750-LinearArcDisplay"
+              }
+            ]
+          }
+        ],
+        "configuration": "UCSCTrackHubConnection-Ch_v2.0.2-1709716390565",
+        "type": "UCSCTrackHubConnection"
+      }
+    ],
+    "sessionConnections": [],
+    "focusedViewId": "3J2jjvtYfVCCYPxA0We-m",
+    "sessionPlugins": []
+  },
+  "tracks": []
+}

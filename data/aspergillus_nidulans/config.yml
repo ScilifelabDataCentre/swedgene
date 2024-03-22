@@ -1,0 +1,14 @@
+organism: "Aspergillus nidulans"
+assembly:
+  name: ASM1142v1
+  accession: GCF_000011425.1
+  # Alternaticve .2bit URL at UCSC GenArk:
+  #   https://hgdownload.soe.ucsc.edu/hubs/GCF/000/011/425/GCF_000011425.1/GCF_000011425.1.2bit
+  url: "https://ftp.ncbi.nlm.nih.gov/genomes/refseq/fungi/Aspergillus_nidulans/latest_assembly_versions/GCF_000011425.1_ASM1142v1/GCF_000011425.1_ASM1142v1_genomic.fna.gz"
+  aliases: "https://hgdownload.soe.ucsc.edu/hubs/GCF/000/011/425/GCF_000011425.1/GCF_000011425.1.chromAlias.txt"
+tracks:
+  - name: "Protein coding genes"
+    url: "https://ftp.ncbi.nlm.nih.gov/genomes/refseq/fungi/Aspergillus_nidulans/latest_assembly_versions/GCF_000011425.1_ASM1142v1/GCF_000011425.1_ASM1142v1_genomic.gff.gz"
+hubs:
+  - name: "UCSC asembly hub"
+    url: "https://hgdownload.soe.ucsc.edu/hubs/GCF/000/011/425/GCF_000011425.1/hub.txt"
