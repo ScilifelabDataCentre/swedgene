@@ -1,16 +1,16 @@
 #!/bin/bash
-# Compile a list of potential download targets from a YAML configuration
+# List files eligible for download from a YAML configuration
 
-# Outputs a list of space-separated FILENAME URL pairs
+# Outputs a list of comma-separated FILENAME,URL pairs. The file at
+# URL should be saved as FILENAME.
 extract_urls() {
-    yq '.url, .tracks[].url' "$1"
+    yq '.assembly.url, .tracks[].url' "$1"
 }
 
 main() {
-    file="$1"
-    echo $file
-    dir=$(dirname "$file")
-    for url in $(extract_urls "$file");
+    configfile="$1"
+    dir=$(dirname "$configfile")
+    for url in $(extract_urls "$configfile");
     do
 	filename="$(basename "$url")"
 	echo "$dir/$filename" "$url"
@@ -18,8 +18,9 @@ main() {
 }
 
 main_sed() {
-    dir=$(dirname "$1")
-    extract_urls "$1" | sed -nE "s,^.*/([^/]+)$,$dir/\1 &,p"
+    configfile="$1"
+    dir=$(dirname "$configfile")
+    extract_urls "$configfile" | sed -nE 's#^.*/([^/]+)$#'"$dir"'/\1,&#p'
 }
 
 main_sed "$1"

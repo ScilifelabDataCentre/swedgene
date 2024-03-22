@@ -1,21 +1,24 @@
 SHELL=/bin/bash
 DATADIRS = $(shell find data -type d -execdir test -e '{}'/config.yml ';' -print)
 CONFIGS = $(addsuffix /config.json, $(DATADIRS))
-DL_LIST = $(shell ./scripts/list_all_download_targets.sh | cut -d" " -f1)
+DL_LIST = $(shell ./scripts/list_all_download_targets.sh | cut -d"," -f1)
 
 .PHONY: debug
 debug:
 	$(info Data directories: $(DATADIRS))	
 	$(info Configuration files to generate: $(CONFIGS))
-	$(info Files to download for indexing: $(DL_LIST))			
+	$(info Files to download for indexing: $(DL_LIST))
 
 
 .PHONY: all
 all: $(CONFIGS);
 	@echo "Updated all JBrowse configurations"
 
-download: $(DL_LIST)
+download: $(DL_LIST) 
 	@echo "Download complete"
+
+%dl_list: %config.yml
+	scripts/list_download_targets.sh $^ > $@ 
 
 index-fasta: $(addsuffix .fai,$(FASTA));
 
@@ -30,8 +33,11 @@ index-gff: $(addsuffix .tbi,$(GFF));
 %.tbi: %
 	@echo "Indexing GFF file $^"
 
-# Catchall rule: download the file.
-%:
-	@URL=$$(grep -oE "https://.+$(@F)" "$(@D)/config.yml"); \
-	echo curl --output-dir $(@D) "https://[...]/$${URL##*/}" 
+# Target foo/bar.gff.gz should depend on foo/dl_list. Secondary
+# expansion is used to extract the directory part of the prerequisite.
+
+.SECONDEXPANSION:
+$(DL_LIST): $$(dir $$@)dl_list
+	@URL=$$(grep "$(@F)" "$(@D)/dl_list" | cut -d, -f2); \
+	curl --output $@ "$$URL" 
 

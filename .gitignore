@@ -3,6 +3,7 @@
 
 /data/**/*gff*
 /data/**/*fna*
+dl_list
 
 # Hugo default output directory
 hugo/public
