@@ -42,26 +42,6 @@ add_connection() {
     jbrowse add-connection --name="GCF_000011425.1 track hub" $url
 }
 
-make_gff_index() {
-    ROOT_DIR=$(git rev-parse --show-toplevel)
-    cd "$ROOT_DIR/data/aspergilus_nidulans/" || exit
-
-    GFF=genomic.gff
-    GFF_SORTED=genomic.sorted.gff.gz
-
-    for ASMBLY in GC*; do
-	# Place all comment at the end, and sort GFF
-	# file by landmark and start position
-	gff="$ASMBLY/$GFF"
-	gff_sorted="$ASMBLY/$GFF_SORTED"
-
-	echo "Sorting, compressing and indexing $gff"
-	(grep "^#" "$gff"; grep -v "^#" "$gff" | sort -t$'\t' -k1,1 -k4,4n) \
-	    | bgzip > "$gff_sorted"
-	# Index sorted GFF
-	tabix -p gff "$gff_sorted"
-    done
-}
 
 add_gff_tracks() {
     ROOT_DIR=$(git rev-parse --show-toplevel)
