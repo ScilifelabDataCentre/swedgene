@@ -48,7 +48,7 @@ index-gff: $(GFF_INDICES);
 
 
 $(FASTA_INDICES): %.fai: %
-	@echo "Indexing FASTA file $<"
+	$(SHELL) scripts/index_fasta.sh $<
 
 
 $(GFF_INDICES): %.tbi: %
