@@ -70,8 +70,12 @@ $(GFF_INDICES): %.tbi: %
 	$(SHELL) scripts/index_gff.sh $<
 
 
-$(LOCAL_FILES): %.bgz: %.gz
+$(filter %.fna.bgz,$(LOCAL_FILES)): %.fna.bgz: %.fna.gz
 	zcat $< | bgzip > $@
+
+# Sort GFF files prior to compressing, as expected by tabix
+$(filter %.gff.bgz,$(LOCAL_FILES)): %.gff.bgz: %.gff.gz
+	zcat $< | grep -v "^#" | sort -t$$'\t' -k1,1 -k4,4n | bgzip > $@
 
 # Target foo/bar.gff.gz should depend on foo/dl_list. Secondary
 # expansion is used to extract the directory part of the prerequisite.
