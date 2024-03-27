@@ -26,6 +26,7 @@ all: $(CONFIGS);
 download: $(DOWNLOAD_LIST) 
 	@echo "Download complete"
 
+
 .PHONY: clean-upstream
 # Remove downloaded copies of remote genome files
 clean-upstream:;rm -f $(DOWNLOAD_LIST)
@@ -33,6 +34,16 @@ clean-upstream:;rm -f $(DOWNLOAD_LIST)
 
 .PHONY: compress
 compress: $(LOCAL_FILES);
+
+
+.PHONY: install
+install:
+	cp --parents -t hugo/static/ $(LOCAL_FILES) $(GFF_INDICES) $(FASTA_INDICES) $(CONFIGS)
+
+
+.PHONY: uninstall
+uninstall:
+	rm -r hugo/static/data
 
 
 .PHONY: index-fasta
