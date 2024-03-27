@@ -26,6 +26,10 @@ all: $(CONFIGS);
 download: $(DOWNLOAD_LIST) 
 	@echo "Download complete"
 
+.PHONY: clean-upstream
+# Remove downloaded copies of remote genome files
+clean-upstream:;rm -f $(DOWNLOAD_LIST)
+
 
 .PHONY: compress
 compress: $(LOCAL_FILES);
