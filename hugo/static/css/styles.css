@@ -20,7 +20,7 @@
   --scilife-teal-050: #82AEB2;
   --scilife-teal-025: #C0D6D8;
 
-  --scilife-aqua: #491F53;
+  --scilife-aqua: #4C979F;
   --scilife-aqua-075: #79B1B7;
   --scilife-aqua-050: #A6CBCF;
   --scilife-aqua-025: #D2E5E7;
@@ -45,3 +45,8 @@ body {
   font-size: 1.25rem;
   background-color: var(--scilife-light-grey);
 }
+
+.scilife-speices-nav {
+  font-size: 1.25rem;
+}
+
