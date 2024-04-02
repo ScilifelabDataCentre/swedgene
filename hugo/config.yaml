@@ -10,3 +10,21 @@ markup:
   goldmark:
     renderer:
       unsafe: true
+
+menus:
+  main:
+  - name: Home
+    pageRef: /
+    weight: 1
+  - name: Species browser
+    pageRef: /species
+    weight: 2
+  - name: Add a genome project
+    pageRef: /add_genome
+    weight: 3
+  - name: About
+    pageRef: /about
+    weight: 4
+  - name: Contact
+    pageRef: /contact
+    weight: 5

@@ -1,25 +1,58 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
 /* @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap'); */
 
-/* Brand colors
-  use 1, 0.75, 0.50, or 0.25
-  color: rgba(167, 201, 71, 1);  lime
-  color: rgba(73, 31, 83, 1);  grape, use as "color pop" or on smaller details
-  color: rgba(4, 92, 100, 1);  teal
-  color: rgba(76, 151, 159, 1); aqua
 
-  grape tints:
-  grape: #491F53, RGB: 73/31/83
-  75%: #77577E, RGB:119/87/126
-  50%: #A48FA9, RGB: 164/143/169
-  25%: #D2C7D4, RGB: 210/199/212
+/* Brand colors */
+:root {
+  --scilife-lime: #a7c947;
+  --scilife-lime-075: #BDD775;
+  --scilife-lime-050: #D3E4A3;
+  --scilife-lime-025: #E9F2D1;
 
-  shades of black between 5-90% used as complementary colors
-  color: rgba(229, 229, 229, 1); light grey
-  color: rgba(166,166,166, 1); medium grey
-  color: rgba(63,63,63,1); dark grey
-*/
+  /* Grape should be used modestly as a 'color pop' or on smaller details */ 
+  --scilife-grape: #491F53;
+  --scilife-grape-075: #77577E;
+  --scilife-grape-050: #A48FA9;
+  --scilife-grape-025: #D2C7D4;
+
+  --scilife-teal: #045C64;
+  --scilife-teal-075: #43858B;
+  --scilife-teal-050: #82AEB2;
+  --scilife-teal-025: #C0D6D8;
+
+  --scilife-aqua: #4C979F;
+  --scilife-aqua-075: #79B1B7;
+  --scilife-aqua-050: #A6CBCF;
+  --scilife-aqua-025: #D2E5E7;
+
+  --scilife-light-grey: #E5E5E5;
+  --scilife-medium-grey: #A6A6A6;
+  --scilife-dark-grey: #3F3F3F;
+} 
+
 
 body {
   font-family: "Lato", Times, Arial;
+}
+
+
+.scilife-navbar {
+  background-color: var(--scilife-lime-050);
+  font-size: 1.25rem;
+}
+
+.scilife-breadcrumbs {
+  font-size: 1.25rem;
+  background-color: var(--scilife-light-grey);
+}
+
+.scilife-speices-nav {
+  font-size: 1.25rem;
+}
+
+
+.scilife-card-image-attrib {
+  font-style: italic;
+  font-size: 0.8em;
+  margin-left: 1em;
 }

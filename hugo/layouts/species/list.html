@@ -1,7 +1,47 @@
 {{ define "main" }}
 
+<!-- Find all unique tags in the child pages, can be used later for filtering -->
+{{ $tags := slice }}
+{{ range .Page.Pages }}
+    {{ range .Params.tags }}
+
+        {{ $tags = $tags | append . }}
+    {{ end }}
+{{ end }}
+{{ $uniq_tags := $tags | uniq }}
+
+<!-- markdown file content here -->
 {{ .Content }}
 
-[Code to display species catalog]
+
+<div class="row">
+
+    <!-- Display all species -->
+    {{ $species := .Site.GetPage "section" "Species" }}
+    {{ range $species.Sections }}
+
+        <div class="col-md-4" id="all-species"> 
+            <div class="card border-primary mb-3">
+                <figure>
+                    <a href="{{ .Permalink }}" title="Go to the {{ .Title }} page">
+                        <img src="{{ .Params.cover_image }}" class="card-img-top" alt="Image of species">
+                    </a>
+
+                    <a href="{{ .Params.img_attrib_link }}" title="Go to the image source" target="_blank">
+                        <figcaption class="scilife-card-image-attrib"> {{ .Params.img_attrib_text }} </figcaption>
+                    </a>
+                </figure>
+
+                <div class="card-body">
+                    <h5 class="card-title">{{ .Title }}</h5>
+                    <p class="card-text">{{ .Summary }}</p>
+                    <a href="{{ .Permalink }}" class="btn btn-primary">Go to {{ .Title }}</a>
+                </div>
+            </div>
+        </div>
+    {{ end }}
+    
+    
+</div>
 
 {{ end }}

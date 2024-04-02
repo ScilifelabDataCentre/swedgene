@@ -1,0 +1,14 @@
+<nav class="breadcrumb scilife-breadcrumbs" aria-label="breadcrumb">
+  <ol style="display: flex; flex-wrap: nowrap; list-style: none;">
+    {{ range .Ancestors.Reverse }}
+    <li style="margin-right: 5px;">
+      <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+    </li>
+    <li style="margin-right: 5px;">/</li>
+    {{ end }}
+    <li class="active">
+      <a aria-current="page" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+    </li>
+  </ol>
+</nav>
+<br>
