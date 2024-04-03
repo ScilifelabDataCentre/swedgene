@@ -7,6 +7,10 @@ FASTA_INDICES = $(addsuffix .fai,$(filter %.fna.bgz,$(LOCAL_FILES)))
 GFF_INDICES = $(addsuffix .tbi,$(filter %.gff.bgz,$(LOCAL_FILES)))
 
 
+.PHONY: all
+all: index-gff index-fasta jbrowse-config install
+
+
 .PHONY: debug
 debug:
 	$(info Data directories : $(DATADIRS))	
@@ -17,30 +21,32 @@ debug:
 	$(info GFF indices : $(FASTA_INDICES))
 
 
-.PHONY: all
-all: $(CONFIGS);
-	@echo "Updated all JBrowse configurations"
+.PHONY: jbrowse-config
+jbrowse-config: $(CONFIGS);
+	@echo "Generated JBrowse configuration files in directories: "
+	@echo "$(DATADIRS)"
 
 
 .PHONY: download
 download: $(DOWNLOAD_LIST) 
-	@echo "Download complete"
+	@echo "Downloaded data files: $?"
 
 
 .PHONY: clean-upstream
-# Remove downloaded copies of remote genome files
+# Remove downloaded copies of remote files
 clean-upstream:;rm -f $(DOWNLOAD_LIST)
 
 
 .PHONY: compress
 compress: $(LOCAL_FILES);
 
-
+# Copy data and configuration to hugo static folder
 .PHONY: install
 install:
 	cp --parents -t hugo/static/ $(LOCAL_FILES) $(GFF_INDICES) $(FASTA_INDICES) $(CONFIGS)
 
 
+# Remove JBrowse data and configuration from hugo static folder
 .PHONY: uninstall
 uninstall:
 	rm -r hugo/static/data
@@ -59,7 +65,7 @@ index-gff: $(GFF_INDICES);
 
 
 %config.json: %config.yml 	
-	@echo "Create configuration $@ from $<"
+	bash scripts/generate_jbrowse_config.sh $<
 
 
 $(FASTA_INDICES): %.fai: %
