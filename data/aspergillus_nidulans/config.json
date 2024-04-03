@@ -8,15 +8,15 @@
         "adapter": {
           "type": "BgzipFastaAdapter",
           "fastaLocation": {
-            "uri": "data/aspergillus_nidulans/GCF_000011425.1_ASM1142v1_genomic.fna.bgz",
+            "uri": "GCF_000011425.1_ASM1142v1_genomic.fna.bgz",
             "locationType": "UriLocation"
           },
           "faiLocation": {
-            "uri": "data/aspergillus_nidulans/GCF_000011425.1_ASM1142v1_genomic.fna.bgz.fai",
+            "uri": "GCF_000011425.1_ASM1142v1_genomic.fna.bgz.fai",
             "locationType": "UriLocation"
           },
           "gziLocation": {
-            "uri": "data/aspergillus_nidulans/GCF_000011425.1_ASM1142v1_genomic.fna.bgz.gzi",
+            "uri": "GCF_000011425.1_ASM1142v1_genomic.fna.bgz.gzi",
             "locationType": "UriLocation"
           }
         }
@@ -69,54 +69,19 @@
         "locationType": "UriLocation"
       },
       "connectionId": "UCSCTrackHubConnection-1712137087403"
+    },
+    {
+      "type": "UCSCTrackHubConnection",
+      "name": "UCSC asembly hub",
+      "hubTxtLocation": {
+        "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/000/011/425/GCF_000011425.1/hub.txt",
+        "locationType": "UriLocation"
+      },
+      "connectionId": "UCSCTrackHubConnection-1712146735502"
     }
   ],
   "defaultSession": {
-    "drawerPosition": "right",
-    "drawerWidth": 400,
-    "name": "Parallel assemblies",
-    "widgets": {
-      "hierarchicalTrackSelector": {
-        "id": "hierarchicalTrackSelector",
-        "type": "HierarchicalTrackSelectorWidget",
-        "initialized": true,
-        "view": "refseq"
-      }
-    },
-    "activeWidgets": {
-      "hierarchicalTrackSelector": "hierarchicalTrackSelector"
-    },
-    "views": [
-      {
-        "id": "refseq",
-        "type": "LinearGenomeView",
-        "offsetPx": 11979,
-        "bpPerPx": 169.32630035525506,
-        "displayedRegions": [
-          {
-            "refName": "NC_066257.1",
-            "start": 0,
-            "end": 3704807,
-            "reversed": false,
-            "assemblyName": "GCF_000011425.1"
-          }
-        ],
-        "tracks": [
-          {
-            "type": "FeatureTrack",
-            "configuration": "GCF_000011425.1-GFF",
-            "minimized": false,
-            "displays": [
-              {
-                "type": "LinearBasicDisplay",
-                "heightPreConfig": 277,
-                "configuration": "GCF_000011425.1-GFF-LinearBasicDisplay"
-              }
-            ]
-          }
-        ]
-      }
-    ]
+    "name": "New Session"
   },
   "tracks": [
     {
@@ -148,12 +113,12 @@
       "adapter": {
         "type": "Gff3TabixAdapter",
         "gffGzLocation": {
-          "uri": "data/aspergillus_nidulans/GCF_000011425.1_ASM1142v1_genomic.gff.bgz",
+          "uri": "GCF_000011425.1_ASM1142v1_genomic.gff.bgz",
           "locationType": "UriLocation"
         },
         "index": {
           "location": {
-            "uri": "data/aspergillus_nidulans/GCF_000011425.1_ASM1142v1_genomic.gff.bgz.tbi",
+            "uri": "GCF_000011425.1_ASM1142v1_genomic.gff.bgz.tbi",
             "locationType": "UriLocation"
           },
           "indexType": "TBI"
