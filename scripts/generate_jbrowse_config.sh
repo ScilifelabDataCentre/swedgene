@@ -25,7 +25,7 @@ ensure_local() {
 	*.2bit)
 	    args+=(--type=twoBit);;
     esac
-    args+=("$LOCAL_FILE")
+    args+=("$(basename "$LOCAL_FILE")")
     # TODO Read array from this output
     echo "${args[@]}"
 }
