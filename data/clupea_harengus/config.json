@@ -1,10 +1,10 @@
 {
   "assemblies": [
     {
-      "name": "GCF_900700415.2",
+      "name": "Ch_v2.0.2",
       "sequence": {
         "type": "ReferenceSequenceTrack",
-        "trackId": "GCF_900700415.2-ReferenceSequenceTrack",
+        "trackId": "Ch_v2.0.2-ReferenceSequenceTrack",
         "adapter": {
           "type": "TwoBitAdapter",
           "twoBitLocation": {
@@ -12,17 +12,7 @@
             "locationType": "UriLocation"
           }
         }
-      },
-      "refNameAliases": {
-        "adapter": {
-          "type": "RefNameAliasAdapter",
-          "location": {
-            "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/GCF_900700415.2.chromAlias.txt",
-            "locationType": "UriLocation"
-          }
-        }
-      },
-      "displayName": "Clupea harengus - RefSeq"
+      }
     }
   ],
   "configuration": {},
@@ -38,6 +28,24 @@
       "assemblyNames": [
         "GCF_900700415.2"
       ]
+    },
+    {
+      "type": "UCSCTrackHubConnection",
+      "name": "UCSC Assembly hub",
+      "hubTxtLocation": {
+        "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/hub.txt",
+        "locationType": "UriLocation"
+      },
+      "connectionId": "UCSCTrackHubConnection-1712137302582"
+    },
+    {
+      "type": "UCSCTrackHubConnection",
+      "name": "UCSC Assembly hub",
+      "hubTxtLocation": {
+        "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/hub.txt",
+        "locationType": "UriLocation"
+      },
+      "connectionId": "UCSCTrackHubConnection-1712137345227"
     }
   ],
   "defaultSession": {
@@ -699,5 +707,28 @@
     "focusedViewId": "3J2jjvtYfVCCYPxA0We-m",
     "sessionPlugins": []
   },
-  "tracks": []
+  "tracks": [
+    {
+      "type": "FeatureTrack",
+      "trackId": "GCF_900700415.2_Ch_v2.0.2_genomic.gff",
+      "name": "Protein coding genes",
+      "adapter": {
+        "type": "Gff3TabixAdapter",
+        "gffGzLocation": {
+          "uri": "data/clupea_harengus/GCF_900700415.2_Ch_v2.0.2_genomic.gff.bgz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "data/clupea_harengus/GCF_900700415.2_Ch_v2.0.2_genomic.gff.bgz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "assemblyNames": [
+        "Ch_v2.0.2"
+      ]
+    }
+  ]
 }
