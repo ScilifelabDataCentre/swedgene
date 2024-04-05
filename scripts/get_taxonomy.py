@@ -16,11 +16,8 @@ TODO
 
 TODO :
 1. add logging.
-2. add error handling.
-3. add CLI arguments.
 4. add tests.
 5. add full type hints/documentation
-6. Add way to check if file already made and if so skip that one.
 
 
 Taxonomic information is saved for the following levels:
@@ -34,6 +31,8 @@ Taxonomic information is saved for the following levels:
 - Species
 """
 
+import argparse
+from pathlib import Path
 import requests
 from xml.etree import ElementTree
 import re
@@ -41,10 +40,6 @@ import copy
 import json
 
 
-# TODO - turn into CLI arguments
-SPECIES_LIST = "all_species.txt"
-OUTPUT_DIR = r"../hugo/data/taxonomy/"
-OVERWRITE_MODE = False  # TODO - incorporate this
 # TODO handle if user doesn't specify final slash
 
 
@@ -133,6 +128,51 @@ class EbiRestException(Exception):
     pass
 
 
+def run_argparse():
+    """
+    TODO
+    """
+    parser = argparse.ArgumentParser(
+        description="""This script reads a list of species (scientific) names from a file, 
+        and retrieves lineage information for each species using the ENA REST API.
+        It then saves it as a JSON file (1 file per species) for usage with Hugo."""
+    )
+
+    parser.add_argument(
+        "--species_list",
+        type=str,
+        default="all_species.txt",
+        metavar="[file]",
+        help="the file path to your list of species",
+    )
+
+    parser.add_argument(
+        "--output_dir",
+        type=str,
+        default=r"../hugo/data/taxonomy/",
+        metavar="[directory]",
+        help="the path to the directory where you want to save the json files to",
+    )
+
+    parser.add_argument(
+        "--overwrite",
+        type=bool,
+        default=False,
+        metavar="[True/False]",
+        help="If a prexisting json file for a species exists, should it be overwritten? Default is False.",
+    )
+
+    parser.add_argument(
+        "--logging",
+        type=bool,
+        default=False,
+        metavar="[True/False]",
+        help="Run logging or not. Default is False.",
+    )
+
+    return parser.parse_args()
+
+
 def read_species_list(file_path: str) -> list[str]:
     """
     Read the species list from the given file path.
@@ -156,7 +196,7 @@ def create_endpoint_url(scientific_name: str) -> str:
     return ENDPOINT_URL + scientific_name.replace(" ", "%20")
 
 
-def get_tax_id(scientific_name) -> dict[str, str]:
+def get_tax_id(scientific_name: str) -> dict[str, str]:
     """
     Get the taxonomy id from the scientific name.
     Search by name is case insensitive.
@@ -185,7 +225,16 @@ def get_lineage_section(tax_id: str | int) -> str:
 
     Returns the lineage section of the XML response as a string.
     """
-    response = requests.get(f"https://www.ebi.ac.uk/ena/browser/api/xml/{str(tax_id)}")
+    try:
+        response = requests.get(
+            f"https://www.ebi.ac.uk/ena/browser/api/xml/{str(tax_id)}"
+        )
+    except requests.exceptions.RequestException as e:
+        raise EbiRestException(
+            f"""Failed to get lineage info for tax_id: {tax_id} .Error is as follows:
+            {e}"""
+        )
+
     tree = ElementTree.fromstring(response.content)
     lineage_element = tree.find(".//lineage")
     lineage_section = ElementTree.tostring(lineage_element).decode()
@@ -220,35 +269,55 @@ def append_lineage_info(
 
 
 if __name__ == "__main__":
-    species_to_search = read_species_list(SPECIES_LIST)
+    args = run_argparse()
+    species_to_search = read_species_list(args.species_list)
 
-    taxids = {}
-    for species in species_to_search:
+    failed_species: list[str] = []
+
+    for species_name in species_to_search:
+        # build the output file path first so can check if it exists
+        output_file = Path(args.output_dir + species_name.replace(" ", "_") + ".json")
+        if not args.overwrite:
+            if output_file.exists():
+                print(
+                    f"skipping this species as {output_file} already exists and we are not overwriting."
+                )
+                continue
+
         try:
-            tax_id = get_tax_id(species)
+            tax_id = get_tax_id(species_name)
         except EbiRestException as e:
             print(e)
-            print(f"Species with name: {species} failed, skipping.")
+            print(f"Species with name: {species_name} failed search, skipping.")
+            failed_species.append(species_name)
             continue
-        taxids[species] = get_tax_id(species)
 
-    for species_name, tax_id in taxids.items():
+        # Create and populate the species dictionary
         species_dict = copy.deepcopy(TEMPLATE_LINEAGE_DICT)
 
-        # add the information for the species
         species_dict["Species"]["science_name"] = species_name
         species_dict["Species"]["tax_id"] = str(tax_id)
         species_dict["Species"]["ena_link"] = ENA_BASE_URL + str(tax_id)
         species_dict["Species"]["ncbi_link"] = NCBI_BASE_URL + str(tax_id)
 
-        # get the lineage information
-        lineage_section = get_lineage_section(tax_id)
+        # get the lineage information for all the taxonomic ranks
+        try:
+            lineage_section = get_lineage_section(tax_id)
+        except EbiRestException as e:
+            print(e)
+            print(f"Species with name: {species_name} failed search, skipping.")
+            failed_species.append(species_name)
+            continue
+
         species_dict = append_lineage_info(
             species_dict=species_dict, lineage_section=lineage_section
         )
 
-        output_file = OUTPUT_DIR + species_name.replace(" ", "_") + ".json"
         with open(output_file, "w") as file:
             json.dump(species_dict, file, indent=4)
 
-        break
+    if failed_species:
+        print("WARNING: For the following species no taxonomy information was found:")
+        for species in failed_species:
+            print(species)
+        print("Make sure their scientific name is spelled correctly.")
