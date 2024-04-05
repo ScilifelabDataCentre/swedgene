@@ -69,4 +69,4 @@ main () {
     generate_hubs_config
 }
 
-main
+main 2>&1 | grep -v 'node'
