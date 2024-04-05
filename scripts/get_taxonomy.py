@@ -1,19 +1,29 @@
 """
 WIP:
 
-This script does:
+### This script does:
 1) Reads a list of species scientific names from a file.
 2) Obtains the taxonomy id (tax_id) for each species using the ENA REST API.
 3) Uses this tax_id to get the full lineage information for each species which is only available in XML format.
     (The xml format includes the rank of each species which is why it is needed)
 4) Saves the lineage information for each species into a JSON file which can be used by Hugo.
 
-To run this script:
-TODO
+### To run this script:
+Assuming you're inside the scripts directory where "get_taxonomy.py" is located you can simply run the following command:
+
+`python get_taxonomy.py`
+
+The script has no 3rd party library dependencies (i.e. no pip installs required).
+You should use a modern version of Python though (this was tested on Python 3.11).
+
+There are 4 optional arguments that can be used when running this script:
+
+`python get_taxonomy.py --species_list="all_species.txt" --output_dir="../hugo/data/taxonomy" --overwrite --logging`
+
+You will need to add to the file "all_species.txt" the scientific names of the species you want to get the taxonomy information for.
 
 
 TODO :
-1. Handle user output file (creation, use pathlib etc...)
 2. add tests.
 3. add full type hints/documentation
 
@@ -168,21 +178,29 @@ def run_argparse():
 
     parser.add_argument(
         "--overwrite",
-        type=bool,
-        default=False,
-        metavar="[True/False]",
-        help="If a prexisting json file for a species exists, should it be overwritten? Default is False.",
+        action="store_true",
+        help="If a prexisting json file for a species exists, should it be overwritten? If flag not added, no overwrite.",
     )
 
     parser.add_argument(
         "--logging",
-        type=bool,
-        default=False,
-        metavar="[True/False]",
-        help="Run logging or not. Default is False.",
+        action="store_true",
+        help="Run logging or not. If flag not added, no logging done.",
     )
 
     return parser.parse_args()
+
+
+def prep_out_dir(out_dir: str) -> Path:
+    """
+    Makes the output folder if it doesn't exist, and returns a pathlib object.
+    """
+    if out_dir != "":
+        out_dir_path = Path(out_dir)
+        if not out_dir_path.exists():
+            Path.mkdir(out_dir_path)
+
+    return out_dir_path
 
 
 def read_species_list(file_path: str) -> list[str]:
@@ -288,10 +306,13 @@ if __name__ == "__main__":
         logger = logging.getLogger(__name__)
         logging.config.dictConfig(LOGGING_CONFIG)
 
+    out_dir_path = prep_out_dir(out_dir=args.output_dir)
+
     failed_species: list[str] = []
     for species_name in species_to_search:
         # build the output file path first so can check if file already exists
-        output_file = Path(args.output_dir + species_name.replace(" ", "_") + ".json")
+        output_file = Path(out_dir_path) / (species_name.replace(" ", "_") + ".json")
+
         if not args.overwrite:
             if output_file.exists():
                 if args.logging:
