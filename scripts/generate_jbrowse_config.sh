@@ -38,9 +38,13 @@ ensure_local() {
 add_assemblies() {
     local -a file_args
     while IFS=';' read -r url name aliases; do
+	args=(--name="$name")
+	if [[ -n "$aliases"]]; then
+	    args+=(--refNameAliases="$aliases")
+	fi
 	file_args=()
 	ensure_local "$DIR" "$url" file_args
-	jbrowse add-assembly "${JBROWSE_ARGS[@]}" --name="$name" --refNameAliases="$aliases" "${file_args[@]}"
+	jbrowse add-assembly "${JBROWSE_ARGS[@]}" "${args[@]}" "${file_args[@]}"
     done
 }
 
@@ -60,7 +64,7 @@ add_hubs () {
 }
 
 generate_assembly_config () {
-    yq '.assembly | [.url, .name, .aliases] | join(";")' "$YAML" | add_assemblies
+    yq '.assembly | [.url, .name, .aliases // ""] | join(";")' "$YAML" | add_assemblies
 }
 
 generate_tracks_config() {
