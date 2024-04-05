@@ -6,42 +6,50 @@ TARGET="$DIR/config.json"
 JBROWSE_ARGS=(--force --target="$TARGET")
 
 ensure_local() {
-    # Ensure that we are using a local copy when available
+    # Ensure that we are using a local copy of the file hosted at URL
+    # when it is found in DIR.
+    #
     # Usage :
-    #    ensure_local DIR URL
-    DIR="$1"
-    URL="$2"
-    LOCAL_FILE="$DIR/$(basename "$URL")"
-    # Block-gzipped files are saved locally with the explicit .bgz extension
+    #    ensure_local DIR URL ARGS_REF
+    #
+    # ARGS_REF is the name of the array variable provided by the
+    # caller to hold file-related arguments expected by JBrowse.
+    local -n args_ref="$3"
+    BASENAME="${2##*/}"
+    LOCAL_FILE="$1/$BASENAME"
+    # Block gzip files are saved locally with the explicit .bgz extension
     if [[ "$LOCAL_FILE" =~ .gz$ ]]; then
 	LOCAL_FILE="${LOCAL_FILE/.gz/.bgz}"
     fi
-    if ! [[ -e "$LOCAL_FILE" ]]; then echo "$URL" && exit; fi
+    if ! [[ -e "$LOCAL_FILE" ]]; then args_ref=("$URL") && exit; fi
     >&2 echo "Using local file $LOCAL_FILE"
-    args=(--load=inPlace)
+    
+    args_ref=(--load=inPlace)
     case "$LOCAL_FILE" in
 	*.fna.bgz)
-	     args+=(--type=bgzipFasta);;
+	     args_ref+=(--type=bgzipFasta);;
 	*.2bit)
-	    args+=(--type=twoBit);;
+	    args_ref+=(--type=twoBit);;
     esac
-    args+=("$(basename "$LOCAL_FILE")")
-    # TODO Read array from this output
-    echo "${args[@]}"
+    args_ref+=("$BASENAME")
 }
 
 
 add_assemblies() {
+    local -a file_args
     while IFS=';' read -r url name aliases; do
-	read -r -a LOCAL_FILE < <(ensure_local "$DIR" "$url")
-	jbrowse add-assembly "${JBROWSE_ARGS[@]}" --name="$name" --refNameAliases="$aliases" "${LOCAL_FILE[@]}"
+	file_args=()
+	ensure_local "$DIR" "$url" file_args
+	jbrowse add-assembly "${JBROWSE_ARGS[@]}" --name="$name" --refNameAliases="$aliases" "${file_args[@]}"
     done
 }
 
 add_tracks () {
+    local -a file_args
     while IFS=';' read -r url name; do
-	read -r -a LOCAL_FILE < <(ensure_local "$DIR" "$url")
-	jbrowse add-track "${JBROWSE_ARGS[@]}" --name="$name"  "${LOCAL_FILE[@]}"
+	file_args=()
+	ensure_local "$DIR" "$url" file_args
+	jbrowse add-track "${JBROWSE_ARGS[@]}" --name="$name"  "${file_args[@]}"
     done
 }
 
