@@ -12,12 +12,10 @@ To run this script:
 TODO
 
 
-
-
 TODO :
-1. add logging.
-4. add tests.
-5. add full type hints/documentation
+1. Handle user output file (creation, use pathlib etc...)
+2. add tests.
+3. add full type hints/documentation
 
 
 Taxonomic information is saved for the following levels:
@@ -38,9 +36,7 @@ from xml.etree import ElementTree
 import re
 import copy
 import json
-
-
-# TODO handle if user doesn't specify final slash
+import logging.config
 
 
 ENDPOINT_URL = r"https://www.ebi.ac.uk/ena/taxonomy/rest/scientific-name/"
@@ -116,6 +112,22 @@ TEMPLATE_LINEAGE_DICT = {
         "ncbi_link": "",
         "display_order": 8,
     },
+}
+
+LOGGING_CONFIG = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "standard": {"format": "%(asctime)s [%(levelname)s] %(name)s: %(message)s"}
+    },
+    "handlers": {
+        "stdout": {
+            "class": "logging.StreamHandler",
+            "formatter": "standard",
+            "stream": "ext://sys.stdout",
+        },
+    },
+    "loggers": {"root": {"level": "DEBUG", "handlers": ["stdout"], "propagate": False}},
 }
 
 
@@ -272,23 +284,30 @@ if __name__ == "__main__":
     args = run_argparse()
     species_to_search = read_species_list(args.species_list)
 
-    failed_species: list[str] = []
+    if args.logging:
+        logger = logging.getLogger(__name__)
+        logging.config.dictConfig(LOGGING_CONFIG)
 
+    failed_species: list[str] = []
     for species_name in species_to_search:
-        # build the output file path first so can check if it exists
+        # build the output file path first so can check if file already exists
         output_file = Path(args.output_dir + species_name.replace(" ", "_") + ".json")
         if not args.overwrite:
             if output_file.exists():
-                print(
-                    f"skipping this species as {output_file} already exists and we are not overwriting."
-                )
+                if args.logging:
+                    logger.info(
+                        f"skipping species: {species_name} as output file already exists"
+                    )
                 continue
 
         try:
             tax_id = get_tax_id(species_name)
         except EbiRestException as e:
-            print(e)
-            print(f"Species with name: {species_name} failed search, skipping.")
+            if args.logging:
+                logger.warning(f"""Species with name: {species_name} failed tax_id search, skipping.
+                    Error type is: {type(e).__name__}
+                    Error message is: {e}""")
+
             failed_species.append(species_name)
             continue
 
@@ -304,8 +323,14 @@ if __name__ == "__main__":
         try:
             lineage_section = get_lineage_section(tax_id)
         except EbiRestException as e:
-            print(e)
-            print(f"Species with name: {species_name} failed search, skipping.")
+            if args.logging:
+                logger.warning(
+                    f"""Species with name: {species_name} failed lineage search, skipping.
+                    Error type is: {type(e).__name__}
+                    Error message is: \n {e}
+                    """
+                )
+
             failed_species.append(species_name)
             continue
 
@@ -316,8 +341,12 @@ if __name__ == "__main__":
         with open(output_file, "w") as file:
             json.dump(species_dict, file, indent=4)
 
+        if args.logging:
+            logger.info(f"Saved lineage info for species: {species_name}")
+
+    # warning message for anyone using this script, regarding of logging.
     if failed_species:
         print("WARNING: For the following species no taxonomy information was found:")
-        for species in failed_species:
-            print(species)
-        print("Make sure their scientific name is spelled correctly.")
+        for numb, species in enumerate(failed_species, start=1):
+            print(f"{numb}: {species}")
+        print("Make sure their scientific name is/are spelled correctly.")
