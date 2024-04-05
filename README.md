@@ -55,11 +55,14 @@ compressed using the block gzip format.
 
 
 To run the demo:
-
+	
+	cd hugo
     hugo server
 
-To rebuild and install the JBrowse assets, `jq` and `samtools` need to
-be installed. Then:
+To build JBrowse assets, [`yq`](https://mikefarah.gitbook.io/yq/) and [`samtools`](http://www.htslib.org/) need to
+be installed. The command succession below will build the assets,
+install them under `hugo/static` and start the development server:
 
-    make all
+    make
+	cd hugo
 	hugo server
