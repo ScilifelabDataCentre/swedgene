@@ -47,7 +47,7 @@ add_tracks () {
 
 add_hubs () {
     while IFS=';' read -r url name; do
-	jbrowse add-connection "${JBROWSE_ARGS[@]}" --name="$name" "$url"
+	jbrowse add-connection "${JBROWSE_ARGS[@]}" --name="$name" --connectionId="${name// /_}" "$url"
     done
 }
 
