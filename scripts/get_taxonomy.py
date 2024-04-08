@@ -1,7 +1,5 @@
 """
-WIP:
-
-### This script does:
+This script does the following:
 1) Reads a list of species scientific names from a file.
 2) Obtains the taxonomy id (tax_id) for each species using the ENA REST API.
 3) Uses this tax_id to get the full lineage information for each species which is only available in XML format.
@@ -10,25 +8,26 @@ WIP:
 
 ### To run this script:
 Assuming you're inside the scripts directory where "get_taxonomy.py" is located you can simply run the following command:
+$ python get_taxonomy.py
 
-`python get_taxonomy.py`
+The script has one 3rd party library dependency (requests) which can be installed as follows:
+$ python -m pip install requests
 
-The script has no 3rd party library dependencies (i.e. no pip installs required).
-You should use a modern version of Python though (this was tested on Python 3.11).
+You should use a recent version of Python though (this was tested on Python 3.11).
 
+### Arguments:
 There are 4 optional arguments that can be used when running this script:
 
-`python get_taxonomy.py --species_list="all_species.txt" --output_dir="../hugo/data/taxonomy" --overwrite --logging`
+$ python get_taxonomy.py --species_list="all_species.txt" --output_dir="../hugo/data/taxonomy" --overwrite --logging
 
-You will need to add to the file "all_species.txt" the scientific names of the species you want to get the taxonomy information for.
+1. `--species_list [filename]` : The file path to the list of species you want to get the taxonomy information for.
+    This file should contain one species name per line.
+2. `--output_dir [folder location]` : The directory where you want to save the JSON files to.
+3. `--overwrite` : If a prexisting json file for a species exists, should it be overwritten? If flag NOT provided, no overwrite.
+4. `--logging` : Run logging or not. If flag NOT provided, no logging done.
 
-
-TODO :
-2. add tests.
-3. add full type hints/documentation
-
-
-Taxonomic information is saved for the following levels:
+### Output:
+The .json file contains taxonomic information for the following levels:
 - Superkingdom (Domain)
 - Kingdom
 - Phylum
@@ -40,19 +39,19 @@ Taxonomic information is saved for the following levels:
 """
 
 import argparse
-from pathlib import Path
-import requests
-from xml.etree import ElementTree
-import re
 import copy
 import json
 import logging.config
+import re
+from pathlib import Path
+from xml.etree import ElementTree
 
+import requests
 
 ENDPOINT_URL = r"https://www.ebi.ac.uk/ena/taxonomy/rest/scientific-name/"
 ENA_BASE_URL = r"https://www.ebi.ac.uk/ena/browser/view/Taxon:"
 NCBI_BASE_URL = r"https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id="
-
+LOGGING_LEVEL = "DEBUG"
 
 TAXONOMIC_RANKS = [
     "genus",
@@ -137,7 +136,9 @@ LOGGING_CONFIG = {
             "stream": "ext://sys.stdout",
         },
     },
-    "loggers": {"root": {"level": "DEBUG", "handlers": ["stdout"], "propagate": False}},
+    "loggers": {
+        "root": {"level": LOGGING_LEVEL, "handlers": ["stdout"], "propagate": False}
+    },
 }
 
 
@@ -150,13 +151,13 @@ class EbiRestException(Exception):
     pass
 
 
-def run_argparse():
+def run_argparse() -> argparse.Namespace:
     """
-    TODO
+    Run argparse and return the user arguments.
     """
     parser = argparse.ArgumentParser(
         description="""This script reads a list of species (scientific) names from a file, 
-        and retrieves lineage information for each species using the ENA REST API.
+        and retrieves the lineage information for each species using the ENA REST API.
         It then saves it as a JSON file (1 file per species) for usage with Hugo."""
     )
 
@@ -165,7 +166,7 @@ def run_argparse():
         type=str,
         default="all_species.txt",
         metavar="[file]",
-        help="the file path to your list of species",
+        help="the file path to your list of species. Each species should be on a new line.",
     )
 
     parser.add_argument(
@@ -173,19 +174,19 @@ def run_argparse():
         type=str,
         default=r"../hugo/data/taxonomy/",
         metavar="[directory]",
-        help="the path to the directory where you want to save the json files to",
+        help="the path to the directory/folder where you want to save the json files to.",
     )
 
     parser.add_argument(
         "--overwrite",
         action="store_true",
-        help="If a prexisting json file for a species exists, should it be overwritten? If flag not added, no overwrite.",
+        help="If a prexisting json file for a species exists, should it be overwritten? If flag NOT provided, no overwrite.",
     )
 
     parser.add_argument(
         "--logging",
         action="store_true",
-        help="Run logging or not. If flag not added, no logging done.",
+        help="Run logging or not. If flag NOT provided, no logging done.",
     )
 
     return parser.parse_args()
@@ -230,12 +231,16 @@ def get_tax_id(scientific_name: str) -> dict[str, str]:
     """
     Get the taxonomy id from the scientific name.
     Search by name is case insensitive.
+
+    Returns a dict with key being the species name and value the taxonomy id (as a string).
     """
     url = create_endpoint_url(scientific_name)
     response = requests.get(url)
 
     if response.status_code != 200:
-        raise EbiRestException(f"Failed to get taxonomy info for {scientific_name}")
+        raise EbiRestException(
+            f"Failed to get taxonomy info for {scientific_name}, response code: {response.status_code}"
+        )
 
     if len(response.json()) == 0:
         raise EbiRestException(f"No taxonomy info found for {scientific_name}")
@@ -251,9 +256,8 @@ def get_tax_id(scientific_name: str) -> dict[str, str]:
 
 def get_lineage_section(tax_id: str | int) -> str:
     """
-    Search for the taxonomy information by the taxonomy id.
-
-    Returns the lineage section of the XML response as a string.
+    Obtain the taxonomy information for a species using the taxonomy id.
+    This returns the lineage section of the XML response as a string.
     """
     try:
         response = requests.get(
@@ -276,7 +280,11 @@ def append_lineage_info(
     species_dict: dict[str, dict[str, str]], lineage_section: str
 ) -> dict[str, dict[str, str]]:
     """
-    Add lineage information to the template lineage dictionary.
+    Add lineage information to each species.
+    Each species has a dictionary with the form shown in: TEMPLATE_LINEAGE_DICT
+
+    This function appends lineage information to this dictionary
+    and returns the updated dictionary.
     """
     for line in lineage_section.split("\n"):
         for tax_rank in TAXONOMIC_RANKS:
@@ -365,9 +373,9 @@ if __name__ == "__main__":
         if args.logging:
             logger.info(f"Saved lineage info for species: {species_name}")
 
-    # warning message for anyone using this script, regarding of logging.
     if failed_species:
-        print("WARNING: For the following species no taxonomy information was found:")
+        print("##############################################")
+        print("WARNING: for the following species no taxonomy information was found:")
         for numb, species in enumerate(failed_species, start=1):
             print(f"{numb}: {species}")
         print("Make sure their scientific name is/are spelled correctly.")
