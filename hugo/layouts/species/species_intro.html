@@ -2,8 +2,34 @@
 
 {{ partial "species_nav.html" . }}
 
-{{ .Content }}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            {{ .Content }}
+        </div>
+    </div>
+    <!-- Lineage Info -->
+    <div class="row">
+        <div class="col">
+            <h2>Lineage</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ if .Params.lineage_data_path }}
+                {{ $lineage_file := (split .Params.lineage_data_path "/") }}
+                {{ $lineage_dict := index .Site.Data $lineage_file }}
 
-[Code for intro page for an individual species]
+                {{ range $rank, $value := $lineage_dict }}
+                    <p> <b>{{ $rank }}:</b> {{ $value.science_name }} </p>
+                {{ end }}
+            
+            {{ else }}
+                <p> No lineage data has been provided for this species </p>
+            {{ end }}
+        </div>
+    </div>
+</div>
+
 
 {{ end }}

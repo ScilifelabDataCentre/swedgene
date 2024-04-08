@@ -2,8 +2,18 @@
 
 {{ partial "species_nav.html" . }}
 
-{{ .Content }}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            {{ .Content }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            [Code for browser page for an individual species]
+        </div>
+    </div>
+</div>
 
-[Code for browser page for an individual species]
 
 {{ end }}

@@ -1,0 +1,13 @@
+{
+    "Species": "Clupea harengus",
+    "Assembly name": "GCA 000966335.1",
+    "Assembly level": "Chromosome",
+    "Assembly date": "2021-05-01",
+    "Assembly source": "GenBank",
+    "Assembly method": "Illumina HiSeq 2000",
+    "Genome coverage": "30x",
+    "Contig n50": 100000,
+    "Scaffold n50": 500000,
+    "Total length": 1000000000,
+    "GC content": 0.45
+}
