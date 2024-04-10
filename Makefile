@@ -24,7 +24,7 @@ debug:
 .PHONY: jbrowse-config
 jbrowse-config: $(CONFIGS);
 	@echo "Generated JBrowse configuration files in directories: "
-	@echo "$(DATADIRS)"
+	@printf "\t%s\n" $(DATADIRS)
 
 
 .PHONY: download
@@ -36,6 +36,11 @@ download: $(DOWNLOAD_LIST)
 # Remove downloaded copies of remote files
 clean-upstream:;rm -f $(DOWNLOAD_LIST)
 
+# Remove all artifacts
+.PHONY: clean
+clean:
+	rm -f $(DOWNLOAD_LIST) $(LOCAL_FILES) $(FASTA_INDICES) $(GFF_INDICES)
+	rm -f $(addsuffix /dl_list,$(DATADIRS))
 
 .PHONY: compress
 compress: $(LOCAL_FILES);
@@ -65,7 +70,7 @@ index-gff: $(GFF_INDICES);
 
 
 %config.json: %config.yml 	
-	bash scripts/generate_jbrowse_config.sh $<
+	$(SHELL) scripts/generate_jbrowse_config.sh $<
 
 
 $(FASTA_INDICES): %.fai: %
