@@ -21,7 +21,11 @@ ensure_local() {
     if [[ "$LOCAL_FILE" =~ .gz$ ]]; then
 	LOCAL_FILE="${LOCAL_FILE/.gz/.bgz}"
     fi
-    if ! [[ -e "$LOCAL_FILE" ]]; then args_ref=("$URL") && exit; fi
+    if ! [[ -e "$LOCAL_FILE" ]]; then
+	args_ref=("$2")
+	>&2 echo "Using remote file $2"
+	return
+    fi
     >&2 echo "Using local file $LOCAL_FILE"
     
     args_ref=(--load=inPlace)
@@ -39,7 +43,7 @@ add_assemblies() {
     local -a file_args
     while IFS=';' read -r url name aliases; do
 	args=(--name="$name")
-	if [[ -n "$aliases"]]; then
+	if [[ -n "$aliases" ]]; then
 	    args+=(--refNameAliases="$aliases")
 	fi
 	file_args=()
@@ -50,6 +54,9 @@ add_assemblies() {
 
 add_tracks () {
     local -a file_args
+    # jbrowse add-track expects target to exist, unlike add-assembly
+    # See: https://github.com/GMOD/jbrowse-components/issues/4334
+    [[ -e "$TARGET" ]] || echo '{}' > "$TARGET"
     while IFS=';' read -r url name; do
 	file_args=()
 	ensure_local "$DIR" "$url" file_args
