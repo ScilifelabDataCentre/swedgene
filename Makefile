@@ -41,13 +41,19 @@ download: $(DOWNLOAD_LIST)
 
 .PHONY: clean-upstream
 # Remove downloaded copies of remote files
-clean-upstream:;rm -f $(DOWNLOAD_LIST)
+clean-upstream:
+	rm -f $(DOWNLOAD_LIST)
+	rm -f $(addsuffix /dl_list,$(DATADIRS))
+
+.PHONY: clean-local
+clean-local:
+	rm -f $(LOCAL_FILES) $(FASTA_INDICES) $(GFF_INDICES)
+
 
 # Remove all artifacts
 .PHONY: clean
-clean:
-	rm -f $(DOWNLOAD_LIST) $(LOCAL_FILES) $(FASTA_INDICES) $(GFF_INDICES)
-	rm -f $(addsuffix /dl_list,$(DATADIRS))
+clean: clean-upstream clean-local
+
 
 .PHONY: compress
 compress: $(LOCAL_FILES);
