@@ -1,4 +1,7 @@
 SHELL=/bin/bash
+# Disable builtin implicit rules
+MAKEFLAGS += -r
+
 DATADIRS = $(shell find data -type d -execdir test -e '{}'/config.yml ';' -print)
 CONFIGS = $(addsuffix /config.json, $(DATADIRS))
 DOWNLOAD_LIST = $(shell ./scripts/list_all_download_targets.sh | cut -d"," -f1)
@@ -8,12 +11,16 @@ GFF_INDICES = $(addsuffix .tbi,$(filter %.gff.bgz,$(LOCAL_FILES)))
 
 
 .PHONY: all
-all: index-gff index-fasta jbrowse-config install
+all: build install
+
+
+.PHONY: build
+build: index-gff index-fasta jbrowse-config
 
 
 .PHONY: debug
 debug:
-	$(info Data directories : $(DATADIRS))	
+	$(info Data directories : $(DATADIRS))
 	$(info Target configuration files: $(CONFIGS))
 	$(info Files to download : $(DOWNLOAD_LIST))
 	$(info Compressed Local files : $(LOCAL_FILES))
@@ -28,7 +35,7 @@ jbrowse-config: $(CONFIGS);
 
 
 .PHONY: download
-download: $(DOWNLOAD_LIST) 
+download: $(DOWNLOAD_LIST)
 	@echo "Downloaded data files: $?"
 
 
@@ -65,11 +72,11 @@ index-fasta: $(FASTA_INDICES);
 index-gff: $(GFF_INDICES);
 
 
-%dl_list: %config.yml
-	scripts/list_download_targets.sh $< > $@ 
+$(addsuffix /dl_list,$(DATADIRS)): %dl_list: %config.yml
+	scripts/list_download_targets.sh $< > $@
 
 
-%config.json: %config.yml 	
+$(CONFIGS): %config.json: %config.yml
 	$(SHELL) scripts/generate_jbrowse_config.sh $<
 
 
@@ -93,5 +100,4 @@ $(filter %.gff.bgz,$(LOCAL_FILES)): %.gff.bgz: %.gff.gz
 .SECONDEXPANSION:
 $(DOWNLOAD_LIST): $$(dir $$@)dl_list
 	@URL=$$(grep "$(@F)" "$(@D)/dl_list" | cut -d, -f2); \
-	curl --output $@ "$$URL" 
-
+	curl --output $@ "$$URL"
