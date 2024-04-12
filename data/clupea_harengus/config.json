@@ -19,42 +19,12 @@
   "connections": [
     {
       "type": "UCSCTrackHubConnection",
-      "name": "Clupea Harengus (USBC)",
-      "hubTxtLocation": {
-        "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/hub.txt",
-        "locationType": "UriLocation"
-      },
-      "connectionId": "UCSCTrackHubConnection-Ch_v2.0.2-1709716390565",
-      "assemblyNames": [
-        "GCF_900700415.2"
-      ]
-    },
-    {
-      "type": "UCSCTrackHubConnection",
       "name": "UCSC Assembly hub",
       "hubTxtLocation": {
         "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/hub.txt",
         "locationType": "UriLocation"
       },
-      "connectionId": "UCSCTrackHubConnection-1712137302582"
-    },
-    {
-      "type": "UCSCTrackHubConnection",
-      "name": "UCSC Assembly hub",
-      "hubTxtLocation": {
-        "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/hub.txt",
-        "locationType": "UriLocation"
-      },
-      "connectionId": "UCSCTrackHubConnection-1712137345227"
-    },
-    {
-      "type": "UCSCTrackHubConnection",
-      "name": "UCSC Assembly hub",
-      "hubTxtLocation": {
-        "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/900/700/415/GCF_900700415.2/hub.txt",
-        "locationType": "UriLocation"
-      },
-      "connectionId": "UCSCTrackHubConnection-1712146735035"
+      "connectionId": "UCSC_Assembly_hub"
     }
   ],
   "defaultSession": {

@@ -36,76 +36,18 @@
   "connections": [
     {
       "type": "UCSCTrackHubConnection",
-      "name": "GCF_000011425.1 track hub",
-      "hubTxtLocation": {
-        "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/000/011/425/GCF_000011425.1/hub.txt",
-        "locationType": "UriLocation"
-      },
-      "connectionId": "UCSCTrackHubConnection-1709037214731"
-    },
-    {
-      "type": "UCSCTrackHubConnection",
       "name": "UCSC asembly hub",
       "hubTxtLocation": {
         "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/000/011/425/GCF_000011425.1/hub.txt",
         "locationType": "UriLocation"
       },
-      "connectionId": "UCSCTrackHubConnection-1712132670369"
-    },
-    {
-      "type": "UCSCTrackHubConnection",
-      "name": "UCSC asembly hub",
-      "hubTxtLocation": {
-        "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/000/011/425/GCF_000011425.1/hub.txt",
-        "locationType": "UriLocation"
-      },
-      "connectionId": "UCSCTrackHubConnection-1712137018460"
-    },
-    {
-      "type": "UCSCTrackHubConnection",
-      "name": "UCSC asembly hub",
-      "hubTxtLocation": {
-        "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/000/011/425/GCF_000011425.1/hub.txt",
-        "locationType": "UriLocation"
-      },
-      "connectionId": "UCSCTrackHubConnection-1712137087403"
-    },
-    {
-      "type": "UCSCTrackHubConnection",
-      "name": "UCSC asembly hub",
-      "hubTxtLocation": {
-        "uri": "https://hgdownload.soe.ucsc.edu/hubs/GCF/000/011/425/GCF_000011425.1/hub.txt",
-        "locationType": "UriLocation"
-      },
-      "connectionId": "UCSCTrackHubConnection-1712146735502"
+      "connectionId": "UCSC_asembly_hub"
     }
   ],
   "defaultSession": {
     "name": "New Session"
   },
   "tracks": [
-    {
-      "type": "FeatureTrack",
-      "trackId": "GCF_000011425.1-GFF",
-      "name": "GFF annotations",
-      "adapter": {
-        "type": "Gff3TabixAdapter",
-        "gffGzLocation": {
-          "uri": "GCF_000011425.1_ASM1142v1_genomic.gff.bgz",
-          "locationType": "UriLocation"
-        },
-        "index": {
-          "location": {
-            "uri": "GCF_000011425.1_ASM1142v1_genomic.gff.bgz.tbi",
-            "locationType": "UriLocation"
-          },
-          "indexType": "TBI"
-        }
-      },
-      "assemblyNames": [
-        "GCF_000011425.1"
-      ]
-    },
     {
       "type": "FeatureTrack",
       "trackId": "GCF_000011425.1_ASM1142v1_genomic.gff",

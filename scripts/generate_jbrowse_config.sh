@@ -15,8 +15,7 @@ ensure_local() {
     # ARGS_REF is the name of the array variable provided by the
     # caller to hold file-related arguments expected by JBrowse.
     local -n args_ref="$3"
-    BASENAME="${2##*/}"
-    LOCAL_FILE="$1/$BASENAME"
+    LOCAL_FILE="$1/${2##*/}"
     # Block gzip files are saved locally with the explicit .bgz extension
     if [[ "$LOCAL_FILE" =~ .gz$ ]]; then
 	LOCAL_FILE="${LOCAL_FILE/.gz/.bgz}"
@@ -35,7 +34,8 @@ ensure_local() {
 	*.2bit)
 	    args_ref+=(--type=twoBit);;
     esac
-    args_ref+=("$BASENAME")
+    # Strip the directory part, as file paths are relative to `config.json`
+    args_ref+=("${LOCAL_FILE##*/}")
 }
 
 

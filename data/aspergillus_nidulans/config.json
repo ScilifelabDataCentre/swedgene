@@ -8,15 +8,15 @@
         "adapter": {
           "type": "BgzipFastaAdapter",
           "fastaLocation": {
-            "uri": "GCF_000011425.1_ASM1142v1_genomic.fna.gz",
+            "uri": "GCF_000011425.1_ASM1142v1_genomic.fna.bgz",
             "locationType": "UriLocation"
           },
           "faiLocation": {
-            "uri": "GCF_000011425.1_ASM1142v1_genomic.fna.gz.fai",
+            "uri": "GCF_000011425.1_ASM1142v1_genomic.fna.bgz.fai",
             "locationType": "UriLocation"
           },
           "gziLocation": {
-            "uri": "GCF_000011425.1_ASM1142v1_genomic.fna.gz.gzi",
+            "uri": "GCF_000011425.1_ASM1142v1_genomic.fna.bgz.gzi",
             "locationType": "UriLocation"
           }
         }
@@ -50,8 +50,8 @@
   "tracks": [
     {
       "type": "FeatureTrack",
-      "trackId": "GCF_000011425.1-GFF",
-      "name": "GFF annotations",
+      "trackId": "GCF_000011425.1_ASM1142v1_genomic.gff",
+      "name": "Protein coding genes",
       "adapter": {
         "type": "Gff3TabixAdapter",
         "gffGzLocation": {
@@ -61,28 +61,6 @@
         "index": {
           "location": {
             "uri": "GCF_000011425.1_ASM1142v1_genomic.gff.bgz.tbi",
-            "locationType": "UriLocation"
-          },
-          "indexType": "TBI"
-        }
-      },
-      "assemblyNames": [
-        "GCF_000011425.1"
-      ]
-    },
-    {
-      "type": "FeatureTrack",
-      "trackId": "GCF_000011425.1_ASM1142v1_genomic.gff",
-      "name": "Protein coding genes",
-      "adapter": {
-        "type": "Gff3TabixAdapter",
-        "gffGzLocation": {
-          "uri": "GCF_000011425.1_ASM1142v1_genomic.gff.gz",
-          "locationType": "UriLocation"
-        },
-        "index": {
-          "location": {
-            "uri": "GCF_000011425.1_ASM1142v1_genomic.gff.gz.tbi",
             "locationType": "UriLocation"
           },
           "indexType": "TBI"
