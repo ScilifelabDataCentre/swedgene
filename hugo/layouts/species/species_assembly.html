@@ -2,6 +2,10 @@
 
 {{ partial "species_nav.html" . }}
 
+<!-- YAML file with assembly and annotation data per species -->
+{{ $stats_file := (split .Params.stats_data_path "/") }}
+{{ $stats_contents := index .Site.Data $stats_file }}
+
 
 <div class="container">
     <div class="row">
@@ -10,96 +14,86 @@
         </div>
     </div>
 
-    <!-- assembly data table -->
     <div class="row">
+
+    <!-- assembly data table -->
         <div class="col">
             <h2>Assembly Data</h2>
-        </div>
-    </div>
-    {{ if .Params.assembly_data_path }}
-        <div class="row">
-            <div class="col">
-                <div class="table-responsive">
-                    <table id="assemblyTable" class="table table-hover table-bordered" width="100%">
 
-                    <thead class="table-light">
-                        <tr>
-                        <th scope="col">Header 1 </th>
-                        <th scope="col">Header 2</th>
-                        </tr>
-                    </thead>
-                    {{ $assembly_file := (split .Params.assembly_data_path "/") }}
-                    {{ $assembly_dict := index .Site.Data $assembly_file }}
-                    <tbody class="table-responsive">
-                        {{ range $key, $value := $assembly_dict }}
-                            <tr>
-                                <td> {{ $key }} </td>
-                                <td> {{ $value }} </td>
-                            </tr>
-                        {{ end }}
-                    </tbody>
+        {{ if .Params.stats_data_path }}
+            <div class="table-responsive">
+                <table id="assemblyTable" class="table table-hover table-bordered" width="100%">
+
+                <thead class="table-light">
+                    <tr>
+                    <th scope="col">Statistic</th>
+                    <th scope="col">Value</th>
+                    </tr>
+                </thead>
                     
-                    </table>
-                </div>
+                <tbody class="table-responsive">
+                    {{ range $idx, $statistic := $stats_contents.assembly }}
+                        {{ range $stat_name, $value := $statistic }}
+                        <tr>
+                            <td> {{ $stat_name }} </td>
+                            <td> {{ $value }} </td>
+                        </tr>
+                        {{ end }}
+                    {{ end }}
+                </tbody>
+                    
+                </table>
             </div>
         </div>
 
-    {{ else }}
-        <div class="row">
-            <div class="col">
-                <p> No assembly data has been provided for this species </p>
-            </div>
-        </div>
-    {{ end }}
-
+        {{ else }}
+            <p> No assembly data has been provided for this species </p>
+        {{ end }}
+    
+    </div>
 
 
     <!-- annotation data table -->
     <div class="row">
+
         <div class="col">
             <h2>Annotation Data</h2>
-        </div>
-    </div>
-    {{ if .Params.annotation_data_path }}
-        <div class="row">
-            <div class="col">
-                <div class="table-responsive">
-                    <table id="annotationTable" class="table table-hover table-bordered" width="100%">
 
-                    <thead class="table-light">
-                        <tr>
-                        <th scope="col">Header 1 </th>
-                        <th scope="col">Header 2</th>
-                        </tr>
-                    </thead>
-                    {{ $assembly_file := (split .Params.annotation_data_path "/") }}
-                    {{ $assembly_dict := index .Site.Data $assembly_file }}
-                    <tbody class="table-responsive">
-                        {{ range $key, $value := $assembly_dict }}
-                            <tr>
-                                <td> {{ $key }} </td>
-                                <td> {{ $value }} </td>
-                            </tr>
-                        {{ end }}
-                    </tbody>
+        {{ if .Params.stats_data_path }}
+            <div class="table-responsive">
+                <table id="annotationTable" class="table table-hover table-bordered" width="100%">
+
+                <thead class="table-light">
+                    <tr>
+                    <th scope="col">Statistic</th>
+                    <th scope="col">Value</th>
+                    </tr>
+                </thead>
                     
-                    </table>
-                </div>
+                <tbody class="table-responsive">
+                    {{ range $idx, $statistic := $stats_contents.annotation }}
+                        {{ range $stat_name, $value := $statistic }}
+                        <tr>
+                            <td> {{ $stat_name }} </td>
+                            <td> {{ $value }} </td>
+                        </tr>
+                        {{ end }}
+                    {{ end }}
+                </tbody>
+                    
+                </table>
             </div>
         </div>
 
-    {{ else }}
-        <div class="row">
-            <div class="col">
-                <p> No annotation data has been provided for this species </p>
-            </div>
-        </div>
-    {{ end }}
+        {{ else }}
+            <p> No annotation data has been provided for this species </p>
+        {{ end }}
+    
+    </div>
+
+
+
 </div>
-
-
-
-
 
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha384-wsqsSADZR1YRBEZ4/kKHNSmU+aX8ojbnKUMN4RyD3jDkxw5mHtoe2z/T/n4l56U/" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/2.0.2/css/dataTables.dataTables.css" integrity="sha384-zxIWrl6qlRc1gf8mdRhQEZUap0s1QKZYh7n91f2nDSoExwY+xIrewx7nOxbdsIkB" crossorigin="anonymous">
@@ -111,11 +105,13 @@
       paging: false,
       info: false,
       searching: false,
+      ordering: false
     });
         $('#annotationTable').DataTable({
       paging: false,
       info: false,
       searching: false,
+      ordering: false
     });
     } );
 </script>
