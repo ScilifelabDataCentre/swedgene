@@ -1,5 +1,6 @@
 ---
 title: "Atlantic herring"
+science_name: "Clupea harengus"
 layout: "species_intro"
 weight: 1
 
