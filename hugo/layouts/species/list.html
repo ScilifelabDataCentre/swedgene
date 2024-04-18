@@ -13,15 +13,12 @@
 <!-- markdown file content here -->
 {{ .Content }}
 
-
-<div class="row">
-
-    <!-- Display all species -->
+<!-- Display all species -->
+<div class="row row-cols-1 row-cols-md-3 g-4">
     {{ $species := .Site.GetPage "section" "Species" }}
     {{ range $species.Sections }}
-
-        <div class="col-md-4" id="all-species"> 
-            <div class="card border-primary mb-3">
+        <div class="col">
+            <div class="card h-100 border-primary mb-3">
                 <figure>
                     <a href="{{ .Permalink }}" title="Go to the {{ .Title }} page">
                         <img src="{{ .Params.cover_image }}" class="card-img-top" alt="Image of species">
@@ -37,11 +34,11 @@
                     <p class="card-text">{{ .Summary }}</p>
                     <a href="{{ .Permalink }}" class="btn btn-primary">Go to {{ .Title }}</a>
                 </div>
+
             </div>
         </div>
     {{ end }}
-    
-    
 </div>
+
 
 {{ end }}
