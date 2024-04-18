@@ -50,9 +50,29 @@ body {
   font-size: 1.25rem;
 }
 
-
 .scilife-card-image-attrib {
   font-style: italic;
   font-size: 0.8em;
   margin-left: 1em;
 }
+
+.scilife-species-card {
+  border-color: var(--scilife-lime);
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.scilife-species-buttons {
+  font-size: 1.2em;
+  margin-bottom: 0.5em;
+  background-color: var(--scilife-lime);
+  border-color: var(--scilife-lime);
+}
+  
+.scilife-species-tags {
+  font-size: 0.8em;
+  background-color: #fcfcfc;
+  border-color: var(--scilife-lime);
+}
+
+

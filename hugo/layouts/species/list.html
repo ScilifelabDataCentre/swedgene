@@ -10,18 +10,20 @@
 {{ end }}
 {{ $uniq_tags := $tags | uniq }}
 
+
 <!-- markdown file content here -->
 {{ .Content }}
 
-<!-- Display all species -->
-<div class="row row-cols-1 row-cols-md-3 g-4">
+
+<!-- Show species -->
+<div class="row row-cols-1 row-cols-md-3 g-4" id="card-container">
     {{ $species := .Site.GetPage "section" "Species" }}
     {{ range $species.Sections }}
         <div class="col">
-            <div class="card h-100 border-primary mb-3">
+            <div class="card h-100 mb-3 scilife-species-card" data-tags='{{ delimit .Params.tags "," }}'>
                 <figure>
                     <a href="{{ .Permalink }}" title="Go to the {{ .Title }} page">
-                        <img src="{{ .Params.cover_image }}" class="card-img-top" alt="Image of species">
+                        <img src="{{ .Params.cover_image }}" class="card-img-top" alt="Image of {{ .Title }}">
                     </a>
 
                     <a href="{{ .Params.img_attrib_link }}" title="Go to the image source" target="_blank">
@@ -32,7 +34,15 @@
                 <div class="card-body">
                     <h3 class="card-title">{{ .Title }}</h3>
                     <p class="card-text">{{ .Summary }}</p>
-                    <a href="{{ .Permalink }}" class="btn btn-primary">Go to {{ .Title }}</a>
+                    <a href="{{ .Permalink }}" class="btn btn-primary scilife-species-buttons">Go to {{ .Title }}</a>
+                    
+                    {{ if .Params.tags }}
+                        <div class="scilife-species-tags">
+                            {{ range .Params.tags }}
+                                <a href="#" class="btn scilife-species-tags tag-button" data-tag="{{ . }}">{{ . }}</a>
+                            {{ end }}
+                        </div>
+                    {{ end }}
                 </div>
 
             </div>
@@ -41,4 +51,44 @@
 </div>
 
 
+
+<!-- Filter to only allow selected tags -->
+<script>
+    let selectedTags = [];
+    const container = document.querySelector('#card-container');
+    const cards = Array.from(container.querySelectorAll('.col')); 
+
+    document.querySelectorAll('.tag-button').forEach(tagButton => {
+        tagButton.addEventListener('click', function(event) {
+            event.preventDefault(); 
+            const tagName = this.dataset.tag;
+
+            // Add or remove the clicked tag from the selectedTags array
+            if (selectedTags.includes(tagName)) {
+                selectedTags = selectedTags.filter(tag => tag !== tagName);
+            } else {
+                selectedTags.push(tagName);
+            }
+
+            // Remove all cards from the container
+            while (container.firstChild) {
+                container.removeChild(container.firstChild);
+            }
+
+            // Add back only the cards that contain all of the selected tags
+            cards.forEach(card => {
+                const cardTags = card.querySelector('.card').dataset.tags.split(','); 
+                const hasAllTags = selectedTags.every(tag => cardTags.includes(tag));
+                if (hasAllTags) {
+                    container.appendChild(card);
+                }
+            });
+        });
+    });
+</script>
+
 {{ end }}
+
+
+
+
