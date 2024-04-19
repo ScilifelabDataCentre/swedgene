@@ -14,6 +14,23 @@
 <!-- markdown file content here -->
 {{ .Content }}
 
+<!-- Filter buttons -->
+<div class="col-md-12">
+
+    <div id="no-filters" class="filter-status">
+        All species are being displayed, click a tag on one of the cards below to filter your search results
+    </div>
+
+    <div id="active-filters" class="filter-status" style="display: none;">
+        <div class="col">   
+            <p>Currently filtering by tags: <span id="active-filter-tags"></span></p>
+            <button id="reset-filters" class="btn scilife-reset-button"> Reset filtering </button>
+        </div>
+    </div>
+
+</div>
+
+
 
 <!-- Show species -->
 <div class="row row-cols-1 row-cols-md-3 g-4" id="card-container">
@@ -34,12 +51,14 @@
                 <div class="card-body">
                     <h3 class="card-title">{{ .Title }}</h3>
                     <p class="card-text">{{ .Summary }}</p>
-                    <a href="{{ .Permalink }}" class="btn btn-primary scilife-species-buttons">Go to {{ .Title }}</a>
-                    
+                    <a href="{{ .Permalink }}" class="btn btn-primary scilife-species-button">Go to {{ .Title }}</a>
+                
+                </div>
+                <div class="card-footer">
                     {{ if .Params.tags }}
-                        <div class="scilife-species-tags">
+                        <div>
                             {{ range .Params.tags }}
-                                <a href="#" class="btn scilife-species-tags tag-button" data-tag="{{ . }}">{{ . }}</a>
+                                <button class="btn tag-button scilife-species-tag" data-tag="{{ . }}">{{ . }}</button>
                             {{ end }}
                         </div>
                     {{ end }}
@@ -57,6 +76,10 @@
     let selectedTags = [];
     const container = document.querySelector('#card-container');
     const cards = Array.from(container.querySelectorAll('.col')); 
+    const noFilters = document.querySelector('#no-filters');
+    const activeFilters = document.querySelector('#active-filters');
+    const activeFilterTags = document.querySelector('#active-filter-tags');
+
 
     document.querySelectorAll('.tag-button').forEach(tagButton => {
         tagButton.addEventListener('click', function(event) {
@@ -68,6 +91,16 @@
                 selectedTags = selectedTags.filter(tag => tag !== tagName);
             } else {
                 selectedTags.push(tagName);
+            }
+
+            // Show/hide the filter status elements and update the active filter tags
+            if (selectedTags.length > 0) {
+                noFilters.style.display = 'none';
+                activeFilters.style.display = 'flex';
+                activeFilterTags.textContent = selectedTags.join(', ');
+            } else {
+                noFilters.style.display = 'flex';
+                activeFilters.style.display = 'none';
             }
 
             // Remove all cards from the container
@@ -83,6 +116,26 @@
                     container.appendChild(card);
                 }
             });
+        });
+    });
+</script>
+
+
+
+<!-- Reset filtering -->
+<script>
+    document.querySelector('#reset-filters').addEventListener('click', function() {
+        selectedTags = [];
+        noFilters.style.display = 'block';
+        activeFilters.style.display = 'none';
+        while (activeFilters.firstChild) {
+            activeFilters.removeChild(activeFilters.firstChild);
+        }
+        while (container.firstChild) {
+            container.removeChild(container.firstChild);
+        }
+        cards.forEach(card => {
+            container.appendChild(card);
         });
     });
 </script>

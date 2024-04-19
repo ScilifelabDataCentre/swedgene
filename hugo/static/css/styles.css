@@ -62,17 +62,30 @@ body {
   flex-wrap: wrap;
 }
 
-.scilife-species-buttons {
+.scilife-reset-button {
   font-size: 1.2em;
   margin-bottom: 0.5em;
+  background-color: var(--scilife-grape);
+  border-color: var(--scilife-grape);
+  color: white;
+}
+
+.scilife-species-button {
+  font-size: 1.2em;
   background-color: var(--scilife-lime);
   border-color: var(--scilife-lime);
 }
-  
-.scilife-species-tags {
+
+
+.scilife-species-tag {
   font-size: 0.8em;
   background-color: #fcfcfc;
   border-color: var(--scilife-lime);
 }
 
+.scilife-species-tag:hover {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: white;
+}
 
