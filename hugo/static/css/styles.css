@@ -62,12 +62,28 @@ body {
   flex-wrap: wrap;
 }
 
+.scilife-alert {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
+  background-color: var(--scilife-lime-025);
+  border-color: var(--scilife-lime-025);
+}
+
 .scilife-reset-button {
   font-size: 1.2em;
-  margin-bottom: 0.5em;
   background-color: var(--scilife-grape);
   border-color: var(--scilife-grape);
   color: white;
+  display: inline-block;
+}
+
+.scilife-reset-button:hover {
+  font-size: 1.2em;
+  background-color: var(--scilife-grape);
+  border-color: var(--scilife-grape);
+  color: white;
+  display: inline-block;
 }
 
 .scilife-species-button {
@@ -84,8 +100,9 @@ body {
 }
 
 .scilife-species-tag:hover {
-  background-color: #007bff;
-  border-color: #007bff;
+  background-color: var(--scilife-lime);
+  border-color: var(--scilife-lime);
   color: white;
 }
+
 

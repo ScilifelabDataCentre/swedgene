@@ -22,14 +22,14 @@
     </div>
 
     <div id="active-filters" class="filter-status" style="display: none;">
-        <div class="col">   
-            <p>Currently filtering by tags: <span id="active-filter-tags"></span></p>
-            <button id="reset-filters" class="btn scilife-reset-button"> Reset filtering </button>
-        </div>
+        <div class="col"> 
+            <div class="alert alert-primary scilife-alert" role="alert">
+                <p>Currently filtering by tags <span id="active-filter-tags"></span></p>
+                <button id="reset-filters" class="btn scilife-reset-button"> Reset filtering </button>
+            </div>
     </div>
 
 </div>
-
 
 
 <!-- Show species -->
@@ -97,7 +97,7 @@
             if (selectedTags.length > 0) {
                 noFilters.style.display = 'none';
                 activeFilters.style.display = 'flex';
-                activeFilterTags.textContent = selectedTags.join(', ');
+                activeFilterTags.textContent = ': ' + selectedTags.join(', ');
             } else {
                 noFilters.style.display = 'flex';
                 activeFilters.style.display = 'none';
@@ -128,12 +128,16 @@
         selectedTags = [];
         noFilters.style.display = 'block';
         activeFilters.style.display = 'none';
-        while (activeFilters.firstChild) {
-            activeFilters.removeChild(activeFilters.firstChild);
-        }
+
+        const filterTags = activeFilters.querySelectorAll('.filter-tag');
+        filterTags.forEach(tag => {
+            activeFilters.removeChild(tag);
+        });
+
         while (container.firstChild) {
             container.removeChild(container.firstChild);
         }
+
         cards.forEach(card => {
             container.appendChild(card);
         });
