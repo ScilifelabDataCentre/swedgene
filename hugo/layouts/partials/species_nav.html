@@ -12,15 +12,15 @@
         {{ end }}
         
     </li>
-    {{ range where .Site.RegularPages "Section" $currentSection }}
-        <li class="nav-item">
+    {{ range where .CurrentSection.Pages "Section" $currentSection }}
+    <li class="nav-item">
 
-            {{ if eq $current_page .Page }}
-                <a class="nav-link active" href="{{ .RelPermalink }}"> {{ .Name }} </a>
-            {{ else }}
-                <a class="nav-link" href="{{ .RelPermalink }}"> {{ .Name }} </a>
-            {{ end }}
+        {{ if eq $current_page .Page }}
+            <a class="nav-link active" href="{{ .RelPermalink }}"> {{ .Name }} </a>
+        {{ else }}
+            <a class="nav-link" href="{{ .RelPermalink }}"> {{ .Name }} </a>
+        {{ end }}
 
-        </li>
+    </li>
     {{ end }}
 </ul>

@@ -10,21 +10,37 @@
 {{ end }}
 {{ $uniq_tags := $tags | uniq }}
 
+
 <!-- markdown file content here -->
 {{ .Content }}
 
+<!-- Filter buttons -->
+<div class="col-md-12">
 
-<div class="row">
+    <div id="no-filters" class="filter-status">
+        All species are being displayed, click a tag on one of the cards below to filter your search results
+    </div>
 
-    <!-- Display all species -->
+    <div id="active-filters" class="filter-status" style="display: none;">
+        <div class="col"> 
+            <div class="alert alert-primary scilife-alert" role="alert">
+                <p>Currently filtering by tags <span id="active-filter-tags"></span></p>
+                <button id="reset-filters" class="btn scilife-reset-button"> Reset filtering </button>
+            </div>
+    </div>
+
+</div>
+
+
+<!-- Show species -->
+<div class="row row-cols-1 row-cols-md-3 g-4" id="card-container">
     {{ $species := .Site.GetPage "section" "Species" }}
     {{ range $species.Sections }}
-
-        <div class="col-md-4" id="all-species"> 
-            <div class="card border-primary mb-3">
+        <div class="col">
+            <div class="card h-100 mb-3 scilife-species-card" data-tags='{{ delimit .Params.tags "," }}'>
                 <figure>
                     <a href="{{ .Permalink }}" title="Go to the {{ .Title }} page">
-                        <img src="{{ .Params.cover_image }}" class="card-img-top" alt="Image of species">
+                        <img src="{{ .Params.cover_image }}" class="card-img-top" alt="Image of {{ .Title }}">
                     </a>
 
                     <a href="{{ .Params.img_attrib_link }}" title="Go to the image source" target="_blank">
@@ -33,15 +49,103 @@
                 </figure>
 
                 <div class="card-body">
-                    <h5 class="card-title">{{ .Title }}</h5>
+                    <h3 class="card-title">{{ .Title }}</h3>
                     <p class="card-text">{{ .Summary }}</p>
-                    <a href="{{ .Permalink }}" class="btn btn-primary">Go to {{ .Title }}</a>
+                    <a href="{{ .Permalink }}" class="btn btn-primary scilife-species-button">Go to {{ .Title }}</a>
+                
                 </div>
+                <div class="card-footer">
+                    {{ if .Params.tags }}
+                        <div>
+                            {{ range .Params.tags }}
+                                <button class="btn tag-button scilife-species-tag" data-tag="{{ . }}">{{ . }}</button>
+                            {{ end }}
+                        </div>
+                    {{ end }}
+                </div>
+
             </div>
         </div>
     {{ end }}
-    
-    
 </div>
 
+
+
+<!-- Filter to only allow selected tags -->
+<script>
+    let selectedTags = [];
+    const container = document.querySelector('#card-container');
+    const cards = Array.from(container.querySelectorAll('.col')); 
+    const noFilters = document.querySelector('#no-filters');
+    const activeFilters = document.querySelector('#active-filters');
+    const activeFilterTags = document.querySelector('#active-filter-tags');
+
+
+    document.querySelectorAll('.tag-button').forEach(tagButton => {
+        tagButton.addEventListener('click', function(event) {
+            event.preventDefault(); 
+            const tagName = this.dataset.tag;
+
+            // Add or remove the clicked tag from the selectedTags array
+            if (selectedTags.includes(tagName)) {
+                selectedTags = selectedTags.filter(tag => tag !== tagName);
+            } else {
+                selectedTags.push(tagName);
+            }
+
+            // Show/hide the filter status elements and update the active filter tags
+            if (selectedTags.length > 0) {
+                noFilters.style.display = 'none';
+                activeFilters.style.display = 'flex';
+                activeFilterTags.textContent = ': ' + selectedTags.join(', ');
+            } else {
+                noFilters.style.display = 'flex';
+                activeFilters.style.display = 'none';
+            }
+
+            // Remove all cards from the container
+            while (container.firstChild) {
+                container.removeChild(container.firstChild);
+            }
+
+            // Add back only the cards that contain all of the selected tags
+            cards.forEach(card => {
+                const cardTags = card.querySelector('.card').dataset.tags.split(','); 
+                const hasAllTags = selectedTags.every(tag => cardTags.includes(tag));
+                if (hasAllTags) {
+                    container.appendChild(card);
+                }
+            });
+        });
+    });
+</script>
+
+
+
+<!-- Reset filtering -->
+<script>
+    document.querySelector('#reset-filters').addEventListener('click', function() {
+        selectedTags = [];
+        noFilters.style.display = 'block';
+        activeFilters.style.display = 'none';
+
+        const filterTags = activeFilters.querySelectorAll('.filter-tag');
+        filterTags.forEach(tag => {
+            activeFilters.removeChild(tag);
+        });
+
+        while (container.firstChild) {
+            container.removeChild(container.firstChild);
+        }
+
+        cards.forEach(card => {
+            container.appendChild(card);
+        });
+    });
+</script>
+
 {{ end }}
+
+
+
+
