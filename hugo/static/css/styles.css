@@ -93,6 +93,15 @@ body {
 }
 
 
+.scilife-search-box {
+  padding: 1rem;
+  background-color: var(--scilife-light-grey);
+  border-color: var(--scilife-lime);
+  position: sticky; 
+  top: 15px;
+}
+
+
 .scilife-species-tag {
   font-size: 0.8em;
   background-color: #fcfcfc;
