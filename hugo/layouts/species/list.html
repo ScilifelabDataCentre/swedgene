@@ -3,10 +3,10 @@
 <!-- Find all unique tags in the child pages, can be used later for filtering -->
 {{ $tags := slice }}
 {{ range .Page.Pages }}
-    {{ range .Params.tags }}
+{{ range .Params.tags }}
 
-        {{ $tags = $tags | append . }}
-    {{ end }}
+{{ $tags = $tags | append . }}
+{{ end }}
 {{ end }}
 {{ $uniq_tags := $tags | uniq }}
 
@@ -14,138 +14,99 @@
 <!-- markdown file content here -->
 {{ .Content }}
 
-<!-- Filter buttons -->
-<div class="col-md-12">
-
-    <div id="no-filters" class="filter-status">
-        All species are being displayed, click a tag on one of the cards below to filter your search results
+<!-- Search box -->
+<div class="col scilife-search-box">
+    <div class="input-group">
+        <input type="text" id="Search" class="form-control" placeholder="Start typing to filter the species shown.">
+        <label class="form-control-label" for="Search" aria-labelledby="Search">
     </div>
-
-    <div id="active-filters" class="filter-status" style="display: none;">
-        <div class="col"> 
-            <div class="alert alert-primary scilife-alert" role="alert">
-                <p>Currently filtering by tags <span id="active-filter-tags"></span></p>
-                <button id="reset-filters" class="btn scilife-reset-button"> Reset filtering </button>
-            </div>
-    </div>
-
 </div>
 
 
-<!-- Show species -->
-<div class="row row-cols-1 row-cols-md-3 g-4" id="card-container">
+<!-- Species cards -->
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="card-container">    
     {{ $species := .Site.GetPage "section" "Species" }}
     {{ range $species.Sections }}
-        <div class="col">
-            <div class="card h-100 mb-3 scilife-species-card" data-tags='{{ delimit .Params.tags "," }}'>
-                <figure>
-                    <a href="{{ .Permalink }}" title="Go to the {{ .Title }} page">
-                        <img src="{{ .Params.cover_image }}" class="card-img-top" alt="Image of {{ .Title }}">
-                    </a>
+    <div class="col">
+        <div class="card h-100 mb-3 scilife-species-card" data-tags='{{ delimit .Params.tags "," }}'>
+            <figure>
+                <a href="{{ .Permalink }}" title="Go to the {{ .Title }} page">
+                    <img src="{{ .Params.cover_image }}" class="card-img-top" alt="Image of {{ .Title }}">
+                </a>
 
-                    <a href="{{ .Params.img_attrib_link }}" title="Go to the image source" target="_blank">
-                        <figcaption class="scilife-card-image-attrib"> {{ .Params.img_attrib_text }} </figcaption>
-                    </a>
-                </figure>
+                <a href="{{ .Params.img_attrib_link }}" title="Go to the image source" target="_blank">
+                    <figcaption class="scilife-card-image-attrib"> {{ .Params.img_attrib_text }} </figcaption>
+                </a>
+            </figure>
 
-                <div class="card-body">
-                    <h3 class="card-title">{{ .Title }}</h3>
-                    <p class="card-text">{{ .Summary }}</p>
-                    <a href="{{ .Permalink }}" class="btn btn-primary scilife-species-button">Go to {{ .Title }}</a>
-                
-                </div>
-                <div class="card-footer">
-                    {{ if .Params.tags }}
-                        <div>
-                            {{ range .Params.tags }}
-                                <button class="btn tag-button scilife-species-tag" data-tag="{{ . }}">{{ . }}</button>
-                            {{ end }}
-                        </div>
-                    {{ end }}
-                </div>
+            <div class="card-body">
+                <h3 class="card-title">{{ .Title }}</h3>
+                <p class="card-text">{{ .Summary }}</p>
+                <a href="{{ .Permalink }}" class="btn btn-primary scilife-species-button">Go to {{ .Title }}</a>
 
             </div>
+            <div class="card-footer">
+                {{ if .Params.tags }}
+                <div>
+                    {{ range .Params.tags }}
+                    <button class="btn tag-button scilife-species-tag" data-tag="{{ . }}">{{ . }}</button>
+                    {{ end }}
+                </div>
+                {{ end }}
+            </div>
+
         </div>
+    </div>
     {{ end }}
+
 </div>
 
+<!-- shows if no search results -->
+<div id="no-filtered-card" class="alert alert-primary" style="display: none;" role="alert">
+    No results found with your search term 
+</div>
 
+    
 
-<!-- Filter to only allow selected tags -->
 <script>
-    let selectedTags = [];
-    const container = document.querySelector('#card-container');
-    const cards = Array.from(container.querySelectorAll('.col')); 
-    const noFilters = document.querySelector('#no-filters');
-    const activeFilters = document.querySelector('#active-filters');
-    const activeFilterTags = document.querySelector('#active-filter-tags');
+    function searchAndFilter() {
+        var searchText = $("#Search").val().toLowerCase();
 
+        $(".card").hide();
 
-    document.querySelectorAll('.tag-button').forEach(tagButton => {
-        tagButton.addEventListener('click', function(event) {
-            event.preventDefault(); 
-            const tagName = this.dataset.tag;
+        if (searchText === "") {
+            $(".card").show();
+        } else {
+            var selectedCards = [];
+            $(".card").each(function () {
+                var $this = $(this);
+                var title = $this.find('.card-title').text().toLowerCase();
+                var cardText = $this.find('.card-text').text().toLowerCase();
+                var speciesTag = $this.find('.scilife-species-tag').text().toLowerCase();
 
-            // Add or remove the clicked tag from the selectedTags array
-            if (selectedTags.includes(tagName)) {
-                selectedTags = selectedTags.filter(tag => tag !== tagName);
-            } else {
-                selectedTags.push(tagName);
-            }
+                var conditionsArray = [
+                    title.includes(searchText),
+                    cardText.includes(searchText),
+                    speciesTag.includes(searchText)
+                ];
 
-            // Show/hide the filter status elements and update the active filter tags
-            if (selectedTags.length > 0) {
-                noFilters.style.display = 'none';
-                activeFilters.style.display = 'flex';
-                activeFilterTags.textContent = ': ' + selectedTags.join(', ');
-            } else {
-                noFilters.style.display = 'flex';
-                activeFilters.style.display = 'none';
-            }
-
-            // Remove all cards from the container
-            while (container.firstChild) {
-                container.removeChild(container.firstChild);
-            }
-
-            // Add back only the cards that contain all of the selected tags
-            cards.forEach(card => {
-                const cardTags = card.querySelector('.card').dataset.tags.split(','); 
-                const hasAllTags = selectedTags.every(tag => cardTags.includes(tag));
-                if (hasAllTags) {
-                    container.appendChild(card);
+                if (conditionsArray.includes(true)) {
+                    selectedCards.push(this);
                 }
             });
-        });
-    });
-</script>
 
-
-
-<!-- Reset filtering -->
-<script>
-    document.querySelector('#reset-filters').addEventListener('click', function() {
-        selectedTags = [];
-        noFilters.style.display = 'block';
-        activeFilters.style.display = 'none';
-
-        const filterTags = activeFilters.querySelectorAll('.filter-tag');
-        filterTags.forEach(tag => {
-            activeFilters.removeChild(tag);
-        });
-
-        while (container.firstChild) {
-            container.removeChild(container.firstChild);
+            if (selectedCards.length > 0) {
+                selectedCards.forEach(function (card) {
+                    $(card).show();
+                });
+            } else {
+                $("#no-filtered-card").show();
+            }
         }
+    }
 
-        cards.forEach(card => {
-            container.appendChild(card);
-        });
-    });
+    $("#Search").on("input", searchAndFilter);
 </script>
+
 
 {{ end }}
-
-
-
-
