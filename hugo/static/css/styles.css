@@ -36,6 +36,13 @@ body {
 }
 
 
+
+
+.form-control:focus {
+  border-color: var(--scilife-lime);
+  box-shadow: 0 0 0 0.2rem rgba(167, 201, 71, 0.25); 
+}  
+
 .scilife-navbar {
   background-color: var(--scilife-lime-050);
   font-size: 1.25rem;
@@ -70,6 +77,10 @@ body {
   border-color: var(--scilife-lime-025);
 }
 
+.scilife-alert a {
+  color: var(--scilife-grape);
+}
+
 .scilife-reset-button {
   font-size: 1.2em;
   background-color: var(--scilife-grape);
@@ -95,12 +106,12 @@ body {
 
 .scilife-search-box {
   padding: 1rem;
-  background-color: var(--scilife-light-grey);
-  border-color: var(--scilife-lime);
+  background-color: #f5f5f5;
   position: sticky; 
   top: 15px;
+  margin: 10px 0;
+  border-radius: 0.3rem;
 }
-
 
 .scilife-species-tag {
   font-size: 0.8em;
