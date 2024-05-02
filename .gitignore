@@ -17,3 +17,10 @@ hugo/.hugo_build.lock
 # backups
 *~
 \#*\#
+
+# python 
+__pycache__/
+*.py[cod]
+
+# vscode
+.vscode/
