@@ -1,0 +1,16 @@
+{
+    "ci": {
+      "collect": {
+        "numberOfRuns": 3,
+        "staticDistDir": "hugo/public",
+        "url": [
+          "http://localhost:3000/index.html",
+          "http://localhost:3000/species/index.html",
+          "http://localhost:3000/species/clupea_harengus/index.html"
+        ] 
+      },
+      "upload": {
+        "target": "temporary-public-storage"
+      }
+    }
+}
