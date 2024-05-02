@@ -1,30 +1,18 @@
 """
-This script does the following:
-1) Reads a list of species scientific names from a file.
-2) Obtains the taxonomy id (tax_id) for each species using the ENA REST API.
-3) Uses this tax_id to get the full lineage information for each species which is only available in XML format.
-    (The xml format includes the rank of each species which is why it is needed)
-4) Saves the lineage information for each species into a JSON file which can be used by Hugo.
+This file is a module used in the script: "add_new_species.py".
+It contains the function: "get_taxonomy",
+which is used to get the taxonomy information for a species and save it to a JSON file.
 
-### To run this script:
-Assuming you're inside the scripts directory where "get_taxonomy.py" is located you can simply run the following command:
-$ python get_taxonomy.py
+To do this, "get_taxonomy" does the following:
+1) Obtains the taxonomy id (tax_id) for a species using the ENA REST API.
+2) Uses this tax_id to get the full lineage information for each species which is only available in XML format.
+    (The xml format includes the rank of each species which is why it is needed)
+3) Saves the lineage information for each species into a JSON file which can be used by Hugo.
 
 The script has one 3rd party library dependency (requests) which can be installed as follows:
 $ python -m pip install requests
 
 You should use a recent version of Python though (this was tested on Python 3.11).
-
-### Arguments:
-There are 4 optional arguments that can be used when running this script:
-
-$ python get_taxonomy.py --species_list="all_species.txt" --output_dir="../hugo/data/taxonomy" --overwrite --logging
-
-1. `--species_list [filename]` : The file path to the list of species you want to get the taxonomy information for.
-    This file should contain one species name per line.
-2. `--output_dir [folder location]` : The directory where you want to save the JSON files to.
-3. `--overwrite` : If a prexisting json file for a species exists, should it be overwritten? If flag NOT provided, no overwrite.
-4. `--logging` : Run logging or not. If flag NOT provided, no logging done.
 
 ### Output:
 The .json file contains taxonomic information for the following levels:
@@ -38,20 +26,20 @@ The .json file contains taxonomic information for the following levels:
 - Species
 """
 
-import argparse
-import copy
 import json
-import logging.config
 import re
 from pathlib import Path
 from xml.etree import ElementTree
 
 import requests
 
-ENDPOINT_URL = r"https://www.ebi.ac.uk/ena/taxonomy/rest/scientific-name/"
+ENDPOINT_URL = r"https://www.ebi.ac.uk/ena/taxonomy/rest/scientific-name"
+ENA_XML_URL = r"https://www.ebi.ac.uk/ena/browser/api/xml"
 ENA_BASE_URL = r"https://www.ebi.ac.uk/ena/browser/view/Taxon:"
 NCBI_BASE_URL = r"https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id="
-LOGGING_LEVEL = "DEBUG"
+
+FILE_NAME = "taxonomy.json"
+TEMPLATE_FILE_PATH = Path(__file__).parent / "templates" / FILE_NAME
 
 TAXONOMIC_RANKS = [
     "genus",
@@ -63,84 +51,6 @@ TAXONOMIC_RANKS = [
     "superkingdom",
 ]
 
-# This is what the final json structure will contain for each species
-TEMPLATE_LINEAGE_DICT = {
-    "Species": {
-        "science_name": "",
-        "tax_id": "",
-        "ena_link": "",
-        "ncbi_link": "",
-        "display_order": 1,
-    },
-    "Genus": {
-        "science_name": "",
-        "tax_id": "",
-        "ena_link": "",
-        "ncbi_link": "",
-        "display_order": 2,
-    },
-    "Family": {
-        "science_name": "",
-        "tax_id": "",
-        "ena_link": "",
-        "ncbi_link": "",
-        "display_order": 3,
-    },
-    "Order": {
-        "science_name": "",
-        "tax_id": "",
-        "ena_link": "",
-        "ncbi_link": "",
-        "display_order": 4,
-    },
-    "Class": {
-        "science_name": "",
-        "tax_id": "",
-        "ena_link": "",
-        "ncbi_link": "",
-        "display_order": 5,
-    },
-    "Phylum": {
-        "science_name": "",
-        "tax_id": "",
-        "ena_link": "",
-        "ncbi_link": "",
-        "display_order": 6,
-    },
-    "Kingdom": {
-        "science_name": "",
-        "tax_id": "",
-        "ena_link": "",
-        "ncbi_link": "",
-        "display_order": 7,
-    },
-    "Superkingdom": {
-        "science_name": "",
-        "tax_id": "",
-        "ena_link": "",
-        "ncbi_link": "",
-        "display_order": 8,
-    },
-}
-
-LOGGING_CONFIG = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "formatters": {
-        "standard": {"format": "%(asctime)s [%(levelname)s] %(name)s: %(message)s"}
-    },
-    "handlers": {
-        "stdout": {
-            "class": "logging.StreamHandler",
-            "formatter": "standard",
-            "stream": "ext://sys.stdout",
-        },
-    },
-    "loggers": {
-        "root": {"level": LOGGING_LEVEL, "handlers": ["stdout"], "propagate": False}
-    },
-}
-
 
 class EbiRestException(Exception):
     """
@@ -151,80 +61,28 @@ class EbiRestException(Exception):
     pass
 
 
-def run_argparse() -> argparse.Namespace:
+def prep_out_dir(out_dir: str | None, species_name: str) -> Path:
     """
-    Run argparse and return the user arguments.
-    """
-    parser = argparse.ArgumentParser(
-        description="""This script reads a list of species (scientific) names from a file, 
-        and retrieves the lineage information for each species using the ENA REST API.
-        It then saves it as a JSON file (1 file per species) for usage with Hugo."""
-    )
-
-    parser.add_argument(
-        "--species_list",
-        type=str,
-        default="all_species.txt",
-        metavar="[file]",
-        help="the file path to your list of species. Each species should be on a new line.",
-    )
-
-    parser.add_argument(
-        "--output_dir",
-        type=str,
-        default=r"../hugo/data/taxonomy/",
-        metavar="[directory]",
-        help="the path to the directory/folder where you want to save the json files to.",
-    )
-
-    parser.add_argument(
-        "--overwrite",
-        action="store_true",
-        help="If a prexisting json file for a species exists, should it be overwritten? If flag NOT provided, no overwrite.",
-    )
-
-    parser.add_argument(
-        "--logging",
-        action="store_true",
-        help="Run logging or not. If flag NOT provided, no logging done.",
-    )
-
-    return parser.parse_args()
-
-
-def prep_out_dir(out_dir: str) -> Path:
-    """
+    If not defined, output dir built from species name.
     Makes the output folder if it doesn't exist, and returns a pathlib object.
     """
-    if out_dir != "":
+    if out_dir is None:
+        folder_name = species_name.replace(" ", "_").lower()
+        out_dir_path = Path(__file__).parent / f"../hugo/data/{folder_name}"
+    else:
         out_dir_path = Path(out_dir)
-        if not out_dir_path.exists():
-            Path.mkdir(out_dir_path)
+
+    if not out_dir_path.exists():
+        Path.mkdir(out_dir_path)
 
     return out_dir_path
-
-
-def read_species_list(file_path: str) -> list[str]:
-    """
-    Read the species list from the given file path.
-    Removes empty lines, strips leading and trailing whitespaces,
-    and removes quotes if present inside the names.
-    """
-    with open(file_path) as file:
-        names = []
-        with open(file_path) as file:
-            for line in file.readlines():
-                line = re.sub("[\"']", "", line.strip())
-                if len(line) > 0:
-                    names.append(line)
-    return names
 
 
 def create_endpoint_url(scientific_name: str) -> str:
     """
     Create the endpoint URL for the given scientific name.
     """
-    return ENDPOINT_URL + scientific_name.replace(" ", "%20")
+    return f"{ENDPOINT_URL}/{scientific_name.replace(' ', '%20')}"
 
 
 def get_tax_id(scientific_name: str) -> dict[str, str]:
@@ -242,13 +100,15 @@ def get_tax_id(scientific_name: str) -> dict[str, str]:
             f"Failed to get taxonomy info for {scientific_name}, response code: {response.status_code}"
         )
 
-    if len(response.json()) == 0:
+    response_json = response.json()
+
+    if len(response_json) == 0:
         raise EbiRestException(f"No taxonomy info found for {scientific_name}")
 
-    if len(response.json()) > 1:
+    if len(response_json) > 1:
         raise EbiRestException(f"Multiple taxonomy results found for {scientific_name}")
 
-    full_taxon_info = response.json()[0]
+    full_taxon_info = response_json[0]
 
     tax_id = full_taxon_info["taxId"]
     return tax_id
@@ -260,12 +120,12 @@ def get_lineage_section(tax_id: str | int) -> str:
     This returns the lineage section of the XML response as a string.
     """
     try:
-        response = requests.get(
-            f"https://www.ebi.ac.uk/ena/browser/api/xml/{str(tax_id)}"
-        )
+        ena_url = f"{ENA_XML_URL}/{str(tax_id)}"
+        response = requests.get(ena_url)
     except requests.exceptions.RequestException as e:
         raise EbiRestException(
-            f"""Failed to get lineage info for tax_id: {tax_id} .Error is as follows:
+            f"""Failed to get lineage info for tax_id: {str(tax_id)}.
+            Error is as follows:
             {e}"""
         )
 
@@ -306,76 +166,78 @@ def append_lineage_info(
     return species_dict
 
 
-if __name__ == "__main__":
-    args = run_argparse()
-    species_to_search = read_species_list(args.species_list)
+def get_taxonomy(
+    species_name: str, output_dir: str = None, overwrite: bool = False
+) -> None:
+    """
+    Main process to get taxonomy info. Puts all components together.
+    Output written to disk by default at: "hugo/data/[species_name]/taxonomy.json"
 
-    if args.logging:
-        logger = logging.getLogger(__name__)
-        logging.config.dictConfig(LOGGING_CONFIG)
+    Parameters
+    ----------
+    species_name : str
+        The name of the species for which you want to retrieve taxonomy information.
 
-    out_dir_path = prep_out_dir(out_dir=args.output_dir)
+    output_dir : str, optional
+        The directory where you want to save the JSON files.
+        You don't need to provide this unless debugging
 
-    failed_species: list[str] = []
-    for species_name in species_to_search:
-        # build the output file path first so can check if file already exists
-        output_file = Path(out_dir_path) / (species_name.replace(" ", "_") + ".json")
+    overwrite: bool, optional
+        If set to True, The  JSON file can be overwritten. Default is False.
 
-        if not args.overwrite:
-            if output_file.exists():
-                if args.logging:
-                    logger.info(
-                        f"skipping species: {species_name} as output file already exists"
-                    )
-                continue
+    Returns
+    -------
+    None
+        The output is written to disk instead.
 
-        try:
-            tax_id = get_tax_id(species_name)
-        except EbiRestException as e:
-            if args.logging:
-                logger.warning(f"""Species with name: {species_name} failed tax_id search, skipping.
-                    Error type is: {type(e).__name__}
-                    Error message is: {e}""")
 
-            failed_species.append(species_name)
-            continue
+    Examples
+    --------
+    >>> get_taxonomy(species_name="Homo sapiens", overwrite=True)
+    File created: /path/to/output/Homo_sapiens.json
+    """
+    out_dir_path = prep_out_dir(out_dir=output_dir, species_name=species_name)
 
-        # Create and populate the species dictionary
-        species_dict = copy.deepcopy(TEMPLATE_LINEAGE_DICT)
+    # build the output file path first so can check if file already exists
+    output_file_path = Path(out_dir_path) / FILE_NAME
 
-        species_dict["Species"]["science_name"] = species_name
-        species_dict["Species"]["tax_id"] = str(tax_id)
-        species_dict["Species"]["ena_link"] = ENA_BASE_URL + str(tax_id)
-        species_dict["Species"]["ncbi_link"] = NCBI_BASE_URL + str(tax_id)
+    if not overwrite:
+        if output_file_path.exists():
+            raise FileExistsError(
+                f"""A lineage file already exists for species: {species_name},
+                Add the flag "--overwrite" to overwrite the file,"""
+            )
 
-        # get the lineage information for all the taxonomic ranks
-        try:
-            lineage_section = get_lineage_section(tax_id)
-        except EbiRestException as e:
-            if args.logging:
-                logger.warning(
-                    f"""Species with name: {species_name} failed lineage search, skipping.
-                    Error type is: {type(e).__name__}
-                    Error message is: \n {e}
-                    """
-                )
+    try:
+        tax_id = get_tax_id(species_name)
+    except EbiRestException as e:
+        print(f"""The search for a taxonomy entry for the species: "{species_name}" failed.
+            Please check the spelling of the species name. 
+            Error type is: {type(e).__name__}""")
+        raise e
 
-            failed_species.append(species_name)
-            continue
+    # Create and populate the species dictionary
+    with open(TEMPLATE_FILE_PATH, "r") as file:
+        species_dict = json.load(file)
 
-        species_dict = append_lineage_info(
-            species_dict=species_dict, lineage_section=lineage_section
-        )
+    species_dict["Species"]["science_name"] = species_name
+    species_dict["Species"]["tax_id"] = str(tax_id)
+    species_dict["Species"]["ena_link"] = ENA_BASE_URL + str(tax_id)
+    species_dict["Species"]["ncbi_link"] = NCBI_BASE_URL + str(tax_id)
 
-        with open(output_file, "w") as file:
-            json.dump(species_dict, file, indent=4)
+    # get the lineage information for all the taxonomic ranks
+    try:
+        lineage_section = get_lineage_section(tax_id)
+    except EbiRestException as e:
+        print(f"""The lineage search for the species: "{species_name}" failed.
+        Error type is: {type(e).__name__}""")
+        raise e
 
-        if args.logging:
-            logger.info(f"Saved lineage info for species: {species_name}")
+    species_dict = append_lineage_info(
+        species_dict=species_dict, lineage_section=lineage_section
+    )
 
-    if failed_species:
-        print("##############################################")
-        print("WARNING: for the following species no taxonomy information was found:")
-        for numb, species in enumerate(failed_species, start=1):
-            print(f"{numb}: {species}")
-        print("Make sure their scientific name is/are spelled correctly.")
+    with open(output_file_path, "w") as file:
+        json.dump(species_dict, file, indent=4)
+
+    print(f"File created: {output_file_path.resolve()}")

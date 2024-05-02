@@ -9,6 +9,9 @@ Places to fill in will be marked with: "[EDIT]"
 
 import argparse
 from pathlib import Path
+import shutil
+
+from get_taxonomy import get_taxonomy, EbiRestException
 
 
 TEMPLATE_DIR = Path(__file__).parent / "templates"
@@ -20,8 +23,9 @@ DOWNLOAD_FILE = "download.md"
 CONTENT_FILES = (INDEX_FILE, BROWSER_FILE, ASSEMBLY_FILE, DOWNLOAD_FILE)
 
 STATS_FILE = "species_stats.yml"
+DATA_FILES = (STATS_FILE,)
+
 LINEAGE_FILE = "lineage.json"
-DATA_FILES = (STATS_FILE, LINEAGE_FILE)
 
 
 def run_argparse() -> argparse.Namespace:
@@ -35,8 +39,10 @@ def run_argparse() -> argparse.Namespace:
     parser.add_argument(
         "--species_name",
         type=str,
-        metavar="[file]",
-        help="The scientific name of the species to be added. Case sensitive.",
+        metavar="[species name]",
+        help="""The scientific name of the species to be added. 
+            Case sensitive. Wrap the name in quotes.""",
+        required=True,
     )
 
     parser.add_argument(
@@ -63,7 +69,7 @@ def create_dirs(dir_name: str) -> tuple[Path, Path]:
     return content_dir_path, data_dir_path
 
 
-def add_content_files(species_name: str, content_dir_path: Path):
+def add_content_files(species_name: str, content_dir_path: Path) -> None:
     """
     Add the species name to the template content files,
     then write them to disk.
@@ -76,28 +82,23 @@ def add_content_files(species_name: str, content_dir_path: Path):
         template = template.replace("SPECIES_NAME", species_name)
         template = template.replace("SPECIES_FOLDER", dir_name)
 
-        file_path = content_dir_path / file_name
+        output_file_path = content_dir_path / file_name
 
-        with open(file_path, "w") as file_out:
+        with open(output_file_path, "w") as file_out:
             file_out.write(template)
+        print(f"File created: {output_file_path.resolve()}")
 
 
-def add_data_files(data_dir_path: Path):
+def add_stats_file(data_dir_path: Path) -> None:
     """
     Add the species name to the template data files,
     then write them to disk.
     """
     for file_name in DATA_FILES:
-        with open(TEMPLATE_DIR / file_name, "r") as file_in:
-            template = file_in.read()
-
-        # As of now, no need to replace anything in the data files
-        # This is likely to change though.
-
-        # TODO - merge get_taxonomy work into this script
-
-        with open(data_dir_path / file_name, "w") as file_out:
-            file_out.write(template)
+        template_file_path = TEMPLATE_DIR / file_name
+        output_file_path = data_dir_path / file_name
+        shutil.copy(template_file_path, output_file_path)
+        print(f"File created: {output_file_path.resolve()}")
 
 
 if __name__ == "__main__":
@@ -106,5 +107,23 @@ if __name__ == "__main__":
     dir_name = args.species_name.replace(" ", "_").lower()
     content_dir_path, data_dir_path = create_dirs(dir_name)
 
+    if not args.overwrite:
+        if (content_dir_path / INDEX_FILE).exists():
+            raise FileExistsError(
+                f"""
+                It appears that a species entry already exists for: "{args.species_name}",
+                If you are sure you want to overwrite these files, add the flag "--overwrite".
+                Exiting..."""
+            )
+
+    print("Retriveing taxonomy information, this shouldn't take more than a minute...")
+    try:
+        get_taxonomy(species_name=args.species_name, overwrite=args.overwrite)
+    except EbiRestException:
+        print(
+            f"""WARNING: Failed to get taxonomy information for species: {args.species_name}
+            All other files will now be generated except this file"""
+        )
+
+    add_stats_file(data_dir_path=data_dir_path)
     add_content_files(species_name=args.species_name, content_dir_path=content_dir_path)
-    add_data_files(data_dir_path=data_dir_path)
