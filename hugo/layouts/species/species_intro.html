@@ -25,7 +25,7 @@
                 {{ range $rank, $value := $lineage_dict }}
                     <p> <b>{{ $rank }}:</b> {{ $value.science_name }} </p>
                 {{ end }}
-            
+
             {{ else }}
                 <p> No lineage data has been provided for this species </p>
             {{ end }}

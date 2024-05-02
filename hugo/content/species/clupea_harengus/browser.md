@@ -3,8 +3,8 @@ title: "Browser"
 layout: "species_browser"
 weight: 2
 
-summary: Genome browser for a species 
-jbrowse: true 
+summary: Genome browser for a species
+jbrowse: true
 
 ---
 

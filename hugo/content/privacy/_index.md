@@ -2,11 +2,11 @@
 title: Privacy Policy
 ---
 
-### TODOs:
-1. Does this also need to be provided in Swedish?
-2. Someone other than Rory needs to check the content/wording etc... 
-3. Add contact information 
+### TODOs
 
+1. Does this also need to be provided in Swedish?
+2. Someone other than Rory needs to check the content/wording etc...
+3. Add contact information
 
 ## Overview
 
@@ -20,10 +20,8 @@ We want to inform you that whenever you visit our **Service**, we collect the in
 
 <iframe id="matoOpOut" src="https://matomo.dc.scilifelab.se/index.php?module=CoreAdminHome&action=optOut&language=en&fontSize=16px&fontFamily=Helvetica"></iframe>
 
-
 The personal information that we collect is used for providing and improving the **Service**.
 We will not use or share your information with anyone except as described in this policy. All collected personal information will be processed for research purposes, i.e. using the lawful basis of public interest and in accordance with Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016, the General Data Protection Regulation.
-
 
 ## Links to Other Sites
 
@@ -40,4 +38,4 @@ These changes posted on this page are effective immediately.
 
 If you have any questions or suggestions about our privacy policy, do not hesitate to contact us.
 
-TODO - add our contact information here once ready. 
+TODO - add our contact information here once ready.

@@ -7,4 +7,3 @@ stats_data_path: "aspergillus_nidulans/species_stats"
 ---
 
 Write content here in markdown for the assembly tab of the species page.
-

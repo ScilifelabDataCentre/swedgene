@@ -14,7 +14,7 @@ assembly:
   - "Scaffold L90": [EDIT]
   - "Scaffolds >= 10 kb": [EDIT]
   - "BUSCO % [EDIT]": "[EDIT]"
-  
+
 annotation:
   - "Gene #": [EDIT]
   - "Transcript #": [EDIT]

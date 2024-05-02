@@ -212,7 +212,7 @@ def get_taxonomy(
         tax_id = get_tax_id(species_name)
     except EbiRestException as e:
         print(f"""The search for a taxonomy entry for the species: "{species_name}" failed.
-            Please check the spelling of the species name. 
+            Please check the spelling of the species name.
             Error type is: {type(e).__name__}""")
         raise e
 

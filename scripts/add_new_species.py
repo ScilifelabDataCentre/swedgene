@@ -40,7 +40,7 @@ def run_argparse() -> argparse.Namespace:
         "--species_name",
         type=str,
         metavar="[species name]",
-        help="""The scientific name of the species to be added. 
+        help="""The scientific name of the species to be added.
             Case sensitive. Wrap the name in quotes.""",
         required=True,
     )
@@ -48,7 +48,7 @@ def run_argparse() -> argparse.Namespace:
     parser.add_argument(
         "--overwrite",
         action="store_true",
-        help="""If the files for the species already exist, should they be overwritten? 
+        help="""If the files for the species already exist, should they be overwritten?
             If flag NOT provided, no overwrite performed.""",
     )
 

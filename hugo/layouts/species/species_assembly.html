@@ -32,7 +32,7 @@
                     <th scope="col">Value</th>
                     </tr>
                 </thead>
-                    
+
                 <tbody class="table-responsive">
                     {{ range $idx, $statistic := $stats_contents.assembly }}
                         {{ range $stat_name, $value := $statistic }}
@@ -43,7 +43,7 @@
                         {{ end }}
                     {{ end }}
                 </tbody>
-                    
+
                 </table>
             </div>
         </div>
@@ -51,7 +51,7 @@
         {{ else }}
             <p> No assembly data has been provided for this species </p>
         {{ end }}
-    
+
     </div>
 
 
@@ -71,7 +71,7 @@
                     <th scope="col">Value</th>
                     </tr>
                 </thead>
-                    
+
                 <tbody class="table-responsive">
                     {{ range $idx, $statistic := $stats_contents.annotation }}
                         {{ range $stat_name, $value := $statistic }}
@@ -82,7 +82,7 @@
                         {{ end }}
                     {{ end }}
                 </tbody>
-                    
+
                 </table>
             </div>
         </div>
@@ -90,7 +90,7 @@
         {{ else }}
             <p> No annotation data has been provided for this species </p>
         {{ end }}
-    
+
     </div>
 
 
@@ -121,4 +121,3 @@
 
 
 {{ end }}
-
