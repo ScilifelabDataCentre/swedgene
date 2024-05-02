@@ -1,0 +1,42 @@
+name: Build hugo site and test site with Lighthouse CI
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - add-precommit-ghactions # TODO - temp for testing 
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  lighthouse_ci:
+    name: Test site with Lighthouse CI
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: '0.119.0'
+        
+      - name: Build Hugo
+        run: hugo --minify --gc 
+
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+
+      - name: Run Lighthouse CI
+        run: |
+          npm install -g @lhci/cli@0.13.x
+          lhci autorun --config=.github/lighthouserc.json
+        # TODO - decide whether to include following lines which enables: 
+        # https://github.com/GoogleChrome/lighthouse-ci/blob/main/docs/getting-started.md#github-status-checks
+        # env:
+        #   LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_TOKEN }}
+        #   LHCI_BUILD_CONTEXT__CURRENT_HASH: ${{ github.event.pull_request.head.sha || github.sha }}
