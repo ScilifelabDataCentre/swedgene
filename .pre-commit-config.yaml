@@ -1,0 +1,35 @@
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v2.3.0
+  hooks:
+  - id: check-yaml
+  - id: check-json
+  - id: check-added-large-files
+
+  - id: end-of-file-fixer
+    files: 'hugo/'
+    exclude: '^(hugo/static/|hugo/content/)'
+
+  - id: trailing-whitespace
+    files: '^(hugo/|scripts/)'
+    exclude: 'hugo/static/'
+
+# for markdown
+- repo: https://github.com/igorshubovych/markdownlint-cli
+  rev: v0.39.0
+  hooks:
+  - id: markdownlint-fix
+    args: ['--config', '.github/.markdownlint.yaml']
+    files: '^hugo/content/.*'
+
+# for python
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.4.2
+  hooks:
+    # Run the linter.
+    - id: ruff
+      args: [ --fix ]
+      files: '^scripts/.*'
+    # Run the formatter.
+    - id: ruff-format
+      files: '^scripts/.*'
