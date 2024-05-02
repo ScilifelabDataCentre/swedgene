@@ -136,9 +136,7 @@ def get_lineage_section(tax_id: str | int) -> str:
     return lineage_section
 
 
-def append_lineage_info(
-    species_dict: dict[str, dict[str, str]], lineage_section: str
-) -> dict[str, dict[str, str]]:
+def append_lineage_info(species_dict: dict[str, dict[str, str]], lineage_section: str) -> dict[str, dict[str, str]]:
     """
     Add lineage information to each species.
     Each species has a dictionary with the form shown in: TEMPLATE_LINEAGE_DICT
@@ -166,9 +164,7 @@ def append_lineage_info(
     return species_dict
 
 
-def get_taxonomy(
-    species_name: str, output_dir: str = None, overwrite: bool = False
-) -> None:
+def get_taxonomy(species_name: str, output_dir: str = None, overwrite: bool = False) -> None:
     """
     Main process to get taxonomy info. Puts all components together.
     Output written to disk by default at: "hugo/data/[species_name]/taxonomy.json"
@@ -233,9 +229,7 @@ def get_taxonomy(
         Error type is: {type(e).__name__}""")
         raise e
 
-    species_dict = append_lineage_info(
-        species_dict=species_dict, lineage_section=lineage_section
-    )
+    species_dict = append_lineage_info(species_dict=species_dict, lineage_section=lineage_section)
 
     with open(output_file_path, "w") as file:
         json.dump(species_dict, file, indent=4)

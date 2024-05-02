@@ -13,5 +13,5 @@ then
     echo "See http://www.htslib.org/ for alternatives."
     exit 1
 fi
-echo "Indexing FASTA file $1"    
+echo "Indexing FASTA file $1"
 samtools faidx "$1"

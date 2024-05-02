@@ -32,9 +32,7 @@ def run_argparse() -> argparse.Namespace:
     """
     Run argparse and return the user arguments.
     """
-    parser = argparse.ArgumentParser(
-        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
-    )
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
 
     parser.add_argument(
         "--species_name",
