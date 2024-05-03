@@ -3,6 +3,14 @@ on:
   push:
     tags:
       - 'v*.*.*' # i.e. has to have a release tag to run 
+      
+  # if run as workflow_dispatch, these tags can be used in build+push step
+  workflow_dispatch:
+    inputs:
+      docker_tag:
+        description: 'Docker tag for the image'
+        required: false
+
 jobs:
   push-to-container-registry:
     if: github.repository == 'ScilifelabDataCentre/swedgene'  
@@ -42,5 +50,5 @@ jobs:
 
           push: ${{ github.event_name != 'pull_request' }}
           context: .
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ github.event.inputs.docker_tag || steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
