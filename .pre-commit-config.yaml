@@ -5,7 +5,8 @@ repos:
   - id: check-yaml
   - id: check-json
   - id: check-added-large-files
-
+  - id: check-merge-conflict
+  - id: detect-private-key
   - id: end-of-file-fixer
     files: 'hugo/'
     exclude: '^(hugo/static/|hugo/content/)'

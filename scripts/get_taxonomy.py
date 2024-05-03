@@ -123,7 +123,7 @@ def get_lineage_section(tax_id: str | int) -> str:
         ena_url = f"{ENA_XML_URL}/{str(tax_id)}"
         response = requests.get(ena_url)
     except requests.exceptions.RequestException as e:
-        raise EbiRestException(
+        raise EbiRestException from e(
             f"""Failed to get lineage info for tax_id: {str(tax_id)}.
             Error is as follows:
             {e}"""
@@ -197,12 +197,11 @@ def get_taxonomy(species_name: str, output_dir: str = None, overwrite: bool = Fa
     # build the output file path first so can check if file already exists
     output_file_path = Path(out_dir_path) / FILE_NAME
 
-    if not overwrite:
-        if output_file_path.exists():
-            raise FileExistsError(
-                f"""A lineage file already exists for species: {species_name},
-                Add the flag "--overwrite" to overwrite the file,"""
-            )
+    if (not overwrite) and (output_file_path.exists()):
+        raise FileExistsError(
+            f"""A lineage file already exists for species: {species_name},
+            Add the flag "--overwrite" to overwrite the file,"""
+        )
 
     try:
         tax_id = get_tax_id(species_name)
