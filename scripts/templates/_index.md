@@ -4,7 +4,7 @@ science_name: "SPECIES_NAME"
 layout: "species_intro"
 weight: 1
 
-cover_image: "/img/species/[EDIT]" 
+cover_image: "/img/species/[EDIT]"
 img_attrib_text: "[EDIT]"
 img_attrib_link: [EDIT]
 

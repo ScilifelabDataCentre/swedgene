@@ -24,7 +24,7 @@
 
 
 <!-- Species cards -->
-<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="card-container">    
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="card-container">
     {{ $species := .Site.GetPage "section" "Species" }}
     {{ range $species.Sections }}
     <div class="col">
@@ -63,10 +63,10 @@
 
 <!-- shows if no search results -->
 <div id="no-filtered-card" class="alert alert-primary" style="display: none;" role="alert">
-    No results found with your search term 
+    No results found with your search term
 </div>
 
-    
+
 
 <script>
     function searchAndFilter() {

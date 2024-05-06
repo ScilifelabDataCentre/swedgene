@@ -10,7 +10,7 @@
         {{ else }}
             <a class="nav-link" href="{{ $indexPage.RelPermalink }}"> Introduction </a>
         {{ end }}
-        
+
     </li>
     {{ range where .CurrentSection.Pages "Section" $currentSection }}
     <li class="nav-item">

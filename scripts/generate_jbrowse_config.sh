@@ -26,7 +26,7 @@ ensure_local() {
 	return
     fi
     >&2 echo "Using local file $LOCAL_FILE"
-    
+
     args_ref=(--load=inPlace)
     case "$LOCAL_FILE" in
 	*.fna.bgz)
@@ -83,7 +83,7 @@ generate_hubs_config() {
 }
 
 main () {
-    generate_assembly_config    
+    generate_assembly_config
     generate_tracks_config
     generate_hubs_config
 }

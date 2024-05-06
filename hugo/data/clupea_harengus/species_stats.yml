@@ -14,7 +14,7 @@ assembly:
   - "Scaffold L90": 27
   - "Scaffolds >= 10 kb": 168
   - "BUSCO % (lepidoptera_odb10)": "C:99 [S:97.8, D:1.2], F:0.2, M:0.8"
-  
+
 annotation:
   - "Gene #": 22859
   - "Transcript #": 27383

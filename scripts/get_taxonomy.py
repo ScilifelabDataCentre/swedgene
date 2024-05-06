@@ -123,7 +123,7 @@ def get_lineage_section(tax_id: str | int) -> str:
         ena_url = f"{ENA_XML_URL}/{str(tax_id)}"
         response = requests.get(ena_url)
     except requests.exceptions.RequestException as e:
-        raise EbiRestException(
+        raise EbiRestException from e(
             f"""Failed to get lineage info for tax_id: {str(tax_id)}.
             Error is as follows:
             {e}"""
@@ -136,9 +136,7 @@ def get_lineage_section(tax_id: str | int) -> str:
     return lineage_section
 
 
-def append_lineage_info(
-    species_dict: dict[str, dict[str, str]], lineage_section: str
-) -> dict[str, dict[str, str]]:
+def append_lineage_info(species_dict: dict[str, dict[str, str]], lineage_section: str) -> dict[str, dict[str, str]]:
     """
     Add lineage information to each species.
     Each species has a dictionary with the form shown in: TEMPLATE_LINEAGE_DICT
@@ -166,9 +164,7 @@ def append_lineage_info(
     return species_dict
 
 
-def get_taxonomy(
-    species_name: str, output_dir: str = None, overwrite: bool = False
-) -> None:
+def get_taxonomy(species_name: str, output_dir: str = None, overwrite: bool = False) -> None:
     """
     Main process to get taxonomy info. Puts all components together.
     Output written to disk by default at: "hugo/data/[species_name]/taxonomy.json"
@@ -201,18 +197,17 @@ def get_taxonomy(
     # build the output file path first so can check if file already exists
     output_file_path = Path(out_dir_path) / FILE_NAME
 
-    if not overwrite:
-        if output_file_path.exists():
-            raise FileExistsError(
-                f"""A lineage file already exists for species: {species_name},
-                Add the flag "--overwrite" to overwrite the file,"""
-            )
+    if (not overwrite) and (output_file_path.exists()):
+        raise FileExistsError(
+            f"""A lineage file already exists for species: {species_name},
+            Add the flag "--overwrite" to overwrite the file,"""
+        )
 
     try:
         tax_id = get_tax_id(species_name)
     except EbiRestException as e:
         print(f"""The search for a taxonomy entry for the species: "{species_name}" failed.
-            Please check the spelling of the species name. 
+            Please check the spelling of the species name.
             Error type is: {type(e).__name__}""")
         raise e
 
@@ -233,9 +228,7 @@ def get_taxonomy(
         Error type is: {type(e).__name__}""")
         raise e
 
-    species_dict = append_lineage_info(
-        species_dict=species_dict, lineage_section=lineage_section
-    )
+    species_dict = append_lineage_info(species_dict=species_dict, lineage_section=lineage_section)
 
     with open(output_file_path, "w") as file:
         json.dump(species_dict, file, indent=4)

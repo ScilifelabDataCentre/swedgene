@@ -66,3 +66,62 @@ install them under `hugo/static` and start the development server:
     make
 	cd hugo
 	hugo server
+
+
+
+
+# pre-commit
+
+This repository uses [`pre-commit`](https://pre-commit.com/) which can be used to automatically test the changes made between each commit to check your code. Things like linting and bad formatting can be spott
+
+### Setup pre-commit
+##### Step 1
+
+To setup `pre-commit` when commiting to this repo you'll need to install the python package `pre-commit`. You can do that using either:
+
+```
+pip install -r requirements.txt
+# OR
+pip install pre-commit==3.7.0
+```
+
+##### Step 2
+
+Then you'll need to install the precommit hooks (run from the root of the GitHub repository). 
+
+```
+pre-commit install
+```
+
+### Commiting with pre-commit installed: 
+
+Now when you commit with pre-commit installed you're commits will be tested against the pre-commit hooks included in this branch and if everything goes well it will look something like this:
+
+``` 
+$ git commit 
+Check Yaml...............................................................Passed
+Check JSON...............................................................Passed
+Check for added large files..............................................Passed
+Fix End of Files.........................................................Passed
+Trim Trailing Whitespace.................................................Passed
+markdownlint-fix.........................................................Passed
+ruff.....................................................................Passed
+ruff-format..............................................................Passed
+[add-precommit-ghactions 71c6541] Run: "pre-commit run --all-files"
+ 39 files changed, 59 insertions(+), 67 deletions(-)
+```
+
+If one of the tests failed your commit will be blocked If a check fails during the `pre-commit` process, the commit will be blocked and will not proceed. The `pre-commit` tool will output a message indicating which hook failed and often provide some information about what caused the failure. 
+
+Pre-commit will fix most issues itself the developer is expected to fix the issues that caused the failure and then attempt the commit again. Once all hooks pass, the commit will be allowed to proceed.
+
+
+Whilst not ideal, if you need to bypass the failing test, you could edit the `.pre-commit-config.yaml` file or skip running pre-commit on this test. 
+
+``` 
+git commit --no-verify 
+``` 
+
+### pre-commit and GitHub actions
+The pre-commit tests are also run using GitHub actions as a way to ensure the code commited passes the pre-commit tests (pre-commit is run locally on each developers PC). In some cases new rules/exceptions should be added to the pre-commit tests as they may be too strict we run so don't take it personally if your code fails a check.  
+

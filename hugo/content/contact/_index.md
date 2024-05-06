@@ -2,6 +2,6 @@
 title: Contact
 ---
 
-[Some intro text for contact form page]
+[Some intro text for the contact form page]
 
 ### Contact form

@@ -8,11 +8,10 @@ Places to fill in will be marked with: "[EDIT]"
 """
 
 import argparse
-from pathlib import Path
 import shutil
+from pathlib import Path
 
-from get_taxonomy import get_taxonomy, EbiRestException
-
+from get_taxonomy import EbiRestException, get_taxonomy
 
 TEMPLATE_DIR = Path(__file__).parent / "templates"
 
@@ -32,15 +31,13 @@ def run_argparse() -> argparse.Namespace:
     """
     Run argparse and return the user arguments.
     """
-    parser = argparse.ArgumentParser(
-        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
-    )
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
 
     parser.add_argument(
         "--species_name",
         type=str,
         metavar="[species name]",
-        help="""The scientific name of the species to be added. 
+        help="""The scientific name of the species to be added.
             Case sensitive. Wrap the name in quotes.""",
         required=True,
     )
@@ -48,7 +45,7 @@ def run_argparse() -> argparse.Namespace:
     parser.add_argument(
         "--overwrite",
         action="store_true",
-        help="""If the files for the species already exist, should they be overwritten? 
+        help="""If the files for the species already exist, should they be overwritten?
             If flag NOT provided, no overwrite performed.""",
     )
 
@@ -107,14 +104,13 @@ if __name__ == "__main__":
     dir_name = args.species_name.replace(" ", "_").lower()
     content_dir_path, data_dir_path = create_dirs(dir_name)
 
-    if not args.overwrite:
-        if (content_dir_path / INDEX_FILE).exists():
-            raise FileExistsError(
-                f"""
-                It appears that a species entry already exists for: "{args.species_name}",
-                If you are sure you want to overwrite these files, add the flag "--overwrite".
-                Exiting..."""
-            )
+    if (not args.overwrite) and ((content_dir_path / INDEX_FILE).exists()):
+        raise FileExistsError(
+            f"""
+            It appears that a species entry already exists for: "{args.species_name}",
+            If you are sure you want to overwrite these files, add the flag "--overwrite".
+            Exiting..."""
+        )
 
     print("Retriveing taxonomy information, this shouldn't take more than a minute...")
     try:
