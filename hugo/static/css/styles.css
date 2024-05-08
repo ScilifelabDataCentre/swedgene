@@ -69,6 +69,29 @@ body {
   flex-wrap: wrap;
 }
 
+.scilife-subsection h3 {
+  color: var(--scilife-teal);
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.04rem;
+}
+
+.scilife-subsection p {
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.575rem;
+}
+
+.scilife-subsection .btn {
+  background-color: var(--scilife-grape);
+  border-color: var(--scilife-grape);
+  color: white;
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: 0.045rem; 
+}
+
+
 .scilife-alert {
   display: flex;
   align-items: center;
@@ -102,7 +125,6 @@ body {
   background-color: var(--scilife-lime);
   border-color: var(--scilife-lime);
 }
-
 
 .scilife-search-box {
   padding: 1rem;
