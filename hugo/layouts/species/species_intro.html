@@ -13,17 +13,33 @@
     <!-- Lineage Info -->
     <div class="row">
         <div class="col">
-            <h2>Lineage</h2>
+            <h2>Taxonomy</h2>
         </div>
     </div>
     <div class="row">
         <div class="col">
             {{ if .Params.lineage_data_path }}
                 {{ $lineage_file := (split .Params.lineage_data_path "/") }}
-                {{ $lineage_dict := index .Site.Data $lineage_file }}
+                {{ $unsorted_dict := index .Site.Data $lineage_file }}
 
-                {{ range $rank, $value := $lineage_dict }}
-                    <p> <b>{{ $rank }}:</b> {{ $value.science_name }} </p>
+                <!-- have to convert to slice to sort by key -->
+                {{ $lineage_slice := slice }}
+                {{ range $rank, $value := $unsorted_dict }}
+                    {{ $lineage_slice = $lineage_slice | append (dict "rank" $rank "value" $value) }}
+                {{ end }}
+                {{ $sorted_lineage := sort $lineage_slice "value.display_order" "desc" }}
+
+                {{ range $rank, $item := $sorted_lineage }}
+                    <p>
+                        {{ if eq $item.rank "Superkingdom" }}
+                            <b>Domain:</b>
+                        {{ else }}
+                            <b>{{ $item.rank }}:</b>
+                        {{ end }}
+
+                        <a href="{{ $item.value.ena_link }}" target="_blank">{{ $item.value.science_name }}</a>
+
+                    </p>
                 {{ end }}
 
             {{ else }}

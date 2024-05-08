@@ -69,42 +69,45 @@
 
 
 <script>
-    function searchAndFilter() {
-        var searchText = $("#Search").val().toLowerCase();
+    const speciesCards = Array.from(document.querySelectorAll('.scilife-species-card'));
 
-        $(".card").hide();
+    function searchAndFilter() {
+        const searchText = $("#Search").val().toLowerCase();
+
+        $("#card-container").empty();
 
         if (searchText === "") {
-            $(".card").show();
-        } else {
-            var selectedCards = [];
-            $(".card").each(function () {
-                var $this = $(this);
-                var title = $this.find('.card-title').text().toLowerCase();
-                var cardText = $this.find('.card-text').text().toLowerCase();
-                var speciesTag = $this.find('.scilife-species-tag').text().toLowerCase();
+            speciesCards.forEach(function(card) {
+                $("#card-container").append(card.parentElement);
+            });
 
-                var conditionsArray = [
+        } else {
+            const matchedCards = speciesCards.filter(function(card) {
+                const title = $(card).find('.card-title').text().toLowerCase();
+                const cardText = $(card).find('.card-text').text().toLowerCase();
+                const speciesTag = $(card).find('.scilife-species-tag').text().toLowerCase();
+
+                const matches = [
                     title.includes(searchText),
                     cardText.includes(searchText),
                     speciesTag.includes(searchText)
                 ];
-
-                if (conditionsArray.includes(true)) {
-                    selectedCards.push(this);
-                }
+                // true if any match
+                return matches.some(Boolean);
             });
 
-            if (selectedCards.length > 0) {
-                selectedCards.forEach(function (card) {
-                    $(card).show();
-                });
-            } else {
+            matchedCards.forEach(function(card) {
+                $("#card-container").append(card.parentElement);
+            });
+
+
+            if (matchedCards.length === 0) {
                 $("#no-filtered-card").show();
+            } else {
+                $("#no-filtered-card").hide();
             }
         }
     }
-
     $("#Search").on("input", searchAndFilter);
 </script>
 
