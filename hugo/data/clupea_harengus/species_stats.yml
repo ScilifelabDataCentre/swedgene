@@ -1,25 +1,25 @@
 ---
 assembly:
-  - "Assembly length (Mbp)": 1494.39
-  - "GC %": 38
-  - "Contig #": 285
-  - "Contig N50 (Mbp)": 23.927
-  - "Contig L50": 22
-  - "Contig N90 (Mbp)": 4.728
-  - "Contig L90": 82
-  - "Scaffold #": 169
-  - "Scaffold N50 (Mbp)": 49.638
-  - "Scaffold L50": 13
-  - "Scaffold N90 (Mbp)": 34.77
-  - "Scaffold L90": 27
-  - "Scaffolds >= 10 kb": 168
-  - "BUSCO % (lepidoptera_odb10)": "C:99 [S:97.8, D:1.2], F:0.2, M:0.8"
+  - "Assembly length (Mbp)": [EDIT]
+  - "GC %": [EDIT]
+  - "Contig #": [EDIT]
+  - "Contig N50 (Mbp)": [EDIT]
+  - "Contig L50": [EDIT]
+  - "Contig N90 (Mbp)": [EDIT]
+  - "Contig L90": [EDIT]
+  - "Scaffold #": [EDIT]
+  - "Scaffold N50 (Mbp)": [EDIT]
+  - "Scaffold L50": [EDIT]
+  - "Scaffold N90 (Mbp)": [EDIT]
+  - "Scaffold L90": [EDIT]
+  - "Scaffolds >= 10 kb": [EDIT]
+  - "BUSCO % [EDIT]": "[EDIT]"
 
 annotation:
-  - "Gene #": 22859
-  - "Transcript #": 27383
-  - "Avg exons per transcript": 4.7
-  - "Avg gene length (bp)": 16906
-  - "Avg transcript length (bp)": 16033
-  - "Avg exon length (bp)": 343
-  - "Avg intron length (bp)": 3814
+  - "Gene #": [EDIT]
+  - "Transcript #": [EDIT]
+  - "Avg exons per transcript": [EDIT]
+  - "Avg gene length (bp)": [EDIT]
+  - "Avg transcript length (bp)": [EDIT]
+  - "Avg exon length (bp)": [EDIT]
+  - "Avg intron length (bp)": [EDIT]
