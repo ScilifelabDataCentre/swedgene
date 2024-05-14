@@ -8,10 +8,23 @@
 {{ $stats_file := (split .Params.stats_data_path "/") }}
 {{ $stats_contents := index .Site.Data $stats_file }}
 
+<!-- Get links to ENA and NCBI for the species -->
+{{ $lineage_file := (split .Params.lineage_data_path "/") }}
+{{ $lineage_dict := index .Site.Data $lineage_file }}
+
+{{ $species_dict := index $lineage_dict "Species" }}
+{{ $ena_link := index $species_dict "ena_link" }}
+{{ $ncbi_link := index $species_dict "ncbi_link" }}
+
+
+
 <!-- break down content into 2 parts based on divider ... -->
 {{ $content := split .Content "|||||| Content divider - do not remove ||||||" }}
 {{ $contentp1 := index $content 0 }}
 {{ $contentp2 := index $content 1 }}
+
+
+
 
 <div class="container mt-3">
 
@@ -28,14 +41,14 @@
         </div>
         <div class="col-md scilife-subsection text-end">
             <div class="mb-3">
-                <a href="TODO" target="_blank">
+                <a href="{{ $ena_link }}" target="_blank">
                     <button class="btn btn-lg">
                         Read more at the ENA <i class="bi bi-arrow-right"></i>
                     </button>
                 </a>
             </div>
             <div>
-                <a href="TODO" target="_blank">
+                <a href="{{ $ncbi_link }}" target="_blank">
                     <button class="btn btn-lg">
                         Read more at the NCBI <i class="bi bi-arrow-right"></i>
                     </button>

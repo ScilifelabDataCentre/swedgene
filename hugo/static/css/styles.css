@@ -82,6 +82,7 @@ body {
   line-height: 1.575rem;
 }
 
+
 .scilife-subsection .btn {
   background-color: var(--scilife-grape);
   border-color: var(--scilife-grape);
@@ -90,6 +91,19 @@ body {
   font-weight: 700;
   letter-spacing: 0.045rem; 
 }
+
+/* Overrides default button */
+.scilife-subsection .scilife-external-btn {
+  background-color: var(--scilife-lime-025);
+  border-color: var(--scilife-medium-grey);
+  border-radius: 0.5rem; 
+  color: black;
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: 0.045rem; 
+  
+}
+
 
 
 .scilife-alert {
