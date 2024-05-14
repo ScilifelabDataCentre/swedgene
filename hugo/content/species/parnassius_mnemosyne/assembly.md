@@ -1,7 +1,7 @@
 ---
-title: "Assembly"
+title: "Genome assembly"
 layout: "species_assembly"
-weight: 3
+weight: 2
 
 
 stats_data_path: "parnassius_mnemosyne/species_stats"

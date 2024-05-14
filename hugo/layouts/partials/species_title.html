@@ -1,4 +1,14 @@
 {{ $currentSection := .Section }}
 {{ $indexPage := .CurrentSection }}
 
-<h3>{{ $indexPage.Params.title }} ({{ $indexPage.Params.science_name }})</h3>
+<div class="scilife-species-titles">
+
+    <h3>Species</h3>
+
+    <h1>{{ $indexPage.Params.title | markdownify }}</h1>
+
+    <h2>{{ $indexPage.Params.subtitle | markdownify }}</h2>
+
+    <br>
+
+</div>

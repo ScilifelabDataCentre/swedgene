@@ -35,9 +35,6 @@ body {
   font-family: "Lato", Times, Arial;
 }
 
-
-
-
 .form-control:focus {
   border-color: var(--scilife-lime);
   box-shadow: 0 0 0 0.2rem rgba(167, 201, 71, 0.25); 
@@ -55,7 +52,31 @@ body {
 
 .scilife-speices-nav {
   font-size: 1.25rem;
+  color: black;
 }
+
+.scilife-species-titles h1 {
+  font-size: 3rem; 
+  font-weight: 700; 
+  letter-spacing: -0.06rem;
+}
+
+.scilife-species-titles h2 {
+  color: #B9B9B9;
+  font-size: 2.5rem; 
+  font-weight: 700; 
+  letter-spacing: -0.05rem;
+}
+
+.scilife-species-titles h3 {
+  color: #491F53;
+  font-size: 2rem; 
+  font-weight: 700; 
+  letter-spacing: -0.04rem;
+}
+
+
+
 
 .scilife-card-image-attrib {
   font-style: italic;

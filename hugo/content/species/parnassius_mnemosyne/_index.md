@@ -1,5 +1,6 @@
 ---
-title: "Clouded apollo butterfly"
+title: "*Parnassius mnemosyne* (Linnaeus, 1758)"
+subtitle: "Clouded apollo butterfly"
 science_name: "Parnassius Mnemosyne"
 layout: "species_intro"
 weight: 1
