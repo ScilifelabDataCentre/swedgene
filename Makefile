@@ -39,12 +39,18 @@ download: $(DOWNLOAD_LIST)
 	@echo "Downloaded data files: $?"
 
 
-.PHONY: clean-upstream
 # Remove downloaded copies of remote files
+.PHONY: clean-upstream
 clean-upstream:
 	rm -f $(DOWNLOAD_LIST)
 	rm -f $(addsuffix /dl_list,$(DATADIRS))
 
+# Remove JBrowse configuration files
+.PHONY: clean-config
+clean-config:
+	rm -f $(CONFIGS)
+
+# Remove built data files
 .PHONY: clean-local
 clean-local:
 	rm -f $(LOCAL_FILES) $(FASTA_INDICES) $(GFF_INDICES)
