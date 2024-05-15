@@ -3,6 +3,7 @@
 
 /data/**/*gff*
 /data/**/*fna*
+/data/**/config.json
 dl_list
 
 # Hugo default output directory
