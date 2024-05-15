@@ -67,7 +67,12 @@ install them under `hugo/static` and start the development server:
 	cd hugo
 	hugo server
 
-
+## Selectively build JBrowse assets
+To build JBrowse assests for a particular species, without copying
+them to `hugo/static`, set the `DATADIRS` variable as follows:
+	
+	# Builds JBrowse assets for the herring only
+	make DATADIRS=data/clupea_harengus build
 
 
 # pre-commit

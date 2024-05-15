@@ -4,7 +4,7 @@ MAKEFLAGS += -r
 
 DATADIRS = $(shell find data -type d -execdir test -e '{}'/config.yml ';' -print)
 CONFIGS = $(addsuffix /config.json, $(DATADIRS))
-DOWNLOAD_LIST = $(shell ./scripts/list_all_download_targets.sh | cut -d"," -f1)
+DOWNLOAD_LIST = $(shell ./scripts/list_all_download_targets.sh $(DATADIRS) | cut -d"," -f1)
 LOCAL_FILES = $(DOWNLOAD_LIST:.gz=.bgz)
 FASTA_INDICES = $(addsuffix .fai,$(filter %.fna.bgz,$(LOCAL_FILES)))
 GFF_INDICES = $(addsuffix .tbi,$(filter %.gff.bgz,$(LOCAL_FILES)))
