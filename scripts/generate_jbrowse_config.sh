@@ -1,5 +1,8 @@
 #!/bin/bash
 
+BASE_DIR="$(git rev-parse --show-toplevel)"
+source "$BASE_DIR"/scripts/utils.sh
+
 YAML="$1"
 DIR="$(dirname "$YAML")"
 TARGET="$DIR/config.json"
@@ -15,7 +18,8 @@ ensure_local() {
     # ARGS_REF is the name of the array variable provided by the
     # caller to hold file-related arguments expected by JBrowse.
     local -n args_ref="$3"
-    LOCAL_FILE="$1/${2##*/}"
+    LOCAL_FILE="$(std_extension $1/${2##*/})"
+
     # Block gzip files are saved locally with the explicit .bgz extension
     if [[ "$LOCAL_FILE" =~ .gz$ ]]; then
 	LOCAL_FILE="${LOCAL_FILE/.gz/.bgz}"
@@ -65,8 +69,12 @@ add_tracks () {
 }
 
 add_hubs () {
-    while IFS=';' read -r url name; do
-	jbrowse add-connection "${JBROWSE_ARGS[@]}" --name="$name" --connectionId="${name// /_}" "$url"
+    while IFS=';' read -r url name;
+    do
+	if [[ -n "$url" ]];
+	then
+	    jbrowse add-connection "${JBROWSE_ARGS[@]}" --name="$name" --connectionId="${name// /_}" "$url"
+	fi
     done
 }
 

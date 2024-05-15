@@ -5,3 +5,15 @@ chrom_names() {
     # Usage: chrom_names FILE
     sed -n 's/>\([A-Za-z0-9._]\+\).*/\1/p' "$1"
 }
+
+std_extension() {
+    for name in "$@";
+    do
+	case $name in
+	    *.fasta*)
+		echo ${name/.fasta/.fna} ;;
+	    *)
+		echo $name ;;
+	esac
+    done
+}
