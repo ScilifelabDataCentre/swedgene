@@ -3,7 +3,6 @@ title: "Genome assembly"
 layout: "species_assembly"
 weight: 2
 
-
 stats_data_path: "parnassius_mnemosyne/species_stats"
 lineage_data_path: "parnassius_mnemosyne/taxonomy"
 
@@ -12,9 +11,7 @@ key_info:
   - "Assembly Level": "scaffold"
   - "Genome Representation": "full"
   - "Accession": "GCA_963668995"
-  - "Last updated in the ENA": "TODO - TBD IF WE USE"
 ---
-
 
 ### Methods
 

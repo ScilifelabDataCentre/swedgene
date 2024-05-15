@@ -1,0 +1,58 @@
+{
+    "Species": {
+        "science_name": "Meganyctiphanes norvegica",
+        "tax_id": "48144",
+        "ena_link": "https://www.ebi.ac.uk/ena/browser/view/Taxon:48144",
+        "ncbi_link": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=48144",
+        "display_order": 1
+    },
+    "Genus": {
+        "science_name": "Meganyctiphanes",
+        "tax_id": "48143",
+        "ena_link": "https://www.ebi.ac.uk/ena/browser/view/Taxon:48143",
+        "ncbi_link": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=48143",
+        "display_order": 2
+    },
+    "Family": {
+        "science_name": "Euphausiidae",
+        "tax_id": "6817",
+        "ena_link": "https://www.ebi.ac.uk/ena/browser/view/Taxon:6817",
+        "ncbi_link": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=6817",
+        "display_order": 3
+    },
+    "Order": {
+        "science_name": "Euphausiacea",
+        "tax_id": "6816",
+        "ena_link": "https://www.ebi.ac.uk/ena/browser/view/Taxon:6816",
+        "ncbi_link": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=6816",
+        "display_order": 4
+    },
+    "Class": {
+        "science_name": "Malacostraca",
+        "tax_id": "6681",
+        "ena_link": "https://www.ebi.ac.uk/ena/browser/view/Taxon:6681",
+        "ncbi_link": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=6681",
+        "display_order": 5
+    },
+    "Phylum": {
+        "science_name": "Arthropoda",
+        "tax_id": "6656",
+        "ena_link": "https://www.ebi.ac.uk/ena/browser/view/Taxon:6656",
+        "ncbi_link": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=6656",
+        "display_order": 6
+    },
+    "Kingdom": {
+        "science_name": "Metazoa",
+        "tax_id": "33208",
+        "ena_link": "https://www.ebi.ac.uk/ena/browser/view/Taxon:33208",
+        "ncbi_link": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=33208",
+        "display_order": 7
+    },
+    "Superkingdom": {
+        "science_name": "Eukaryota",
+        "tax_id": "2759",
+        "ena_link": "https://www.ebi.ac.uk/ena/browser/view/Taxon:2759",
+        "ncbi_link": "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=2759",
+        "display_order": 8
+    }
+}

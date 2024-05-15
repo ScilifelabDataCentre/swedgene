@@ -3,8 +3,8 @@ title: "Genome assembly"
 layout: "species_assembly"
 weight: 2
 
-stats_data_path: "clupea_harengus/species_stats"
-lineage_data_path: "clupea_harengus/taxonomy"
+stats_data_path: "meganyctiphanes_norvegica/species_stats"
+lineage_data_path: "meganyctiphanes_norvegica/taxonomy"
 
 key_info:
   - "Assembly Name": "[EDIT]"

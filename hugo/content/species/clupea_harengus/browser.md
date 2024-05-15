@@ -1,11 +1,10 @@
 ---
 title: "Browser"
 layout: "species_browser"
-weight: 2
+weight: 3
 
-summary: Genome browser for a species
+config_file: "clupea_harengus/config.json"
 jbrowse: true
-
 ---
 
 Markdown content for species browser tab

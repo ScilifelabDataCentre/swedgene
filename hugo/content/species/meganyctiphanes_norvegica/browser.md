@@ -3,7 +3,7 @@ title: "Browser"
 layout: "species_browser"
 weight: 3
 
-config_file: "SPECIES_FOLDER/config.json"
+config_file: "meganyctiphanes_norvegica/config.json"
 jbrowse: true
 ---
 

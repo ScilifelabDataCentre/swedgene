@@ -4,8 +4,9 @@ subtitle: "Clouded apollo butterfly"
 science_name: "Parnassius Mnemosyne"
 layout: "species_intro"
 weight: 1
+last_updated: "15/05/2024"
 
-cover_image: "/img/species/clouded_apollo.png"
+cover_image: "/img/species/clouded_apollo.webp"
 img_attrib_text: "Image source: © Rogelio Buendia"
 img_attrib_link: TODO
 
@@ -19,10 +20,7 @@ swe_red_list_link: "https://artfakta.se/taxa/parnassius-apollo-101509"
 
 gbif_taxon_id: 1938520
 
-sbdi_link: https://species.biodiversitydata.se/species/
-gbif_link: https://www.gbif.org/species/1938520
-
-summary: "Statistics and referances for the assembly and annotation of the species."
+summary: "Genome assembly, genome annotation and 4 data tracks."
 tags:
 - [EDIT]
 - [ADD]
