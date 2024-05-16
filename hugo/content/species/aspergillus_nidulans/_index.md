@@ -5,6 +5,7 @@ science_name: "Aspergillus nidulans"
 layout: "species_intro"
 weight: 1
 last_updated: "15/05/2024"
+contact_person: "First Name Surname (firstname.surname@scilifelab.se)"
 
 cover_image: "/img/species/[EDIT]"
 img_attrib_text: "[EDIT]"

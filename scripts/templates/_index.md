@@ -5,7 +5,7 @@ science_name: "SPECIES_NAME"
 layout: "species_intro"
 weight: 1
 last_updated: "[EDIT - USE FORMAT LIKE THIS: 15/05/2024]"
-
+contact_person: "[EDIT First Name Surname (firstname.surname@scilifelab.se)] "
 
 cover_image: "/img/species/[EDIT]"
 img_attrib_text: "[EDIT]"

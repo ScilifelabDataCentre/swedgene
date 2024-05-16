@@ -5,6 +5,7 @@ science_name: "Linum tenue"
 layout: "species_intro"
 weight: 1
 last_updated: "15/05/2024"
+contact_person: "First Name Surname (firstname.surname@scilifelab.se)"
 
 cover_image: "/img/species/tiny_herb.webp"
 img_attrib_text: "Unsure"

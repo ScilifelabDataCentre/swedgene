@@ -4,6 +4,7 @@
 
 {{ partial "species_nav.html" . }}
 
+
 <div class="container mt-3">
 
     <!-- species pic and distribution map -->
@@ -61,14 +62,19 @@
                     <!-- Force next columns to break to new line -->
                     <div class="w-100"></div>
                 </div>
-
             {{ end }}
+
                 <div class="row pb-1 mt-3">
                     <div class="col-12 col-sm-8">
                         <b>NCBI Taxonomy ID:</b>
                     </div>
                     <div class="col-12 col-sm-4 text-end">
-                        <a href="TODO" target="_blank">TODO</a>
+                        {{ $species_dict := index $unsorted_dict "Species" }}
+                        {{ $tax_id := index $species_dict "tax_id" }}
+                        {{ $ncbi_link := index $species_dict "ncbi_link" }}
+                        <a href="{{ $ncbi_link }}" target="_blank">
+                            {{$tax_id}}
+                        </a>
                     </div>
 
                 </div>
@@ -140,6 +146,7 @@
         </div>
     </div>
 
+    {{ partial "last_updated.html" . }}
 
 </div>
 {{ end }}

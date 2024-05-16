@@ -5,10 +5,11 @@ science_name: "Clupea harengus"
 layout: "species_intro"
 weight: 1
 last_updated: "15/05/2024"
+contact_person: "First Name Surname (firstname.surname@scilifelab.se)"
 
-cover_image: "/img/species/atlantic_herring_pubic_domain.webp"
-img_attrib_text: "The above image is in the public domain"
-img_attrib_link: https://commons.wikimedia.org/wiki/File:Clupea_harengus.png
+cover_image: "/img/species/clupea_harengus.webp"
+img_attrib_text: "Unsure"
+img_attrib_link: TODO
 
 lineage_data_path: "clupea_harengus/taxonomy"
 

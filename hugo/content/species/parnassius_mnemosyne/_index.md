@@ -5,6 +5,7 @@ science_name: "Parnassius Mnemosyne"
 layout: "species_intro"
 weight: 1
 last_updated: "15/05/2024"
+contact_person: "First Name Surname (firstname.surname@scilifelab.se)"
 
 cover_image: "/img/species/clouded_apollo.webp"
 img_attrib_text: "Image source: © Rogelio Buendia"
