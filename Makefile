@@ -7,6 +7,7 @@ CONFIGS = $(addsuffix /config.json, $(DATADIRS))
 DOWNLOAD_LIST = $(shell ./scripts/list_all_download_targets.sh $(DATADIRS) | cut -d"," -f1)
 LOCAL_FILES = $(DOWNLOAD_LIST:.gz=.bgz)
 FASTA_INDICES = $(addsuffix .fai,$(filter %.fna.bgz,$(LOCAL_FILES)))
+FASTA_GZINDICES=$(FASTA_INDICES:.fai=.gzi)
 GFF_INDICES = $(addsuffix .tbi,$(filter %.gff.bgz,$(LOCAL_FILES)))
 
 
@@ -24,7 +25,7 @@ debug:
 	$(info Target configuration files: $(CONFIGS))
 	$(info Files to download : $(DOWNLOAD_LIST))
 	$(info Compressed Local files : $(LOCAL_FILES))
-	$(info FASTA indices : $(FASTA_INDICES))
+	$(info FASTA indices : $(FASTA_INDICES) $(FASTA_GZINDICES))
 	$(info GFF indices : $(FASTA_INDICES))
 
 
@@ -53,12 +54,12 @@ clean-config:
 # Remove built data files
 .PHONY: clean-local
 clean-local:
-	rm -f $(LOCAL_FILES) $(FASTA_INDICES) $(GFF_INDICES)
+	rm -f $(LOCAL_FILES) $(FASTA_INDICES) $(FASTA_GZINDICES) $(GFF_INDICES)
 
 
 # Remove all artifacts
 .PHONY: clean
-clean: clean-upstream clean-local
+clean: clean-upstream clean-local clean-config
 
 
 .PHONY: compress
@@ -84,7 +85,8 @@ index-fasta: $(FASTA_INDICES);
 index-gff: $(GFF_INDICES);
 
 
-$(addsuffix /dl_list,$(DATADIRS)): %dl_list: %config.yml
+$(addsuffix /dl_list,$(DATADIRS)): %/dl_list: %/config.yml
+	@echo "Caching download targets for $*"; \
 	scripts/list_download_targets.sh $< > $@
 
 
@@ -107,9 +109,10 @@ $(filter %.fna.bgz,$(LOCAL_FILES)): %.fna.bgz: %.fna.gz
 $(filter %.gff.bgz,$(LOCAL_FILES)): %.gff.bgz: %.gff.gz
 	$(SHELL) -o pipefail -c "zcat < $< | grep -v \"^#\" | sort -t$$'\t' -k1,1 -k4,4n | bgzip > $@"
 
-# Target foo/bar.gff.gz should depend on foo/dl_list. Secondary
-# expansion is used to extract the directory part of the prerequisite.
+# Target foo/bar.gff.gz depends on foo/dl_list. Secondary expansion is
+# used to extract the directory part of the target.
 .SECONDEXPANSION:
 $(DOWNLOAD_LIST): $$(dir $$@)dl_list
-	@URL=$$(grep "$(@F)" "$(@D)/dl_list" | cut -d, -f2); \
-	curl --output $@ "$$URL"
+	@TARGET=$$(grep "$@" "$<"); \
+	echo "Downloading $${TARGET%,*} ..."; \
+	curl -# -L --output $@ "$${TARGET#*,}"
