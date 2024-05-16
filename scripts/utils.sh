@@ -6,6 +6,7 @@ chrom_names() {
     sed -n 's/>\([A-Za-z0-9._]\+\).*/\1/p' "$1"
 }
 
+
 std_extension() {
     for name in "$@";
     do
@@ -16,4 +17,11 @@ std_extension() {
 		echo $name ;;
 	esac
     done
+}
+
+
+extract_urls() {
+    # Extract URL and optional file name for the assembly and every
+    # track in configuration file (or standard input if argument is '-')
+    yq '(.assembly, .tracks[]) | [.url, .fileName // ""] | join(";")' "$1"
 }

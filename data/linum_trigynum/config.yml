@@ -8,3 +8,4 @@ tracks:
   - name: "Protein coding genes"
   # Note: this annotation file is compressed with zip, not gzip
     url: "https://figshare.scilifelab.se/ndownloader/files/44990356"
+    fileName: "Ltrigynum_v1_genes.gtf.zip"
