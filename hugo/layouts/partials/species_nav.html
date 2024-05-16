@@ -6,9 +6,9 @@
         {{ $indexPage := .CurrentSection }}
 
         {{ if eq .Page $indexPage }}
-            <a class="nav-link active" href="{{ $indexPage.RelPermalink }}"> Introduction </a>
+            <a class="nav-link active" href="{{ $indexPage.RelPermalink }}"> Description </a>
         {{ else }}
-            <a class="nav-link" href="{{ $indexPage.RelPermalink }}"> Introduction </a>
+            <a class="nav-link" href="{{ $indexPage.RelPermalink }}"> Description </a>
         {{ end }}
 
     </li>

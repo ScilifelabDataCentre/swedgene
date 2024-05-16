@@ -8,23 +8,72 @@
 {{ $stats_file := (split .Params.stats_data_path "/") }}
 {{ $stats_contents := index .Site.Data $stats_file }}
 
+<!-- Get links to ENA and NCBI for the species -->
+{{ $lineage_file := (split .Params.lineage_data_path "/") }}
+{{ $lineage_dict := index .Site.Data $lineage_file }}
 
-<div class="container">
+{{ $species_dict := index $lineage_dict "Species" }}
+{{ $ena_link := index $species_dict "ena_link" }}
+{{ $ncbi_link := index $species_dict "ncbi_link" }}
+
+
+
+<!-- break down content into 2 parts based on divider ... -->
+{{ $content := split .Content "|||||| Content divider - do not remove ||||||" }}
+{{ $contentp1 := index $content 0 }}
+{{ $contentp2 := index $content 1 }}
+
+
+
+
+<div class="container mt-3">
+
+    <div class="row align-items-center">
+        <div class="col-md scilife-subsection">
+            <h3>Description</h3>
+            <ul>
+                {{ range .Params.key_info }}
+                    {{ range $key, $value := . }}
+                        <li><strong>{{ $key }}:</strong> {{ $value }}</li>
+                    {{ end }}
+                {{ end }}
+            </ul>
+        </div>
+        <div class="col-md scilife-subsection text-end">
+            <div class="mb-3">
+                <a href="{{ $ena_link }}" target="_blank">
+                    <button class="btn btn-lg">
+                        Read more at the ENA <i class="bi bi-arrow-right"></i>
+                    </button>
+                </a>
+            </div>
+            <div>
+                <a href="{{ $ncbi_link }}" target="_blank">
+                    <button class="btn btn-lg">
+                        Read more at the NCBI <i class="bi bi-arrow-right"></i>
+                    </button>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+
     <div class="row">
-        <div class="col">
-            {{ .Content }}
+        <div class="col scilife-subsection">
+            {{ $contentp1 | safeHTML }}
         </div>
     </div>
 
     <div class="row">
 
-    <!-- assembly data table -->
-        <div class="col">
-            <h2>Assembly Data</h2>
+        <!-- assembly data table -->
+        <div class="col scilife-subsection">
+            <h3>Assembly Statistics</h3>
 
         {{ if .Params.stats_data_path }}
             <div class="table-responsive">
-                <table id="assemblyTable" class="table table-hover table-bordered" width="100%">
+                <table id="assemblyTable" class="table table-hover table-bordered">
 
                 <thead class="table-light">
                     <tr>
@@ -46,24 +95,18 @@
 
                 </table>
             </div>
-        </div>
-
         {{ else }}
             <p> No assembly data has been provided for this species </p>
         {{ end }}
+        </div>
 
-    </div>
-
-
-    <!-- annotation data table -->
-    <div class="row">
-
-        <div class="col">
-            <h2>Annotation Data</h2>
+        <!-- annotation data table -->
+        <div class="col scilife-subsection">
+            <h3> Annotation Statistics</h3>
 
         {{ if .Params.stats_data_path }}
             <div class="table-responsive">
-                <table id="annotationTable" class="table table-hover table-bordered" width="100%">
+                <table id="annotationTable" class="table table-hover table-bordered">
 
                 <thead class="table-light">
                     <tr>
@@ -85,17 +128,26 @@
 
                 </table>
             </div>
-        </div>
-
         {{ else }}
             <p> No annotation data has been provided for this species </p>
         {{ end }}
+        </div>
 
     </div>
-
-
-
 </div>
+
+
+<div class="row">
+    <div class="col scilife-subsection">
+        {{ $contentp2 | safeHTML }}
+    </div>
+</div>
+
+{{ partial "last_updated.html" . }}
+
+{{ end }}
+
+{{ define "scripts" }}
 
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha384-wsqsSADZR1YRBEZ4/kKHNSmU+aX8ojbnKUMN4RyD3jDkxw5mHtoe2z/T/n4l56U/" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/2.0.2/css/dataTables.dataTables.css" integrity="sha384-zxIWrl6qlRc1gf8mdRhQEZUap0s1QKZYh7n91f2nDSoExwY+xIrewx7nOxbdsIkB" crossorigin="anonymous">
@@ -117,7 +169,5 @@
     });
     } );
 </script>
-
-
 
 {{ end }}

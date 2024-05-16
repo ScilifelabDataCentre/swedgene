@@ -4,7 +4,7 @@
 
 {{ partial "species_nav.html" . }}
 
-<div class="container">
+<div class="container mt-3">
     <div class="row">
         <div class="col">
             {{ .Content }}
@@ -17,5 +17,6 @@
     </div>
 </div>
 
+{{ partial "last_updated.html" . }}
 
 {{ end }}

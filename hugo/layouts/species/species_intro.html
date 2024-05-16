@@ -4,33 +4,51 @@
 
 {{ partial "species_nav.html" . }}
 
-<div class="container">
+
+<div class="container mt-3">
+
+    <!-- species pic and distribution map -->
     <div class="row">
-        <div class="col">
-            {{ .Content }}
+        <div class="col-lg-6 col-sm-12">
+            <figure>
+                <img src="{{ .Params.cover_image }}" class="card-img-top" alt="Image of {{ .Title }}">
+                <a href="{{ .Params.img_attrib_link }}" title="Go to the image source" target="_blank">
+                    <figcaption class="scilife-card-image-attrib"> {{ .Params.img_attrib_text }} </figcaption>
+                </a>
+            </figure>
+        </div>
+
+        <div class="col-lg-6 col-sm-12">
+            <figure>
+                <img src="{{ .Params.cover_image }}" class="card-img-top" alt="Image of {{ .Title }}">
+                <a href="{{ .Params.img_attrib_link }}" title="Go to the image source" target="_blank">
+                    <figcaption class="scilife-card-image-attrib"> {{ .Params.img_attrib_text }} </figcaption>
+                </a>
+            </figure>
         </div>
     </div>
-    <!-- Lineage Info -->
-    <div class="row">
-        <div class="col">
-            <h2>Taxonomy</h2>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            {{ if .Params.lineage_data_path }}
-                {{ $lineage_file := (split .Params.lineage_data_path "/") }}
-                {{ $unsorted_dict := index .Site.Data $lineage_file }}
 
-                <!-- have to convert to slice to sort by key -->
-                {{ $lineage_slice := slice }}
-                {{ range $rank, $value := $unsorted_dict }}
-                    {{ $lineage_slice = $lineage_slice | append (dict "rank" $rank "value" $value) }}
-                {{ end }}
-                {{ $sorted_lineage := sort $lineage_slice "value.display_order" "desc" }}
 
-                {{ range $rank, $item := $sorted_lineage }}
-                    <p>
+    <div class="row mt-3">
+
+        <!-- Lineage Info -->
+        <div class="col-lg-4 col-md-12 scilife-subsection">
+            <h3>Taxonomy</h3>
+
+            {{ $lineage_file := (split .Params.lineage_data_path "/") }}
+            {{ $unsorted_dict := index .Site.Data $lineage_file }}
+
+            <!-- have to convert to slice to sort by key -->
+            {{ $lineage_slice := slice }}
+            {{ range $rank, $value := $unsorted_dict }}
+                {{ $lineage_slice = $lineage_slice | append (dict "rank" $rank "value" $value) }}
+            {{ end }}
+            {{ $sorted_lineage := sort $lineage_slice "value.display_order" "desc" }}
+
+
+            {{ range $rank, $item := $sorted_lineage }}
+                <div class="row pb-1">
+                    <div class="col-12">
                         {{ if eq $item.rank "Superkingdom" }}
                             <b>Domain:</b>
                         {{ else }}
@@ -38,16 +56,92 @@
                         {{ end }}
 
                         <a href="{{ $item.value.ena_link }}" target="_blank">{{ $item.value.science_name }}</a>
+                    </div>
+                    <!-- Force next columns to break to new line -->
+                    <div class="w-100"></div>
+                </div>
+            {{ end }}
 
-                    </p>
+                <div class="row pb-1 mb-3">
+                    <div class="col-12">
+                        <b>NCBI Taxonomy ID:</b>
+
+                        {{ $species_dict := index $unsorted_dict "Species" }}
+                        {{ $tax_id := index $species_dict "tax_id" }}
+                        {{ $ncbi_link := index $species_dict "ncbi_link" }}
+                        <a href="{{ $ncbi_link }}" target="_blank">
+                            {{$tax_id}}
+                        </a>
+                    </div>
+                </div>
+        </div>
+
+        <div class="col scilife-subsection">
+            {{ if or .Params.iucn_category .Params.swe_red_list }}
+                <h3>Vulnerability</h3>
+                <p>
+                    {{ if .Params.iucn_category }}
+                        <b>IUCN Category:</b>
+                        <a href="{{ .Params.iucn_link }}" target="_blank">{{ .Params.iucn_category }}</a>
+                        <br>
+                    {{ end }}
+
+                    {{ if .Params.swe_red_list }}
+                        <b>Swedish Red List:</b>
+                        <a href="{{ .Params.swe_red_list_link }}" target="_blank">{{ .Params.swe_red_list }}</a>
+                        <br>
+                    {{ end }}
+                </p>
+            {{ end }}
+
+
+            <h3>External links</h3>
+
+            <div class="d-grid gap-2 d-md-flex">
+                <a href="TODO" target="_blank">
+                    <button class="scilife-external-btn btn btn-lg">
+                        <img src="/img/icons/bio_eco.svg" alt="Icon that looks like a plant">
+                        <br>
+                        Biology and Ecology
+                    </button>
+                </a>
+
+                {{ if .Params.gbif_taxon_id }}
+                    <a href="https://species.biodiversitydata.se/species/{{ .Params.gbif_taxon_id }}" target="_blank">
+                        <button class="scilife-external-btn btn btn-lg">
+                            <i class="bi bi-geo-alt" style="font-size: 1.2rem"></i>
+                            <br>
+                            Occurrence data in SBDI
+                        </button>
+                    </a>
+
+                    <a href="https://www.gbif.org/species/{{ .Params.gbif_taxon_id }}" target="_blank">
+                        <button class="scilife-external-btn btn btn-lg">
+                            <i class="bi bi-geo-alt" style="font-size: 1.2rem"></i>
+                            <br>
+                            Occurrence data in GBIF
+                        </button>
+                    </a>
+
                 {{ end }}
 
-            {{ else }}
-                <p> No lineage data has been provided for this species </p>
-            {{ end }}
+            </div>
+
+    </div>
+
+
+
+    <div class="row">
+
+    </div>
+
+    <div class="row">
+        <div class="col scilife-subsection mt-3">
+            {{ .Content }}
         </div>
     </div>
+
+    {{ partial "last_updated.html" . }}
+
 </div>
-
-
 {{ end }}

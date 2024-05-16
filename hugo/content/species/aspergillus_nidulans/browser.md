@@ -1,8 +1,9 @@
 ---
 title: "Browser"
 layout: "species_browser"
-weight: 2
+weight: 3
 
+config_file: "aspergillus_nidulans/config.json"
 jbrowse: true
 ---
 
