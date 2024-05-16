@@ -48,27 +48,24 @@
 
             {{ range $rank, $item := $sorted_lineage }}
                 <div class="row pb-1">
-                    <div class="col-12 col-sm-4">
+                    <div class="col-12">
                         {{ if eq $item.rank "Superkingdom" }}
                             <b>Domain:</b>
                         {{ else }}
                             <b>{{ $item.rank }}:</b>
                         {{ end }}
-                    </div>
-                    <div class="col-12 col-sm-8 text-end">
+
                         <a href="{{ $item.value.ena_link }}" target="_blank">{{ $item.value.science_name }}</a>
                     </div>
-
                     <!-- Force next columns to break to new line -->
                     <div class="w-100"></div>
                 </div>
             {{ end }}
 
-                <div class="row pb-1 mt-3">
-                    <div class="col-12 col-sm-8">
+                <div class="row pb-1 mb-3">
+                    <div class="col-12">
                         <b>NCBI Taxonomy ID:</b>
-                    </div>
-                    <div class="col-12 col-sm-4 text-end">
+
                         {{ $species_dict := index $unsorted_dict "Species" }}
                         {{ $tax_id := index $species_dict "tax_id" }}
                         {{ $ncbi_link := index $species_dict "ncbi_link" }}
@@ -76,9 +73,7 @@
                             {{$tax_id}}
                         </a>
                     </div>
-
                 </div>
-
         </div>
 
         <div class="col scilife-subsection">
