@@ -17,6 +17,13 @@
     </div>
 </div>
 
+
+{{ if $.Params.jbrowse }}
+    <div id="jbrowse_app"></div>
+    <script type="module" src="/js/genomeView.js"></script>
+{{ end }}
+
+
 {{ partial "last_updated.html" . }}
 
 {{ end }}
