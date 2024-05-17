@@ -3,8 +3,8 @@
 BASE_DIR="$(git rev-parse --show-toplevel)"
 source "$BASE_DIR"/scripts/utils.sh
 
-YAML="$1"
-DIR="$(dirname "$YAML")"
+CONFIG="$1"
+DIR="${CONFIG%/*}"
 TARGET="$DIR/config.json"
 JBROWSE_ARGS=(--force --target="$TARGET")
 
@@ -13,20 +13,23 @@ ensure_local() {
     # when it is found in DIR.
     #
     # Usage :
-    #    ensure_local DIR URL ARGS_REF
+    #    ensure_local URL FILENAME ARGS_REF
     #
     # ARGS_REF is the name of the array variable provided by the
     # caller to hold file-related arguments expected by JBrowse.
+    URL="$1"
+    FILENAME="$2"
     local -n args_ref="$3"
-    LOCAL_FILE="$(std_extension $1/${2##*/})"
+    # Use explicit filename if provided, otherwise the file part of the URL
+    LOCAL_FILE="$(std_extension ${FILENAME:-${URL##*/}})"
 
     # Block gzip files are saved locally with the explicit .bgz extension
     if [[ "$LOCAL_FILE" =~ .gz$ ]]; then
 	LOCAL_FILE="${LOCAL_FILE/.gz/.bgz}"
     fi
-    if ! [[ -e "$LOCAL_FILE" ]]; then
-	args_ref=("$2")
-	>&2 echo "Using remote file $2"
+    if ! [[ -e "$DIR/$LOCAL_FILE" ]]; then
+	args_ref=("$URL")
+	>&2 echo "Using remote file $URL"
 	return
     fi
     >&2 echo "Using local file $LOCAL_FILE"
@@ -38,22 +41,21 @@ ensure_local() {
 	*.2bit)
 	    args_ref+=(--type=twoBit);;
     esac
-    # Strip the directory part, as file paths are relative to `config.json`
-    args_ref+=("${LOCAL_FILE##*/}")
+    args_ref+=("$LOCAL_FILE")
 }
 
 
 add_assemblies() {
     local -a file_args
-    while IFS=';' read -r url name aliases; do
+    while IFS=';' read -r url name aliases filename; do
 	args=(--name="$name")
 	if [[ -n "$aliases" ]]; then
 	    args+=(--refNameAliases="$aliases")
 	fi
 	file_args=()
-	ensure_local "$DIR" "$url" file_args
+	ensure_local "$url" "$filename" file_args
 	jbrowse add-assembly "${JBROWSE_ARGS[@]}" "${args[@]}" "${file_args[@]}"
-    done
+    done < <(yq '.assembly | [.url, .name, .aliases // "", .fileName // ""] | join(";")' "$1")
 }
 
 add_tracks () {
@@ -61,11 +63,11 @@ add_tracks () {
     # jbrowse add-track expects target to exist, unlike add-assembly
     # See: https://github.com/GMOD/jbrowse-components/issues/4334
     [[ -e "$TARGET" ]] || echo '{}' > "$TARGET"
-    while IFS=';' read -r url name; do
+    while IFS=';' read -r url name filename; do
 	file_args=()
-	ensure_local "$DIR" "$url" file_args
+	ensure_local "$url" "$filename" file_args
 	jbrowse add-track "${JBROWSE_ARGS[@]}" --name="$name"  "${file_args[@]}"
-    done
+    done < <(yq '.tracks[] | [.url, .name, .fileName // ""] | join(";")' "$1")
 }
 
 add_hubs () {
@@ -75,25 +77,16 @@ add_hubs () {
 	then
 	    jbrowse add-connection "${JBROWSE_ARGS[@]}" --name="$name" --connectionId="${name// /_}" "$url"
 	fi
-    done
-}
-
-generate_assembly_config () {
-    yq '.assembly | [.url, .name, .aliases // ""] | join(";")' "$YAML" | add_assemblies
-}
-
-generate_tracks_config() {
-    yq '.tracks[] | [.url, .name] | join(";")' "$YAML" | add_tracks
-}
-
-generate_hubs_config() {
-    yq '.hubs[] | [.url, .name] | join(";")' "$YAML" | add_hubs
+    done < <(yq '.hubs[] | [.url, .name] | join(";")' "$1")
 }
 
 main () {
-    generate_assembly_config
-    generate_tracks_config
-    generate_hubs_config
+    add_assemblies "$1"
+    add_tracks "$1"
+    add_hubs "$1"
 }
 
-main 2>&1 | grep -v 'node'
+if [[ ${BASH_SOURCE[0]} == $0 ]];
+then
+   [[ -f "$CONFIG" ]] && { main "$CONFIG" |& grep -v 'node'; } || echo "Non existing file: $CONFIG"
+fi
