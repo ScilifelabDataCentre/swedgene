@@ -3,7 +3,7 @@ title: "Browser"
 layout: "species_browser"
 weight: 3
 
-config_file: "linum_tenue/config.json"
+config_file: "/data/linum_tenue/config.json"
 jbrowse: true
 ---
 

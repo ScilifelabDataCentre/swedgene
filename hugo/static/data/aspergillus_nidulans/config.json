@@ -8,15 +8,15 @@
         "adapter": {
           "type": "BgzipFastaAdapter",
           "fastaLocation": {
-            "uri": "GCF_000011425.1_ASM1142v1_genomic.fna.bgz",
+            "uri": "/data/aspergillus_nidulans/GCF_000011425.1_ASM1142v1_genomic.fna.bgz",
             "locationType": "UriLocation"
           },
           "faiLocation": {
-            "uri": "GCF_000011425.1_ASM1142v1_genomic.fna.bgz.fai",
+            "uri": "/data/aspergillus_nidulans/GCF_000011425.1_ASM1142v1_genomic.fna.bgz.fai",
             "locationType": "UriLocation"
           },
           "gziLocation": {
-            "uri": "GCF_000011425.1_ASM1142v1_genomic.fna.bgz.gzi",
+            "uri": "/data/aspergillus_nidulans/GCF_000011425.1_ASM1142v1_genomic.fna.bgz.gzi",
             "locationType": "UriLocation"
           }
         }
@@ -55,12 +55,12 @@
       "adapter": {
         "type": "Gff3TabixAdapter",
         "gffGzLocation": {
-          "uri": "GCF_000011425.1_ASM1142v1_genomic.gff.bgz",
+          "uri": "/data/aspergillus_nidulans/GCF_000011425.1_ASM1142v1_genomic.gff.bgz",
           "locationType": "UriLocation"
         },
         "index": {
           "location": {
-            "uri": "GCF_000011425.1_ASM1142v1_genomic.gff.bgz.tbi",
+            "uri": "/data/aspergillus_nidulans/GCF_000011425.1_ASM1142v1_genomic.gff.bgz.tbi",
             "locationType": "UriLocation"
           },
           "indexType": "TBI"

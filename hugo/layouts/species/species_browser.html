@@ -18,8 +18,9 @@
 </div>
 
 
-{{ if $.Params.jbrowse }}
-    <div id="jbrowse_app"></div>
+{{ if .Params.jbrowse }}
+    <!-- this get the config file path from the browser.md file for each species -->
+    <div id="jbrowse_app" data-config-file-path="{{ .Params.config_file }}"></div>
     <script type="module" src="/js/genomeView.js"></script>
 {{ end }}
 
