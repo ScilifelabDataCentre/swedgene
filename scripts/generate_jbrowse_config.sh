@@ -41,7 +41,7 @@ ensure_local() {
 	*.2bit)
 	    args_ref+=(--type=twoBit);;
     esac
-    args_ref+=("$LOCAL_FILE")
+    args_ref+=("/$DIR/$LOCAL_FILE")
 }
 
 
