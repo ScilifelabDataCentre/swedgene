@@ -25,3 +25,7 @@ __pycache__/
 
 # vscode
 .vscode/
+
+# make
+.downloads
+targets.mk
