@@ -38,12 +38,12 @@
       "adapter": {
         "type": "Gff3TabixAdapter",
         "gffGzLocation": {
-          "uri": "/data/clupea_harengus/GCF_900700415.2_Ch_v2.0.2_genomic.gff.bgz",
+          "uri": "GCF_900700415.2_Ch_v2.0.2_genomic.gff.bgz",
           "locationType": "UriLocation"
         },
         "index": {
           "location": {
-            "uri": "/data/clupea_harengus/GCF_900700415.2_Ch_v2.0.2_genomic.gff.bgz.tbi",
+            "uri": "GCF_900700415.2_Ch_v2.0.2_genomic.gff.bgz.tbi",
             "locationType": "UriLocation"
           },
           "indexType": "TBI"
