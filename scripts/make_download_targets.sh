@@ -8,6 +8,8 @@ MAKEFILE="$BASE_DIR/targets.mk"
 DOWNLOAD_EXTENSIONS=(".fna" ".gff")
 
 _extract_urls() {
+    # Extract URL and optional file name for the assembly and every
+    # track in configuration files given as arguments
     yq --no-doc '(.assembly, .tracks[]) | [.url, .fileName // "", fileName] | join(";")' "$@"
 }
 

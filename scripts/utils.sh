@@ -18,10 +18,3 @@ std_extension() {
 	esac
     done
 }
-
-
-extract_urls() {
-    # Extract URL and optional file name for the assembly and every
-    # track in configuration file (or standard input if argument is '-')
-    yq '(.assembly, .tracks[]) | [.url, .fileName // ""] | join(";")' "$1"
-}
