@@ -1,8 +1,9 @@
 .#*
 \#*
 
-/data/**/*gff*
-/data/**/*fna*
+/data/**/*.gz*
+/data/**/*.bgz*
+/data/**/*.zip*
 /data/**/config.json
 dl_list
 
