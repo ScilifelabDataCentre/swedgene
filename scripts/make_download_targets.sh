@@ -21,7 +21,7 @@ _should_download () {
 
 mkdir -p "$CACHE_DIR"
 
-printf 'define DOWNLOAD_TARGETS\n' > "$MAKEFILE"
+printf 'DOWNLOAD_TARGETS = ' > "$MAKEFILE"
 
 while IFS=";" read url target config;
 do
@@ -32,12 +32,10 @@ do
     fi
     target_path="$dir/$(std_extension $target)"
     _should_download $target_path || continue
-    printf "$target_path\n" | tee -a "$MAKEFILE"
+    printf "$target_path " | tee -a "$MAKEFILE"
     if [[ ! -e  "$CACHE_DIR/$target_path" || ! ( "$(< $CACHE_DIR/$target_path)" == $url ) ]];
     then
 	mkdir -p "$CACHE_DIR/${target_path%/*}"
 	printf "$url" > "$CACHE_DIR/$target_path"
     fi
-done < <(_extract_urls data/**/config.yml)
-
-printf 'endef\n' >> "$MAKEFILE"
+done < <(_extract_urls "$@")

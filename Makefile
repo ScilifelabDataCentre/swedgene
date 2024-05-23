@@ -2,10 +2,13 @@ SHELL=/bin/bash
 # Disable builtin implicit rules
 MAKEFLAGS += -r
 
+# Defines the DOWNLOAD_TARGETS variable
+include targets.mk
+
 DATADIRS = $(shell find data -type d -execdir test -e '{}'/config.yml ';' -print)
-CONFIGS = $(addsuffix /config.json, $(DATADIRS))
-DOWNLOAD_LIST = $(shell ./scripts/list_all_download_targets.sh $(DATADIRS) | cut -d"," -f1)
-LOCAL_FILES = $(DOWNLOAD_LIST:.gz=.bgz)
+CONFIGS = $(addsuffix /config.yml, $(DATADIRS))
+JBROWSE_CONFIGS = $(addsuffix /config.json, $(DATADIRS))
+LOCAL_FILES = $(DOWNLOAD_TARGETS:.gz=.bgz)
 FASTA_INDICES = $(addsuffix .fai,$(filter %.fna.bgz,$(LOCAL_FILES)))
 FASTA_GZINDICES=$(FASTA_INDICES:.fai=.gzi)
 GFF_INDICES = $(addsuffix .tbi,$(filter %.gff.bgz,$(LOCAL_FILES)))
@@ -30,25 +33,24 @@ all: build install
 .PHONY: build
 build: download index-gff index-fasta jbrowse-config
 
-
 .PHONY: debug
 debug:
+	$(info Restarts : $(MAKE_RESTARTS))
 	$(info Data directories : $(DATADIRS))
-	$(info Target configuration files: $(CONFIGS))
-	$(info Files to download : $(DOWNLOAD_LIST))
-	$(info Compressed Local files : $(LOCAL_FILES))
+	$(info Target configuration files: $(JBROWSE_CONFIGS))
+	$(info Files to download : $(DOWNLOAD_TARGETS))
+	$(info Compressed local files : $(LOCAL_FILES))
 	$(info FASTA indices : $(FASTA_INDICES) $(FASTA_GZINDICES))
 	$(info GFF indices : $(FASTA_INDICES))
 
-
 .PHONY: jbrowse-config
-jbrowse-config: $(CONFIGS);
+jbrowse-config: $(JBROWSE_CONFIGS);
 	$(call log_info,'Generated JBrowse configuration in directories')
 	@printf "  \U1F4C1 %s\n" $(DATADIRS)
 
 
 .PHONY: download
-download: $(DOWNLOAD_LIST)
+download: $(DOWNLOAD_TARGETS)
 	$(call log_info,'Downloaded data files')
 	@printf "  - %s\n" $?
 
@@ -56,13 +58,13 @@ download: $(DOWNLOAD_LIST)
 # Remove downloaded copies of remote files
 .PHONY: clean-upstream
 clean-upstream:
-	rm -f $(DOWNLOAD_LIST)
+	rm -f $(DOWNLOAD_TARGETS)
 	rm -f $(addsuffix /dl_list,$(DATADIRS))
 
 # Remove JBrowse configuration files
 .PHONY: clean-config
 clean-config:
-	rm -f $(CONFIGS)
+	rm -f $(JBROWSE_CONFIGS)
 
 # Remove built data files
 .PHONY: clean-local
@@ -81,7 +83,7 @@ compress: $(LOCAL_FILES);
 # Copy data and configuration to hugo static folder
 .PHONY: install
 install:
-	cp --parents -t hugo/static/ $(LOCAL_FILES) $(GFF_INDICES) $(FASTA_INDICES) $(CONFIGS)
+	cp --parents -t hugo/static/ $(LOCAL_FILES) $(GFF_INDICES) $(FASTA_INDICES) $(JBROWSE_CONFIGS)
 
 
 # Remove JBrowse data and configuration from hugo static folder
@@ -104,13 +106,16 @@ ifneq ($(GFF_INDICES),)
 	@printf '  - %s\n' $(GFF_INDICES)
 endif
 
+targets.mk: $(CONFIGS)
+	$(SHELL) scripts/make_download_targets.sh $^ > /dev/null
+
 $(addsuffix /dl_list,$(DATADIRS)): %/dl_list: %/config.yml
 	$(call log_info,"Download targets for $*"); \
 	scripts/list_download_targets.sh $< > $@
 	@cat $@ | cut -d, -f1 | xargs printf '  - %s\n'
 
 
-$(CONFIGS): %config.json: %config.yml
+$(JBROWSE_CONFIGS): %config.json: %config.yml
 	@$(SHELL) scripts/generate_jbrowse_config.sh $<
 
 
@@ -129,10 +134,6 @@ $(filter %.fna.bgz,$(LOCAL_FILES)): %.fna.bgz: %.fna.gz
 $(filter %.gff.bgz,$(LOCAL_FILES)): %.gff.bgz: %.gff.gz
 	@$(SHELL) -o pipefail -c "zcat < $< | grep -v \"^#\" | sort -t$$'\t' -k1,1 -k4,4n | bgzip > $@"
 
-# Target foo/bar.gff.gz depends on foo/dl_list. Secondary expansion is
-# used to extract the directory part of the target.
-.SECONDEXPANSION:
-$(DOWNLOAD_LIST): $$(dir $$@)dl_list
-	@TARGET=$$(grep "$@" "$<"); \
-	echo "Downloading $${TARGET%,*} ..."; \
-	curl -# -L --output $@ "$${TARGET#*,}"
+$(DOWNLOAD_TARGETS): %: .downloads/%
+	@echo "Downloading $@ ..."; \
+	curl -# -L --output $@ "$$(< $<)"
