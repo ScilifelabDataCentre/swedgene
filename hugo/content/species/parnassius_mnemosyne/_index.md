@@ -31,9 +31,9 @@ tags:
 
 ### Description
 
-The Clouded Apollo (*Parnassius mnemosyne*) is a swallowtail butterfly found in a geographical span from western Europe to central Asia (Talla et al., 2023). It has white wings with two black spots on each fore-wing and a wing span of 55–68 mm. It is classified as an endangered species in Sweden since year 2000 (SLU Artdatabanken, 2024). Globally, the population is decreasing, and the species is now mainly found in small, fragmented local populations (Nadler, J. et al., 2021; Westin et al., 2018). Historically, the distribution of the Clouded Apollo was continuous across southern Sweden, but it is today only found in three regions: Blekinge, Roslagen, and Västernorrland (SLU Artdatabanken, 2024). A likely reason for the decline is the loss of suitable habitats due to changes in human agricultural activities. These include meadows and semi-natural grasslands with access to the host plants Corydalis sp. (Johansson et al., 2017). 
+The Clouded Apollo (*Parnassius mnemosyne*) is a swallowtail butterfly found in a geographical span from western Europe to central Asia (Talla et al., 2023). It has white wings with two black spots on each fore-wing and a wing span of 55–68 mm. It is classified as an endangered species in Sweden since year 2000 (SLU Artdatabanken, 2024). Globally, the population is decreasing, and the species is now mainly found in small, fragmented local populations (Nadler, J. et al., 2021; Westin et al., 2018). Historically, the distribution of the Clouded Apollo was continuous across southern Sweden, but it is today only found in three regions: Blekinge, Roslagen, and Västernorrland (SLU Artdatabanken, 2024). A likely reason for the decline is the loss of suitable habitats due to changes in human agricultural activities. These include meadows and semi-natural grasslands with access to the host plants Corydalis sp. (Johansson et al., 2017).
 
-The genome assembly hosted in the portal was generated in a study by Höglund et al. (2024) as a pilot project of the European Reference Genome Atlas (ERGA). The samples used in the study came from a captive population that was founded as part of a conservation effort by Nordens Ark (Höglund et al., 2024; Nordens Ark, 2024). 
+The genome assembly hosted in the portal was generated in a study by Höglund et al. (2024) as a pilot project of the European Reference Genome Atlas (ERGA). The samples used in the study came from a captive population that was founded as part of a conservation effort by Nordens Ark (Höglund et al., 2024; Nordens Ark, 2024).
 
 #### Genome reference
 
@@ -51,6 +51,6 @@ If you use the data presented in the genome portal from this species in your res
 
 - SLU Artdatabanken. (2024). Artfakta: *Parnassius mnemosyne*. <https://artfakta.se/taxa/parnassius-mnemosyne-101510>
 
-- Talla, V., Mrazek, V., Höglund, J., & Backström, N. (2023). Whole genome re-sequencing uncovers significant population structure and low genetic diversity in the endangered clouded apollo (*Parnasssius mnemosyne*) in Sweden. Conservation Genetics, 24(3), 305–314. <https://doi.org/10.1007/s10592-023-01502-9> 
+- Talla, V., Mrazek, V., Höglund, J., & Backström, N. (2023). Whole genome re-sequencing uncovers significant population structure and low genetic diversity in the endangered clouded apollo (*Parnasssius mnemosyne*) in Sweden. Conservation Genetics, 24(3), 305–314. <https://doi.org/10.1007/s10592-023-01502-9>
 
 - Westin, A., Lennartsson, T., & Björklund, J.-O. (2018). The historical ecology approach in species conservation – Identifying suitable habitat management for the endangered clouded Apollo butterfly (*Parnassius mnemosyne* L.) in Sweden. AIMS Environmental Science, 5(4), 244–272. <https://doi.org/10.3934/environsci.2018.4.244>
