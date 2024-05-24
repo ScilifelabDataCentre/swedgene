@@ -54,8 +54,11 @@
                         {{ else }}
                             <b>{{ $item.rank }}:</b>
                         {{ end }}
-
-                        <a href="{{ $item.value.ena_link }}" target="_blank">{{ $item.value.science_name }}</a>
+                        {{if or (eq $item.rank "Genus") (eq $item.rank "Species") }}
+                            <a href="{{ $item.value.ena_link }}" target="_blank"><i>{{ $item.value.science_name }}</i></a>
+                        {{ else }}
+                             <a href="{{ $item.value.ena_link }}" target="_blank">{{ $item.value.science_name }}</a>
+                        {{ end }}
                     </div>
                     <!-- Force next columns to break to new line -->
                     <div class="w-100"></div>
