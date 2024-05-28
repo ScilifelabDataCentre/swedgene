@@ -3,7 +3,7 @@ title: "Browser"
 layout: "species_browser"
 weight: 3
 
-config_file: "parnassius_mnemosyne/config.json"
+config_file: "/data/parnassius_mnemosyne/config.json"
 jbrowse: true
 ---
 
