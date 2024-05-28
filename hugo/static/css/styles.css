@@ -181,12 +181,18 @@ body {
 }
 
 .scilife-subsection .btn {
-  background-color: var(--scilife-grape);
-  border-color: var(--scilife-grape);
+  background-color: var(--scilife-teal);
+  border-color: var(--scilife-teal);
   color: white;
   font-size: 1.125rem;
   font-weight: 700;
   letter-spacing: 0.045rem; 
+}
+
+/* Overrides default button */
+.scilife-subsection .scilife-ncbi-ena-btn {
+  background-color: var(--scilife-grape);
+  border-color: var(--scilife-grape);
 }
 
 /* Overrides default button */
@@ -198,7 +204,6 @@ body {
   font-size: 1.125rem;
   font-weight: 700;
   letter-spacing: 0.045rem; 
-  
 }
 
 .scilife-alert {

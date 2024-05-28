@@ -4,20 +4,34 @@
     <body>
         {{- partial "navbar.html" . -}}
         {{- partial "banner.html" . -}}
-        {{- partial "breadcrumbs.html" . -}}
+
+        {{ $isGenomePage := eq .RelPermalink "/genome-browser/" }}
+        {{ if not $isGenomePage }}
+            {{- partial "breadcrumbs.html" . -}}
+        {{ end }}
+
         {{- block "header" . }}{{- end }}
         <main>
-          <div class="container" id="content">
-                  {{ if .Params.toc }}
-                          <div class="row">
-                              <div class="col-md-3 order-md-first toc small">{{- partial "toc.html" . -}}</div>
-                              <div class="col-md-9 order-md-last content" id="content">{{- block "main" . }}{{- end }}</div>
-                          </div>
-                  {{ else }}
-                          {{- block "main" . }}{{- end }}
-                  {{ end }}
-          </div>
+
+            {{ if $isGenomePage }}
+                <div class="container-fluid" id="content"> <!-- means browser can use full screen width -->
+            {{ else }}
+                <div class="container" id="content">
+            {{ end }}
+
+                {{ if .Params.toc }}
+                    <div class="row">
+                        <div class="col-md-3 order-md-first toc small">{{- partial "toc.html" . -}}</div>
+                        <div class="col-md-9 order-md-last content" id="content">{{- block "main" . }}{{- end }}</div>
+                    </div>
+                {{ else }}
+                    {{- block "main" . }}{{- end }}
+                {{ end }}
+            </div>
         </main>
-        {{- partial "footer.html" . -}}
+
+        {{ if not $isGenomePage }}
+            {{- partial "footer.html" . -}}
+        {{ end }}
     </body>
 </html>

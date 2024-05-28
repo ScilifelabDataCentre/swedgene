@@ -1,0 +1,25 @@
+<!--- builds the url with the config file for the species included -->
+{{ $configFile := "" }}
+{{ $sectionPath := "" }}
+
+{{ if .IsSection }}
+    {{ $sectionPath = .Permalink }}
+{{ else }}
+    {{ $parentPage := .Parent }}
+    {{ $sectionPath = $parentPage.Permalink }}
+{{ end }}
+
+{{ $sectionName := path.Base $sectionPath }}
+{{ $configFile = print "/data/" $sectionName "/config.json" | urlize }}
+{{ $browserURL := print .Site.BaseURL "genome-browser/?config=" $configFile }}
+
+<div class="row mt-3 mb-3">
+    <div class="col-12 scilife-subsection text-center">
+        <a href="{{ $browserURL }}" target="_blank">
+            <button class="btn btn-lg" title="open the genome browser in a new tab">
+                Browse the genome
+                <i class="bi bi-box-arrow-up-right"></i>
+            </button>
+        </a>
+    </div>
+</div>
