@@ -12,6 +12,7 @@ img_attrib_text: "Unsure"
 img_attrib_link:  TODO
 
 lineage_data_path: "linum_tenue/taxonomy"
+jbrowse_config: "/data/linum_tenue/config.json"
 
 iucn_category: "[EDIT]"
 iucn_link: "[EDIT]"

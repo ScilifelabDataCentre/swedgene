@@ -12,6 +12,7 @@ img_attrib_text: "Image source: © Rogelio Buendia"
 img_attrib_link: TODO
 
 lineage_data_path: "parnassius_mnemosyne/taxonomy"
+jbrowse_config: "/data/parnassius_mnemosyne/config.json"
 
 iucn_category: "Least concern"
 iucn_link: "https://www.iucnredlist.org/species/174210/122602056"

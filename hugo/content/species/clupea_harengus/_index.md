@@ -12,6 +12,7 @@ img_attrib_text: "Unsure"
 img_attrib_link: TODO
 
 lineage_data_path: "clupea_harengus/taxonomy"
+jbrowse_config: "/data/clupea_harengus/config.json"
 
 iucn_category: "[EDIT]"
 iucn_link: "[EDIT]"
