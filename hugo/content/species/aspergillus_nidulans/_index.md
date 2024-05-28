@@ -12,7 +12,6 @@ img_attrib_text: "[EDIT]"
 img_attrib_link: [EDIT]
 
 lineage_data_path: "aspergillus_nidulans/taxonomy"
-jbrowse_config: "/data/aspergillus_nidulans/config.json"
 
 iucn_category: "[EDIT]"
 iucn_link: "[EDIT]"

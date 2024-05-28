@@ -12,7 +12,6 @@ img_attrib_text: "Unsure"
 img_attrib_link: TODO
 
 lineage_data_path: "meganyctiphanes_norvegica/taxonomy"
-jbrowse_config: "/data/meganyctiphanes_norvegica/config.json"
 
 iucn_category: "[EDIT]"
 iucn_link: "[EDIT]"
