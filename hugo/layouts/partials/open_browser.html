@@ -1,10 +1,16 @@
+<!--- builds the url with the config file for the species included -->
 {{ $configFile := "" }}
+{{ $sectionPath := "" }}
+
 {{ if .IsSection }}
-    {{ $configFile = .Params.jbrowse_config | urlize }}
+    {{ $sectionPath = .Permalink }}
 {{ else }}
     {{ $parentPage := .Parent }}
-    {{ $configFile = $parentPage.Params.jbrowse_config | urlize }}
+    {{ $sectionPath = $parentPage.Permalink }}
 {{ end }}
+
+{{ $sectionName := path.Base $sectionPath }}
+{{ $configFile = print "/data/" $sectionName "/config.json" | urlize }}
 {{ $browserURL := print .Site.BaseURL "genome-browser/?config=" $configFile }}
 
 <div class="row mt-3 mb-3">

@@ -14,15 +14,13 @@
     </li>
     {{ range where .CurrentSection.Pages "Section" $currentSection }}
 
-        {{ if ne .Name "Browser" }}
-            <li class="nav-item">
-            {{ if eq $current_page .Page }}
-                <a class="nav-link active" href="{{ .RelPermalink }}"> {{ .Name }} </a>
-            {{ else }}
-                <a class="nav-link" href="{{ .RelPermalink }}"> {{ .Name }} </a>
-            {{ end }}
-            </li>
+        <li class="nav-item">
+        {{ if eq $current_page .Page }}
+            <a class="nav-link active" href="{{ .RelPermalink }}"> {{ .Name }} </a>
+        {{ else }}
+            <a class="nav-link" href="{{ .RelPermalink }}"> {{ .Name }} </a>
         {{ end }}
+        </li>
 
     {{ end }}
 </ul>
