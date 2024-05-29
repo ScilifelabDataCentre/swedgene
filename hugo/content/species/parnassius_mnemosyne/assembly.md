@@ -38,7 +38,7 @@ The *P. mnemosyne* genome was assembled using the PacBio HiFi and Illumina Hi-C 
 
 Repeats were identified with RepeatModeler2 (v2.0.2a; Flynn et al. 2020) and were used to soft-mask the assembly before the annotation. Gene prediction was performed using the Illumina RNAseq data, a database of Arthropod proteins, and the PacBio Iso-seq data using BRAKER (v3.03; Gabriel et al. 2023), GALBA (v1.0.6; Brůna et al. 2023), and GeneMarkS-T (v5.1; Tang et al. 2015) pipelines, respectively. The resulting gene models were combined and filtered using TSEBRA (long_reads branch: commit 1f2614; Gabriel et al. 2021) and AGAT (v1.2.0; Dainat et al. 2023) was used to remove overlapping genes. The combined gene model was functionally annotated by the NBIS nextflow pipeline. Prediction of tRNA genes was done with tRNAscan (v2.0.12; Chan et al. 2021) and nonconding RNAs with Infernal (v1.1.4; Nawrocki and Eddy 2013). The mitochondrial genome was annotated using MitoFinder (v1.4.1.; Allio et al. 2020).
 
-##### Method references
+#### Method references
 
 - Abdennur, N., Fudenberg, G., Flyamer, I. M., Galitsyna, A. A., Goloborodko, A., Imakaev, M., & Venev, S. V. (2023). Pairtools: From sequencing data to chromosome contacts. *bioRxiv*, 2023.02.13.528389. <https://doi.org/10.1101/2023.02.13.528389>
 - Allio, R., Schomaker-Bastos, A., Romiguier, J., Prosdocimi, F., Nabholz, B., & Delsuc, F. (2020). MitoFinder: Efficient automated large-scale extraction of mitogenomic data in target enrichment phylogenomics. *Molecular Ecology Resources*, *20*(4), 892–905. <https://doi.org/10.1111/1755-0998.13160>
