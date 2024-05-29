@@ -103,7 +103,7 @@
 
             <h3>External links</h3>
 
-            <div class="d-grid gap-2 d-md-flex">
+            <div class="d-grid gap-2 d-md-flex text-center text-md-left">
                 <a href="TODO" target="_blank">
                     <button class="scilife-external-btn btn btn-lg">
                         <img src="/img/icons/bio_eco.svg" alt="Icon that looks like a plant">
@@ -129,6 +129,17 @@
                         </button>
                     </a>
 
+                {{ end }}
+
+
+                {{ if .Params.goat_webpage }}
+                    <a href="{{ .Params.goat_webpage }}" target="_blank">
+                        <button class="scilife-external-btn btn btn-lg">
+                            <i class="bi bi-database" style="font-size: 1.2rem"></i>
+                            <br>
+                            Record in Genomes on a Tree (GoaT)
+                        </button>
+                    </a>
                 {{ end }}
 
             </div>

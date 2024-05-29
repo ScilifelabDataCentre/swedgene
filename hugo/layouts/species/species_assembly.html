@@ -9,12 +9,16 @@
 {{ $stats_contents := index .Site.Data $stats_file }}
 
 <!-- Get links to ENA and NCBI for the species -->
-{{ $lineage_file := (split .Params.lineage_data_path "/") }}
-{{ $lineage_dict := index .Site.Data $lineage_file }}
+{{ $.Scratch.Add "accession" "" }}
+{{ range .Params.key_info }}
+    {{ if isset . "Accession" }}
+        {{ $.Scratch.Set "accession" .Accession }}
+    {{ end }}
+{{ end }}
+{{ $accession := $.Scratch.Get "accession" }}
 
-{{ $species_dict := index $lineage_dict "Species" }}
-{{ $ena_link := index $species_dict "ena_link" }}
-{{ $ncbi_link := index $species_dict "ncbi_link" }}
+{{ $ena_link := print "https://www.ebi.ac.uk/ena/browser/view/" $accession }}
+{{ $ncbi_link := print "https://www.ncbi.nlm.nih.gov/datasets/genome/" $accession }}
 
 
 <!-- break down content into 2 parts based on divider ... -->
@@ -39,18 +43,18 @@
                 {{ end }}
             </ul>
         </div>
-        <div class="col-md scilife-subsection text-end">
+        <div class="col-md scilife-subsection text-md-center">
             <div class="mb-3">
                 <a href="{{ $ena_link }}" target="_blank">
                     <button class="btn btn-lg scilife-ncbi-ena-btn">
-                        Read more at the ENA <i class="bi bi-box-arrow-up-right"></i>
+                        Open assembly record in the ENA <i class="bi bi-box-arrow-up-right"></i>
                     </button>
                 </a>
             </div>
             <div>
                 <a href="{{ $ncbi_link }}" target="_blank">
                     <button class="btn btn-lg scilife-ncbi-ena-btn">
-                        Read more at the NCBI <i class="bi bi-box-arrow-up-right"></i>
+                        Open assembly record in NCBI <i class="bi bi-box-arrow-up-right"></i>
                     </button>
                 </a>
             </div>
