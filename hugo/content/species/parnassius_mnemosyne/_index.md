@@ -17,9 +17,9 @@ iucn_category: "Least concern"
 iucn_link: "https://www.iucnredlist.org/species/174210/122602056"
 
 swe_red_list: "Near threatened"
-swe_red_list_link: "https://artfakta.se/taxa/parnassius-apollo-101509"
 
 gbif_taxon_id: 1938520
+goat_webpage: "https://goat.genomehubs.org/record?recordId=213953&result=taxon&taxonomy=ncbi#Parnassius%20mnemosyne"
 
 summary: "Genome assembly, genome annotation and 4 data tracks."
 tags:
