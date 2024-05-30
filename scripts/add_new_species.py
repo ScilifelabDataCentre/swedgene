@@ -86,7 +86,7 @@ def add_content_files(species_name: str, content_dir_path: Path, tax_id: str) ->
             try:
                 gbif_taxon_key = get_gbif_taxon_key(species_name=species_name)
                 template = template.replace("GBIF_TAXON_ID", gbif_taxon_key)
-            except requests.exceptions.HTTPError:
+            except (requests.exceptions.HTTPError, KeyError):
                 print(
                     f"""WARNING: Failed to get GBIF key for species: {args.species_name}.
                     Not to worry,
