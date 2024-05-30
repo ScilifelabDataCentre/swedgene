@@ -1,16 +1,20 @@
 ---
+key_info:
+  - "Assembly Name": "[EDIT]"
+  - "Assembly Type": "[EDIT]"
+  - "Assembly Level": "[EDIT]"
+  - "Genome Representation": "[EDIT]"
+  - "Accession": "[EDIT]"
+
+
+# The params below were auto-generated, you should not need to edit them...
+# unless you were warned by the add-new-species.py script.
 title: "Genome assembly"
 layout: "species_assembly"
 weight: 2
 
-stats_data_path: "linum_tenue/species_stats"
-lineage_data_path: "linum_tenue/taxonomy"
-
-key_info:
-  - "Assembly Name": "[EDIT]"
-  - "Assembly Level": "[EDIT]"
-  - "Genome Representation": "[EDIT]"
-  - "Accession": "[EDIT]"
+stats_data_path: "clupea_harengus/species_stats"
+lineage_data_path: "clupea_harengus/taxonomy"
 ---
 
 ### Methods
@@ -22,7 +26,6 @@ key_info:
 ### Contributor(s)
 
 - [EDIT, Add information about provider and the research group that published the genome and data tracks]
-- [EDIT]
 
 ### Publication(s)
 
@@ -31,9 +34,7 @@ key_info:
 ### Funding
 
 - [EDIT]
-- [EDIT]
 
 ### Acknowledgements
 
-- [EDIT]
 - [EDIT]
