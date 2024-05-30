@@ -1,7 +1,7 @@
 ---
 title: "Download"
 layout: "species_download"
-weight: 4
+weight: 3
 ---
 
 ### Assembly
