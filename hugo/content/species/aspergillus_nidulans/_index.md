@@ -22,10 +22,6 @@ swe_red_list_link: "[EDIT]"
 gbif_taxon_id: "[EDIT]"
 
 summary: "[EDIT]"
-tags:
-- herring
-- fish
-- sea
 ---
 
 ### Description

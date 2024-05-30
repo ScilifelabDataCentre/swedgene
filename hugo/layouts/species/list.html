@@ -1,21 +1,9 @@
 {{ define "main" }}
 
-<!-- Find all unique tags in the child pages, can be used later for filtering -->
-{{ $tags := slice }}
-{{ range .Page.Pages }}
-{{ range .Params.tags }}
-
-{{ $tags = $tags | append . }}
-{{ end }}
-{{ end }}
-{{ $uniq_tags := $tags | uniq }}
-
-
 <!-- markdown file content here -->
 <div class="row scilife-subsection">
     {{ .Content }}
 </div>
-
 
 <!-- Search box -->
 <div class="row">
@@ -27,13 +15,12 @@
     </div>
 </div>
 
-
 <!-- Species cards -->
 <div class="row mt-2 row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4" id="card-container">
     {{ $species := .Site.GetPage "section" "Species" }}
     {{ range $species.Sections }}
     <div class="col">
-        <div class="card h-100 scilife-species-card" data-tags='{{ delimit .Params.tags "," }}'>
+        <div class="card h-100 scilife-species-card">
             <div class="card-image">
                 <figure>
                     <a href="{{ .Permalink }}" title="Go to the {{ .Title | markdownify }} page">
@@ -89,12 +76,10 @@
             const matchedCards = speciesCards.filter(function(card) {
                 const title = $(card).find('.card-title').text().toLowerCase();
                 const cardText = $(card).find('.card-text').text().toLowerCase();
-                const speciesTag = $(card).find('.scilife-species-tag').text().toLowerCase();
 
                 const matches = [
                     title.includes(searchText),
                     cardText.includes(searchText),
-                    speciesTag.includes(searchText)
                 ];
                 // true if any match
                 return matches.some(Boolean);
@@ -114,6 +99,5 @@
     }
     $("#Search").on("input", searchAndFilter);
 </script>
-
 
 {{ end }}

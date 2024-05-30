@@ -20,14 +20,9 @@ swe_red_list: "[EDIT]"
 swe_red_list_link: "[EDIT]"
 
 gbif_taxon_id: "[EDIT]"
+goat_webpage: "https://goat.genomehubs.org/record?recordId=213953&result=taxon&taxonomy=ncbi#Parnassius%20mnemosyne"
 
 summary: "Genome sequencing work on the Atlantic herring, with scientific name Clupea harengus."
-
-tags:
-- Development
-- Go
-- fast
-- Blogging
 ---
 
 ### Description

@@ -22,11 +22,6 @@ gbif_taxon_id: 1938520
 goat_webpage: "https://goat.genomehubs.org/record?recordId=213953&result=taxon&taxonomy=ncbi#Parnassius%20mnemosyne"
 
 summary: "Genome assembly, genome annotation and 4 data tracks."
-tags:
-- [EDIT]
-- [ADD]
-- [AS MANY]
-- [TAGS AS YOU WANT]
 ---
 
 ### Description

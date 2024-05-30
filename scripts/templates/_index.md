@@ -22,11 +22,6 @@ swe_red_list_link: "[EDIT]"
 gbif_taxon_id: "[EDIT]"
 
 summary: "[EDIT]"
-tags:
-- [EDIT]
-- [ADD]
-- [AS MANY]
-- [TAGS AS YOU WANT]
 ---
 
 ### Description
