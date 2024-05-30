@@ -11,20 +11,23 @@ import argparse
 import shutil
 from pathlib import Path
 
+import requests
 from get_taxonomy import EbiRestException, get_taxonomy
 
 TEMPLATE_DIR = Path(__file__).parent / "templates"
 
 INDEX_FILE = "_index.md"
-BROWSER_FILE = "browser.md"
 ASSEMBLY_FILE = "assembly.md"
 DOWNLOAD_FILE = "download.md"
-CONTENT_FILES = (INDEX_FILE, BROWSER_FILE, ASSEMBLY_FILE, DOWNLOAD_FILE)
+CONTENT_FILES = (INDEX_FILE, ASSEMBLY_FILE, DOWNLOAD_FILE)
 
 STATS_FILE = "species_stats.yml"
 DATA_FILES = (STATS_FILE,)
 
 LINEAGE_FILE = "lineage.json"
+
+
+GBIF_ENDPOINT = r"https://api.gbif.org/v1/species/match?name="
 
 
 def run_argparse() -> argparse.Namespace:
@@ -66,7 +69,7 @@ def create_dirs(dir_name: str) -> tuple[Path, Path]:
     return content_dir_path, data_dir_path
 
 
-def add_content_files(species_name: str, content_dir_path: Path) -> None:
+def add_content_files(species_name: str, content_dir_path: Path, tax_id: str) -> None:
     """
     Add the species name to the template content files,
     then write them to disk.
@@ -78,6 +81,24 @@ def add_content_files(species_name: str, content_dir_path: Path) -> None:
 
         template = template.replace("SPECIES_NAME", species_name)
         template = template.replace("SPECIES_FOLDER", dir_name)
+
+        if file_name == INDEX_FILE:
+            try:
+                gbif_taxon_key = get_gbif_taxon_key(species_name=species_name)
+                template = template.replace("GBIF_TAXON_ID", gbif_taxon_key)
+            except requests.exceptions.HTTPError:
+                print(
+                    f"""WARNING: Failed to get GBIF key for species: {args.species_name}.
+                    Not to worry,
+                    you can instead add it manually to the _index.md file in the species directory."""
+                )
+                template = template.replace("GBIF_TAXON_ID", "[EDIT]")
+
+            if tax_id:
+                goat_link = make_goat_weblink(species_name=species_name, tax_id=tax_id)
+                template = template.replace("GOAT_WEBPAGE", goat_link)
+            else:
+                template = template.replace("GOAT_WEBPAGE", "[EDIT]")
 
         output_file_path = content_dir_path / file_name
 
@@ -98,6 +119,27 @@ def add_stats_file(data_dir_path: Path) -> None:
         print(f"File created: {output_file_path.resolve()}")
 
 
+def get_gbif_taxon_key(species_name: str) -> str:
+    """
+    Get the GBIF "usageKey" / "taxonKey" given a species name.
+
+    The "usageKey" is a unique identifier for the species in the GBIF database.
+    """
+    species_name = species_name.replace(" ", "%20").lower()
+    url = f"{GBIF_ENDPOINT}{species_name}"
+    response = requests.get(url)
+    response.raise_for_status()
+    return str(response.json()["usageKey"])
+
+
+def make_goat_weblink(species_name: str, tax_id: str | int) -> str:
+    """
+    Return the webpage to the GOAT database for a specific species.
+    """
+    species_name = species_name.replace(" ", "%20").lower()
+    return rf"https://goat.genomehubs.org/record?recordId={str(tax_id)}&result=taxon&taxonomy=ncbi#{species_name}"
+
+
 if __name__ == "__main__":
     args = run_argparse()
 
@@ -114,12 +156,13 @@ if __name__ == "__main__":
 
     print("Retriveing taxonomy information, this shouldn't take more than a minute...")
     try:
-        get_taxonomy(species_name=args.species_name, overwrite=args.overwrite)
+        tax_id = get_taxonomy(species_name=args.species_name, overwrite=args.overwrite)
     except EbiRestException:
+        tax_id = None
         print(
             f"""WARNING: Failed to get taxonomy information for species: {args.species_name}
             All other files will now be generated except this file"""
         )
 
     add_stats_file(data_dir_path=data_dir_path)
-    add_content_files(species_name=args.species_name, content_dir_path=content_dir_path)
+    add_content_files(species_name=args.species_name, content_dir_path=content_dir_path, tax_id=tax_id)

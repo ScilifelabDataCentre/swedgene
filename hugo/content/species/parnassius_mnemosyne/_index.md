@@ -1,9 +1,9 @@
 ---
+# Required params below
 title: "*Parnassius mnemosyne* (Linnaeus, 1758)"
 subtitle: "Clouded apollo butterfly"
-science_name: "Parnassius mnemosyne"
-layout: "species_intro"
-weight: 1
+summary: "Genome assembly, genome annotation and 4 data tracks."
+
 last_updated: "24/05/2024"
 contact_person: "First Name Surname (firstname.surname@scilifelab.se)"
 
@@ -11,17 +11,25 @@ cover_image: "/img/species/clouded_apollo.webp"
 img_attrib_text: "Image source: © Rogelio Buendia"
 img_attrib_link: TODO
 
+
+# The params below were auto-generated, you should not need to edit them...
+# unless you were warned by the add-new-species.py script.
+layout: "species_intro"
+weight: 1
+science_name: "Parnassius mnemosyne"
 lineage_data_path: "parnassius_mnemosyne/taxonomy"
-
-iucn_category: "Least concern"
-iucn_link: "https://www.iucnredlist.org/species/174210/122602056"
-
-swe_red_list: "Near threatened"
 
 gbif_taxon_id: 1938520
 goat_webpage: "https://goat.genomehubs.org/record?recordId=213953&result=taxon&taxonomy=ncbi#Parnassius%20mnemosyne"
 
-summary: "Genome assembly, genome annotation and 4 data tracks."
+
+# Optional params below,
+# remove them if you don't want them or they are not relevant.
+iucn_category: "Least concern"
+iucn_link: "https://www.iucnredlist.org/species/174210/122602056"
+
+swe_red_list: "Near threatened"
+swe_red_list_link: "[EDIT]"
 ---
 
 ### Description
