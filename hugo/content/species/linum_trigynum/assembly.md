@@ -13,8 +13,8 @@ title: "Genome assembly"
 layout: "species_assembly"
 weight: 2
 
-stats_data_path: "SPECIES_FOLDER/species_stats"
-lineage_data_path: "SPECIES_FOLDER/taxonomy"
+stats_data_path: "linum_trigynum/species_stats"
+lineage_data_path: "linum_trigynum/taxonomy"
 ---
 
 ### Methods
@@ -38,4 +38,3 @@ lineage_data_path: "SPECIES_FOLDER/taxonomy"
 ### Acknowledgements
 
 - [EDIT]
-

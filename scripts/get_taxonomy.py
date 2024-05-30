@@ -2,6 +2,7 @@
 This file is a module used in the script: "add_new_species.py".
 It contains the function: "get_taxonomy",
 which is used to get the taxonomy information for a species and save it to a JSON file.
+It also returns the taxonomy id of the species as a string.
 
 To do this, "get_taxonomy" does the following:
 1) Obtains the taxonomy id (tax_id) for a species using the ENA REST API.
@@ -85,12 +86,12 @@ def create_endpoint_url(scientific_name: str) -> str:
     return f"{ENDPOINT_URL}/{scientific_name.replace(' ', '%20')}"
 
 
-def get_tax_id(scientific_name: str) -> dict[str, str]:
+def get_tax_id(scientific_name: str) -> str:
     """
     Get the taxonomy id from the scientific name.
     Search by name is case insensitive.
 
-    Returns a dict with key being the species name and value the taxonomy id (as a string).
+    Returns the taxonomy id as a string.
     """
     url = create_endpoint_url(scientific_name)
     response = requests.get(url)
@@ -110,8 +111,7 @@ def get_tax_id(scientific_name: str) -> dict[str, str]:
 
     full_taxon_info = response_json[0]
 
-    tax_id = full_taxon_info["taxId"]
-    return tax_id
+    return str(full_taxon_info["taxId"])
 
 
 def get_lineage_section(tax_id: str | int) -> str:
@@ -216,9 +216,9 @@ def get_taxonomy(species_name: str, output_dir: str = None, overwrite: bool = Fa
         species_dict = json.load(file)
 
     species_dict["Species"]["science_name"] = species_name
-    species_dict["Species"]["tax_id"] = str(tax_id)
-    species_dict["Species"]["ena_link"] = ENA_BASE_URL + str(tax_id)
-    species_dict["Species"]["ncbi_link"] = NCBI_BASE_URL + str(tax_id)
+    species_dict["Species"]["tax_id"] = tax_id
+    species_dict["Species"]["ena_link"] = ENA_BASE_URL + tax_id
+    species_dict["Species"]["ncbi_link"] = NCBI_BASE_URL + tax_id
 
     # get the lineage information for all the taxonomic ranks
     try:
@@ -234,3 +234,5 @@ def get_taxonomy(species_name: str, output_dir: str = None, overwrite: bool = Fa
         json.dump(species_dict, file, indent=4)
 
     print(f"File created: {output_file_path.resolve()}")
+
+    return tax_id

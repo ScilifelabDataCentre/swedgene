@@ -1,7 +1,13 @@
 ---
 title: "Download"
 layout: "species_download"
-weight: 4
+weight: 3
 ---
 
-Markdown content for download tab
+### Assembly
+
+[EDIT]
+
+### Data Tracks
+
+[EDIT]

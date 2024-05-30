@@ -1,17 +1,20 @@
 ---
-title: "Genome assembly"
-layout: "species_assembly"
-weight: 2
-
-stats_data_path: "parnassius_mnemosyne/species_stats"
-lineage_data_path: "parnassius_mnemosyne/taxonomy"
-
 key_info:
   - "Assembly Name": "Parnassius_mnemosyne_n_2023_11"
   - "Assembly Type": "haploid"
   - "Assembly Level": "scaffold"
   - "Genome Representation": "full"
   - "Accession": "GCA_963668995"
+
+
+# The params below were auto-generated, you should not need to edit them...
+# unless you were warned by the add-new-species.py script.
+title: "Genome assembly"
+layout: "species_assembly"
+weight: 2
+
+stats_data_path: "parnassius_mnemosyne/species_stats"
+lineage_data_path: "parnassius_mnemosyne/taxonomy"
 ---
 
 |||||| Content divider - do not remove ||||||

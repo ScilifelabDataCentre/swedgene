@@ -1,7 +1,7 @@
 ---
 # Required params below
-title: "[EDIT]"
-subtitle: "[EDIT]"
+title: "*Linum trigynum*"
+subtitle: "French flax"
 summary: "[EDIT]"
 
 last_updated: "[EDIT - USE FORMAT LIKE THIS: 15/05/2024]"
@@ -16,11 +16,11 @@ img_attrib_link: "[EDIT]"
 # unless you were warned by the add-new-species.py script.
 layout: "species_intro"
 weight: 1
-science_name: "SPECIES_NAME"
-lineage_data_path: "SPECIES_FOLDER/taxonomy"
+science_name: "linum trigynum"
+lineage_data_path: "linum_trigynum/taxonomy"
 
-gbif_taxon_id: "GBIF_TAXON_ID"
-goat_webpage: "GOAT_WEBPAGE"
+gbif_taxon_id: "2873874"
+goat_webpage: "https://goat.genomehubs.org/record?recordId=586398&result=taxon&taxonomy=ncbi#linum%20trigynum"
 
 
 # Optional params below,
@@ -38,6 +38,4 @@ Write content here in markdown for the introduction tab of the species page.
 
 #### Genome reference
 
-
 #### References
-
