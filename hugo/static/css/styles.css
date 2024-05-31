@@ -234,6 +234,27 @@ body {
   text-align: center;
 }
 
+.scilife-species-intro-img {
+  max-height: 450px;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+}
+
+/* For mobile devices */
+@media (max-width: 576px) {
+  .scilife-species-intro-img {
+      max-height: 300px;
+  }
+}
+
+/* For tablets */
+@media (min-width: 577px) and (max-width: 992px) {
+  .scilife-species-intro-img {
+      max-height: 400px;
+  }
+}
+
 
 
 /* privacy optout */

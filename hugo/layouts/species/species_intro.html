@@ -11,19 +11,19 @@
     {{- partial "open_browser.html" . -}}
 
     <!-- species pic and distribution map -->
-    <div class="row mt-3">
-        <div class="col-lg-6 col-sm-12">
+    <div class="row mt-3 d-flex">
+        <div class="col-lg-6 col-md-12">
             <figure>
-                <img src="{{ .Params.cover_image }}" class="card-img-top" alt="Image of {{ .Title }}">
+                <img src="{{ .Params.cover_image }}" class="card-img-top scilife-species-intro-img" alt="Image of {{ .Title }}">
                 <a href="{{ .Params.img_attrib_link }}" title="Go to the image source" target="_blank">
                     <figcaption class="scilife-card-image-attrib"> {{ .Params.img_attrib_text }} </figcaption>
                 </a>
             </figure>
         </div>
 
-        <div class="col-lg-6 col-sm-12">
+        <div class="col-lg-6 col-md-12 ">
             <figure>
-                <img src="{{ .Params.cover_image }}" class="card-img-top" alt="Image of {{ .Title }}">
+                <img src="{{ .Params.cover_image }}" class="card-img-top scilife-species-intro-img" alt="Image of {{ .Title }}">
                 <a href="{{ .Params.img_attrib_link }}" title="Go to the image source" target="_blank">
                     <figcaption class="scilife-card-image-attrib"> {{ .Params.img_attrib_text }} </figcaption>
                 </a>
