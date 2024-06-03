@@ -235,10 +235,8 @@ body {
 }
 
 .scilife-species-intro-img {
-  max-height: 450px;
-  max-width: 100%;
   width: auto;
-  height: auto;
+  height: 400px;
 }
 
 /* For mobile devices */

@@ -1,0 +1,42 @@
+<figure>
+    <div id="map" style="height: 400px;"></div>
+    <figcaption class="scilife-card-image-attrib">
+        <a href="https://www.gbif.org/species/1938520">
+            Observation data for the species projected using GBIF data.
+        </a>
+    </figcaption>
+</figure>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+
+<script>
+
+    // Initialize the map
+    const map = L.map('map').setView([50, 30], 3);
+
+    // Add the map tile layer from GBIF
+    // format is: https://tile.gbif.org/{srs}/{tileset}/{z}/{x}/{y}{format}{params}
+    L.tileLayer('https://tile.gbif.org/3857/omt/{z}/{x}/{y}@1x.png?style=gbif-light', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+        maxZoom: 15,
+    }).addTo(map);
+
+    // add the GBIF occurrence overlay
+    const gbifUrl = 'https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@2x.png?style=classic.point&srs=EPSG%3A3857&taxonKey=1938520&bin=hex&hexPerTile=500';
+    const gbifAttrib = '<a href="https://www.gbif.org">GBIF</a>';
+
+    L.tileLayer(gbifUrl, {
+        minZoom: 1,
+        maxZoom: 15,
+        zoomOffset: -1,
+        tileSize: 512,
+        attribution: gbifAttrib
+    }).addTo(map);
+
+    map.attributionControl.setPrefix('<a href="https://leafletjs.com" title="A JavaScript library for interactive maps">Leaflet</a>')
+</script>
