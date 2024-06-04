@@ -2,12 +2,14 @@ SHELL=/bin/bash
 # Disable builtin implicit rules
 MAKEFLAGS += -r
 
+CONFIG_DIR=config
+DATA_DIR=data
+CONFIGS = $(shell find $(CONFIG_DIR) -type f -name 'config.yml')
+JBROWSE_CONFIGS = $(subst $(CONFIG_DIR)/,$(DATA_DIR)/,$(CONFIGS:.yml=.json))
+
 # Defines the DOWNLOAD_TARGETS variable
 include targets.mk
 
-DATADIRS = $(shell find data -type d -execdir test -e '{}'/config.yml ';' -print)
-CONFIGS = $(addsuffix /config.yml, $(DATADIRS))
-JBROWSE_CONFIGS = $(addsuffix /config.json, $(DATADIRS))
 LOCAL_FILES = $(DOWNLOAD_TARGETS:.gz=.bgz)
 FASTA_INDICES = $(addsuffix .fai,$(filter %.fna.bgz,$(LOCAL_FILES)))
 FASTA_GZINDICES=$(FASTA_INDICES:.fai=.gzi)
@@ -39,16 +41,17 @@ build: download index-gff index-fasta jbrowse-config
 .PHONY: debug
 debug:
 	$(info Restarts : $(MAKE_RESTARTS))
-	$(call log_list, "Target configuration files", $(JBROWSE_CONFIGS))
-	$(call log_list, "Files to download :", $(DOWNLOAD_TARGETS))
-	$(call log_list, "Compressed local files :", $(LOCAL_FILES))
-	$(call log_list,"FASTA indices :", $(FASTA_INDICES) $(FASTA_GZINDICES))
-	$(call log_list, "GFF indices :", $(FASTA_INDICES))
+	$(info Data directories : $(SPECIES))
+	$(info Target configuration files: $(JBROWSE_CONFIGS))
+	$(info Files to download : $(DOWNLOAD_TARGETS))
+	$(info Compressed local files : $(LOCAL_FILES))
+	$(info FASTA indices : $(FASTA_INDICES) $(FASTA_GZINDICES))
+	$(info GFF indices : $(FASTA_INDICES))
 
 .PHONY: jbrowse-config
 jbrowse-config: $(JBROWSE_CONFIGS);
 	$(call log_info,'Generated JBrowse configuration in directories')
-	@printf "  \U1F4C1 %s\n" $(DATADIRS)
+	@printf "  \U1F4C1 %s\n" $(JBROWSE_CONFIGS:/config.json=)
 
 
 .PHONY: download
@@ -61,7 +64,6 @@ download: $(DOWNLOAD_TARGETS)
 .PHONY: clean-upstream
 clean-upstream:
 	rm -f $(DOWNLOAD_TARGETS)
-	rm -f $(addsuffix /dl_list,$(DATADIRS))
 
 # Remove JBrowse configuration files
 .PHONY: clean-config
@@ -85,11 +87,13 @@ compress: $(LOCAL_FILES);
 # Copy data and configuration to hugo static folder
 .PHONY: install
 install:
-	cp --parents -t hugo/static/ $(LOCAL_FILES) $(GFF_INDICES) $(FASTA_INDICES) $(JBROWSE_CONFIGS)
+	@mkdir -p hugo/static/data
+	@cd $(DATA_DIR) && cp --parents -t hugo/static/data $(LOCAL_FILES) $(GFF_INDICES) $(FASTA_INDICES)
+	@cd $(CONFIG_DIR) && cp --parents -t hugo/static/ $(JBROWSE_CONFIGS)
 
 
 # Remove JBrowse data and configuration from hugo static folder
-.PHONY: uninstall
+   .PHONY: uninstall
 uninstall:
 	rm -r hugo/static/data
 
@@ -109,11 +113,11 @@ ifneq ($(GFF_INDICES),)
 endif
 
 targets.mk: $(CONFIGS)
-	$(SHELL) scripts/make_download_targets.sh $^ > /dev/null
+	@$(SHELL) scripts/make_download_targets.sh $(CONFIG_DIR) $(DATA_DIR) $(subst $(CONFIG_DIR)/,,$(CONFIGS)) > /dev/null
 
 
-$(JBROWSE_CONFIGS): %config.json: %config.yml
-	@$(SHELL) scripts/generate_jbrowse_config.sh $<
+$(JBROWSE_CONFIGS): $(DATA_DIR)%.json: $(CONFIG_DIR)%.yml
+	$(SHELL) scripts/generate_jbrowse_config.sh $@ $<
 
 
 $(FASTA_INDICES): %.fai: %

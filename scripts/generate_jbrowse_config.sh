@@ -3,9 +3,10 @@
 BASE_DIR="$(git rev-parse --show-toplevel)"
 source "$BASE_DIR"/scripts/utils.sh
 
-CONFIG="$1"
-DIR="${CONFIG%/*}"
-TARGET="$DIR/config.json"
+TARGET="$1"
+CONFIG="$2"
+SPECIES_DATA_DIR="${TARGET%/*}"
+
 JBROWSE_ARGS=(--force --target="$TARGET")
 
 ensure_local() {
@@ -27,12 +28,12 @@ ensure_local() {
     if [[ "$LOCAL_FILE" =~ .gz$ ]]; then
 	LOCAL_FILE="${LOCAL_FILE/.gz/.bgz}"
     fi
-    if ! [[ -e "$DIR/$LOCAL_FILE" ]]; then
+    if ! [[ -e "$SPECIES_DATA_DIR/$LOCAL_FILE" ]]; then
 	args_ref=("$URL")
 	>&2 echo "Using remote file $URL"
 	return
     fi
-    >&2 echo "Using local file $LOCAL_FILE"
+    >&2 echo "Using existing local file $SPECIES_DATA_DIR/$LOCAL_FILE"
 
     args_ref=(--load=inPlace)
     case "$LOCAL_FILE" in
