@@ -109,11 +109,6 @@ endif
 targets.mk: $(CONFIGS)
 	$(SHELL) scripts/make_download_targets.sh $^ > /dev/null
 
-$(addsuffix /dl_list,$(DATADIRS)): %/dl_list: %/config.yml
-	$(call log_info,"Download targets for $*"); \
-	scripts/list_download_targets.sh $< > $@
-	@cat $@ | cut -d, -f1 | xargs printf '  - %s\n'
-
 
 $(JBROWSE_CONFIGS): %config.json: %config.yml
 	@$(SHELL) scripts/generate_jbrowse_config.sh $<
