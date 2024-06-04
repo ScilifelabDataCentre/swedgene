@@ -14,10 +14,17 @@
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
 
+{{ $latitude := .Params.latitude | default 0 }}
+{{ $longitude := .Params.longitude | default 0 }}
+{{ $initialZoom := .Params.initialZoom | default 1 }}
+
+
 <script>
 
-    // Initialize the map
-    const map = L.map('map').setView([50, 30], 3);
+    const map = L.map('map').setView(
+        ["{{ $latitude }}",
+        "{{ $longitude }}"],
+        "{{ $initialZoom }}");
 
     // Add the map tile layer from GBIF
     // format is: https://tile.gbif.org/{srs}/{tileset}/{z}/{x}/{y}{format}{params}
@@ -27,7 +34,7 @@
     }).addTo(map);
 
     // add the GBIF occurrence overlay
-    const gbifUrl = 'https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@2x.png?style=classic.point&srs=EPSG%3A3857&taxonKey=1938520&bin=hex&hexPerTile=500';
+    const gbifUrl = 'https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@1x.png?style=classic.polly&srs=EPSG%3A3857&taxonKey={{ .Params.gbif_taxon_id }}&bin=hex&hexPerTile=500';
     const gbifAttrib = '<a href="https://www.gbif.org">GBIF</a>';
 
     L.tileLayer(gbifUrl, {

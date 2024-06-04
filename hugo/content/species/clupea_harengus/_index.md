@@ -19,7 +19,7 @@ weight: 1
 science_name: "Clupea harengus"
 lineage_data_path: "clupea_harengus/taxonomy"
 
-gbif_taxon_id: "[EDIT]"
+gbif_taxon_id: "8351946"
 goat_webpage: "https://goat.genomehubs.org/record?recordId=213953&result=taxon&taxonomy=ncbi#Parnassius%20mnemosyne"
 
 
@@ -30,6 +30,12 @@ iucn_link: "[EDIT]"
 
 swe_red_list: "[EDIT]"
 swe_red_list_link: "[EDIT]"
+
+# These 3 params define the initial view for the map
+# latitude and longitude are for the map center.
+latitude: 0
+longitude: 0
+initialZoom: 1
 ---
 
 ### Description

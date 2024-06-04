@@ -30,6 +30,12 @@ iucn_link: "https://www.iucnredlist.org/species/174210/122602056"
 
 swe_red_list: "Near threatened"
 swe_red_list_link: "[EDIT]"
+
+# These 3 params define the initial view for the map
+# latitude and longitude are for the map center.
+latitude: 50
+longitude: 30
+initialZoom: 3
 ---
 
 ### Description

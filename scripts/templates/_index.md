@@ -30,6 +30,12 @@ iucn_link: "[EDIT]"
 
 swe_red_list: "[EDIT]"
 swe_red_list_link: "[EDIT]"
+
+# These 3 params define the initial view for the map
+# latitude and longitude are for the map center.
+latitude: 0
+longitude: 0
+initialZoom: 1
 ---
 
 ### Description
