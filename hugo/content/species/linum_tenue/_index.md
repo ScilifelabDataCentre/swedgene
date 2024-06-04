@@ -19,7 +19,7 @@ weight: 1
 science_name: "Linum tenue"
 lineage_data_path: "linum_tenue/taxonomy"
 
-gbif_taxon_id: "[EDIT]"
+gbif_taxon_id: 4048383
 goat_webpage: "[EDIT]"
 
 
@@ -33,9 +33,9 @@ swe_red_list_link: "[EDIT]"
 
 # These 3 params define the initial view for the map
 # latitude and longitude are for the map center.
-latitude: 0
+latitude: 38
 longitude: 0
-initialZoom: 1
+initialZoom: 5
 ---
 
 ### Description

@@ -1,6 +1,6 @@
 ---
 # Required params below
-title: "*Parnassius mnemosyne* (Linnaeus, 1758)"
+title: "*Parnassius mnemosyne*"
 subtitle: "Clouded apollo butterfly"
 summary: "Genome assembly, genome annotation and 4 data tracks."
 
