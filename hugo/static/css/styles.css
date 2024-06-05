@@ -160,6 +160,40 @@ body {
   border-color: var(--scilife-aqua);
 }
 
+
+.scilife-intro-map-img {
+  width: auto;
+  height: 400px;
+}
+
+/* For mobile devices */
+@media (max-width: 576px) {
+  .scilife-intro-map-img {
+      max-height: 300px;
+  }
+}
+/* For tablets */
+@media (min-width: 577px) and (max-width: 992px) {
+  .scilife-intro-map-img {
+      max-height: 350px;
+  }
+}
+
+/* For laptops */
+@media (min-width: 993px) and (max-width: 1199px) {
+  .scilife-intro-map-img {
+      max-height: 330px;
+  }
+}
+
+/* For larger screen */
+@media (min-width: 1400px) { 
+  .scilife-intro-map-img {
+      height: 450px;
+  }
+}
+
+
 .scilife-subsection h3 {
   color: var(--scilife-teal);
   font-size: 2rem;
@@ -234,24 +268,6 @@ body {
   text-align: center;
 }
 
-.scilife-species-intro-img {
-  width: auto;
-  height: 400px;
-}
-
-/* For mobile devices */
-@media (max-width: 576px) {
-  .scilife-species-intro-img {
-      max-height: 300px;
-  }
-}
-
-/* For tablets */
-@media (min-width: 577px) and (max-width: 992px) {
-  .scilife-species-intro-img {
-      max-height: 400px;
-  }
-}
 
 
 

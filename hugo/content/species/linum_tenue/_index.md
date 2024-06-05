@@ -34,7 +34,7 @@ swe_red_list_link: "[EDIT]"
 # These 3 params define the initial view for the map
 # latitude and longitude are for the map center.
 latitude: 38
-longitude: 0
+longitude: -4
 initialZoom: 5
 ---
 
