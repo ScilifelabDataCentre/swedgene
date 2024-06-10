@@ -23,7 +23,7 @@
         <div class="card h-100 scilife-species-card">
             <div class="card-image">
                 <figure>
-                    <a href="{{ .Permalink }}" title="Go to the {{ .Title | markdownify }} page">
+                    <a href="{{ .RelPermalink }}" title="Go to the {{ .Title | markdownify }} page">
                         <img src="{{ .Params.cover_image }}" class="card-img-top" alt="Image of {{ .Title | markdownify }}">
                     </a>
 
@@ -39,7 +39,7 @@
                 <p class="card-text">{{ .Summary }}</p>
                 <div class="d-flex justify-content-between align-items-center">
                     <p class="card-text mb-0 mt-auto">Last updated: {{ .Params.last_updated }}</p>
-                    <a href="{{ .Permalink }}"
+                    <a href="{{ .RelPermalink }}"
                         class="btn btn-primary scilife-species-button"
                         title="Click here to view the {{ .Title | markdownify }}">
                         <i class="bi bi-arrow-right" style="font-size: 1.25em;"></i>
