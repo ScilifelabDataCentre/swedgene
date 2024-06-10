@@ -8,7 +8,7 @@ RUN wget --quiet "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VER
     mv hugo /usr/bin && \
     chmod 755 /usr/bin/hugo
 WORKDIR /src
-COPY . /src
+COPY ./hugo/ /src
 RUN mkdir /target && \
     hugo -d /target
 
