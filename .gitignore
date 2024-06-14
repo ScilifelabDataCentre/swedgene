@@ -9,6 +9,7 @@ dl_list
 
 # Hugo data directory - from make install 
 hugo/static/data/**/*.bgz*
+hugo/static/data/**/*gff*
 
 # Hugo default output directory
 hugo/public
