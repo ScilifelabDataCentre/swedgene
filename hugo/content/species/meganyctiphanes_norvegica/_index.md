@@ -15,6 +15,7 @@ img_attrib_link: TODO
 # The params below were auto-generated, you should not need to edit them...
 # unless you were warned by the add-new-species.py script.
 layout: "species_intro"
+url: "meganyctiphanes_norvegica"
 weight: 1
 science_name: "Meganyctiphanes norvegica"
 lineage_data_path: "meganyctiphanes_norvegica/taxonomy"
