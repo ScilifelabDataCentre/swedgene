@@ -87,10 +87,7 @@ compress: $(LOCAL_FILES);
 # Copy data and configuration to hugo static folder
 .PHONY: install
 install:
-	@mkdir -p hugo/static/data
-	@cd $(DATA_DIR) && cp --parents -t hugo/static/data $(LOCAL_FILES) $(GFF_INDICES) $(FASTA_INDICES)
-	@cd $(CONFIG_DIR) && cp --parents -t hugo/static/ $(JBROWSE_CONFIGS)
-
+	@cp --parents -t hugo/static $(LOCAL_FILES) $(GFF_INDICES) $(FASTA_INDICES) $(JBROWSE_CONFIGS)
 
 # Remove JBrowse data and configuration from hugo static folder
    .PHONY: uninstall
