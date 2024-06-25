@@ -25,7 +25,10 @@ define log_info
 @printf $(INFO)$(1)$(RESET)'\n'
 endef
 
-
+define log_list	
+@printf $(1)"\n"
+@printf "  - %s\n" $(2)
+endef
 .PHONY: all
 all: build install
 	$(greet)
@@ -36,12 +39,11 @@ build: download index-gff index-fasta jbrowse-config
 .PHONY: debug
 debug:
 	$(info Restarts : $(MAKE_RESTARTS))
-	$(info Data directories : $(DATADIRS))
-	$(info Target configuration files: $(JBROWSE_CONFIGS))
-	$(info Files to download : $(DOWNLOAD_TARGETS))
-	$(info Compressed local files : $(LOCAL_FILES))
-	$(info FASTA indices : $(FASTA_INDICES) $(FASTA_GZINDICES))
-	$(info GFF indices : $(FASTA_INDICES))
+	$(call log_list, "Target configuration files", $(JBROWSE_CONFIGS))
+	$(call log_list, "Files to download :", $(DOWNLOAD_TARGETS))
+	$(call log_list, "Compressed local files :", $(LOCAL_FILES))
+	$(call log_list,"FASTA indices :", $(FASTA_INDICES) $(FASTA_GZINDICES))
+	$(call log_list, "GFF indices :", $(FASTA_INDICES))
 
 .PHONY: jbrowse-config
 jbrowse-config: $(JBROWSE_CONFIGS);
