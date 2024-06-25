@@ -113,7 +113,7 @@ ifneq ($(GFF_INDICES),)
 endif
 
 targets.mk: $(CONFIGS)
-	@$(SHELL) scripts/make_download_targets.sh $(CONFIG_DIR) $(DATA_DIR) $(subst $(CONFIG_DIR)/,,$(CONFIGS)) > /dev/null
+	@CONFIG_DIR=$(CONFIG_DIR) DATA_DIR=$(DATA_DIR) $(SHELL) scripts/make_download_targets.sh $(CONFIGS) > /dev/null
 
 
 $(JBROWSE_CONFIGS): $(DATA_DIR)%.json: $(CONFIG_DIR)%.yml
@@ -135,6 +135,9 @@ $(filter %.fna.bgz,$(LOCAL_FILES)): %.fna.bgz: %.fna.gz
 $(filter %.gff.bgz,$(LOCAL_FILES)): %.gff.bgz: %.gff.gz
 	@$(SHELL) -o pipefail -c "zcat < $< | grep -v \"^#\" | sort -t$$'\t' -k1,1 -k4,4n | bgzip > $@"
 
-$(DOWNLOAD_TARGETS): %: .downloads/%
+# Order-only prerequisite to avoid re-downloading everything if data/.downloads
+# directory gets accidentally deleted. Downside: if an upstream file changes,
+# the local outdated copy must be deleted before running `make download`
+$(DOWNLOAD_TARGETS): $(DATA_DIR)/%:| $(DATA_DIR)/.downloads/%
 	@echo "Downloading $@ ..."; \
 	curl -# -L --output $@ "$$(< $<)"
