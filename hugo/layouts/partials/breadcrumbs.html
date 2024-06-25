@@ -1,7 +1,18 @@
 <div class="container mt-3">
+    <nav aria-label="breadcrumb">
         <ol class="breadcrumb scilife-breadcrumbs">
             {{ range .Ancestors.Reverse }}
-                <li class="breadcrumb-item"><a href="{{ .RelPermalink }}">{{.Title | markdownify}}</a></li>
+                {{ if eq .Section "species" }}
+
+                    {{ if ne .Parent.RelPermalink "/" }}
+                        <li class="breadcrumb-item"><a href="{{ .RelPermalink }}">{{.Title | markdownify}}</a></li>
+                    {{ end }}
+
+                {{ else }}
+                    <li class="breadcrumb-item"><a href="{{ .RelPermalink }}">{{.Title | markdownify}}</a></li>
+                {{ end }}
+
+
             {{ end }}
             <li class="breadcrumb-item active" aria-current="page">{{.Title | markdownify}}</li>
         </ol>

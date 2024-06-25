@@ -11,10 +11,11 @@ key_info:
 # unless you were warned by the add-new-species.py script.
 title: "Genome assembly"
 layout: "species_assembly"
+url: "linum_tenue/assembly"
 weight: 2
 
-stats_data_path: "clupea_harengus/species_stats"
-lineage_data_path: "clupea_harengus/taxonomy"
+stats_data_path: "linum_tenue/species_stats"
+lineage_data_path: "linum_tenue/taxonomy"
 ---
 
 ### Methods

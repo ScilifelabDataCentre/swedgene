@@ -11,6 +11,7 @@ key_info:
 # unless you were warned by the add-new-species.py script.
 title: "Genome assembly"
 layout: "species_assembly"
+url: "SPECIES_FOLDER/assembly"
 weight: 2
 
 stats_data_path: "SPECIES_FOLDER/species_stats"

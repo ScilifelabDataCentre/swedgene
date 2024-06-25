@@ -15,6 +15,7 @@ img_attrib_link: "[EDIT]"
 # The params below were auto-generated, you should not need to edit them...
 # unless you were warned by the add-new-species.py script.
 layout: "species_intro"
+url: "linum_trigynum"
 weight: 1
 science_name: "linum trigynum"
 lineage_data_path: "linum_trigynum/taxonomy"

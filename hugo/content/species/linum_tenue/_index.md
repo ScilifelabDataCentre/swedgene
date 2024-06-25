@@ -15,6 +15,7 @@ img_attrib_link:  TODO
 # The params below were auto-generated, you should not need to edit them...
 # unless you were warned by the add-new-species.py script.
 layout: "species_intro"
+url: "linum_tenue"
 weight: 1
 science_name: "Linum tenue"
 lineage_data_path: "linum_tenue/taxonomy"

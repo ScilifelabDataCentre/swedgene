@@ -16,15 +16,12 @@ menus:
   - name: Home
     pageRef: /
     weight: 1
-  - name: Species browser
-    pageRef: /species
-    weight: 2
   - name: Add a genome project
     pageRef: /add_genome
-    weight: 3
+    weight: 2
   - name: About
     pageRef: /about
-    weight: 4
+    weight: 3
   - name: Contact
     pageRef: /contact
-    weight: 5
+    weight: 4

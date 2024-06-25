@@ -1,5 +1,7 @@
 ---
-title: Species browser
+# This prevents the species folder from generating a html file for the path [webaddress]/species/
+_build:
+  render: never
+  list: never
+  publishResources: false
 ---
-
-The genome portal is a platform facilitating access to genomes and population genomic data of species studied in Sweden. To start, browse a species of interest using the search bar below.
