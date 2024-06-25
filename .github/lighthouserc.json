@@ -5,8 +5,7 @@
         "staticDistDir": "hugo/public",
         "url": [
           "http://localhost:3000/index.html",
-          "http://localhost:3000/species/index.html",
-          "http://localhost:3000/species/clupea_harengus/index.html"
+          "http://localhost:3000/parnassius_mnemosyne/index.html"
         ] 
       },
       "upload": {

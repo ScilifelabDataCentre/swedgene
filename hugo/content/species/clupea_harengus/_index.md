@@ -41,7 +41,7 @@ initialZoom: 1
 
 ### Description
 
-Write content here in markdown for the introduction tab of the species page.
+Write some content here in markdown for the introduction tab of the species page.
 
 #### Genome reference
 
