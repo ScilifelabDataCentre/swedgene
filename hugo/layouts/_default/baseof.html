@@ -6,7 +6,7 @@
         {{- partial "banner.html" . -}}
 
         {{ $isGenomePage := eq .RelPermalink "/genome-browser/" }}
-        {{ if not $isGenomePage }}
+        {{ if and (not $isGenomePage) (not .IsHome) }}
             {{- partial "breadcrumbs.html" . -}}
         {{ end }}
 
