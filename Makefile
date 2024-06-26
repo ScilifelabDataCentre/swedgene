@@ -137,4 +137,4 @@ $(filter %.gff.bgz,$(LOCAL_FILES)): %.gff.bgz: %.gff.gz
 # the local outdated copy must be deleted before running `make download`
 $(DOWNLOAD_TARGETS): $(DATA_DIR)/%:| $(DATA_DIR)/.downloads/%
 	@echo "Downloading $@ ..."; \
-	curl -# -L --output $@ "$$(< $<)"
+	curl -# -L --output $@ "$$(< $|)"
