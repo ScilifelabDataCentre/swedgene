@@ -8,8 +8,8 @@ last_updated: "15/05/2024"
 contact_person: "First Name Surname (firstname.surname@scilifelab.se)"
 
 cover_image: "/img/species/tiny_herb.webp"
-img_attrib_text: "Unsure"
-img_attrib_link:  TODO
+img_attrib_text: "Linum tenue by Javier martin, public domain"
+img_attrib_link:  "https://commons.wikimedia.org/wiki/File:Linum_tenue_Enfoque_2010-5-31_MestanzaValledeAlcudia.jpg"
 
 
 # The params below were auto-generated, you should not need to edit them...

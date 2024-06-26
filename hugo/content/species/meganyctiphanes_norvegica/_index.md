@@ -8,8 +8,8 @@ last_updated: "15/05/2024"
 contact_person: "First Name Surname (firstname.surname@scilifelab.se)"
 
 cover_image: "/img/species/northern_krill.webp"
-img_attrib_text: "Unsure"
-img_attrib_link: TODO
+img_attrib_text: "Northern Krill by Uwe Kils, CC BY-SA 3.0"
+img_attrib_link: "https://commons.wikimedia.org/wiki/File:Meganyctiphanes_norvegica.jpg"
 
 
 # The params below were auto-generated, you should not need to edit them...

@@ -8,8 +8,8 @@ last_updated: "24/05/2024"
 contact_person: "First Name Surname (firstname.surname@scilifelab.se)"
 
 cover_image: "/img/species/clouded_apollo.webp"
-img_attrib_text: "Image source: © Rogelio Buendia"
-img_attrib_link: TODO
+img_attrib_text: "Clouded apollo by Charles J. Sharp, CC BY-SA 4.0"
+img_attrib_link: "https://en.wikipedia.org/wiki/File:Clouded_apollo_(Parnassius_mnemosyne)_Slivnica.jpg"
 
 
 # The params below were auto-generated, you should not need to edit them...

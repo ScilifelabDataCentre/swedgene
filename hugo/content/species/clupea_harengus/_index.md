@@ -8,8 +8,8 @@ last_updated: "15/05/2024"
 contact_person: "First Name Surname (firstname.surname@scilifelab.se)"
 
 cover_image: "/img/species/clupea_harengus.webp"
-img_attrib_text: "Unsure"
-img_attrib_link: TODO
+img_attrib_text: "Clupea harengus by Gervais et Boulart, public domain"
+img_attrib_link: "https://en.wikipedia.org/wiki/File:Clupea_harengus_Gervais.jpg"
 
 
 # The params below were auto-generated, you should not need to edit them...

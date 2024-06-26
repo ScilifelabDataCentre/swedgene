@@ -7,9 +7,9 @@ summary: "[EDIT]"
 last_updated: "[EDIT - USE FORMAT LIKE THIS: 15/05/2024]"
 contact_person: "[EDIT First Name Surname (firstname.surname@scilifelab.se)] "
 
-cover_image: "/img/species/[EDIT]"
-img_attrib_text: "[EDIT]"
-img_attrib_link: "[EDIT]"
+cover_image: "/img/species/linum_trigynum.webp"
+img_attrib_text: "Linum trigynum by Denis Barthel, public domain"
+img_attrib_link: "https://commons.wikimedia.org/wiki/File:Linum_trigynum_Dingli_Cliffs_Malta_03.jpg"
 
 
 # The params below were auto-generated, you should not need to edit them...
