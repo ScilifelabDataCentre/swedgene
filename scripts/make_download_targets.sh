@@ -1,10 +1,13 @@
 #!/bin/bash
 # Generate a makefile defining data files to download
 
+# Root of the project, in which Makefile and include.mk reside
 BASE_DIR="$(git rev-parse --show-toplevel)"
+
+CACHE_DIR="${DATA_DIR:=data}/.downloads"
+
 source "$BASE_DIR/scripts/utils.sh"
-CACHE_DIR="$BASE_DIR/.downloads"
-MAKEFILE="$BASE_DIR/targets.mk"
+MAKEFILE="$DATA_DIR/targets.mk"
 DOWNLOAD_EXTENSIONS=(".fna" ".gff")
 
 _extract_urls() {
@@ -25,19 +28,21 @@ mkdir -p "$CACHE_DIR"
 
 printf 'DOWNLOAD_TARGETS = ' > "$MAKEFILE"
 
-while IFS=";" read url target config;
+while IFS=";" read url target config_file;
 do
-    dir=${config%/*}
+    config_dir=${config_file%/*}
+    data_dir=${config_dir/${CONFIG_DIR}/${DATA_DIR}}
     if [[ -z "$target" ]];
     then
 	target=${url##*/}
     fi
-    target_path="$dir/$(std_extension $target)"
-    _should_download $target_path || continue
-    printf "$target_path " | tee -a "$MAKEFILE"
-    if [[ ! -e  "$CACHE_DIR/$target_path" || ! ( "$(< $CACHE_DIR/$target_path)" == $url ) ]];
+    target_file="${data_dir}/$(std_extension $target)"
+    _should_download $target_file || continue
+    printf "$target_file " | tee -a "$MAKEFILE"
+    cached="$CACHE_DIR/${target_file#*/}"
+    if [[ ! -e  "$cached" || ! ( "$(< $cached)" == $url ) ]];
     then
-	mkdir -p "$CACHE_DIR/${target_path%/*}"
-	printf "$url" > "$CACHE_DIR/$target_path"
+	mkdir -p "${cached%/*}"
+	printf "$url" > "$cached"
     fi
-done < <(_extract_urls "$@")
+done < <(_extract_urls "$@" || exit 1)
