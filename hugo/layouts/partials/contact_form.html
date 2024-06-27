@@ -5,12 +5,12 @@
 
     <div class="my-3">
         <label for="nameInput" class="form-label">Your name*</label>
-        <input type="text" class="form-control" id="nameInput" placeholder="first name last name" required>
+        <input type="text" class="form-control" name="name" id="nameInput" placeholder="first name last name" required>
     </div>
 
     <div class="mb-3">
         <label for="emailInput" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="emailInput" placeholder="name@example.com"
+        <input type="email" class="form-control" name="email" id="emailInput" placeholder="name@example.com"
             aria-describedby="emailHelp">
         <div id="emailHelp" class="form-text">
             Add your email if you would like to be recieve a response about this matter.
@@ -51,22 +51,34 @@
         <label for="textareaInput" class="form-label" style="display: block;">
             Please describe your question or suggestion here (max 1000 characters)*
         </label>
-        <textarea class="form-control" id="textareaInput" aria-label="text input"
+        <textarea class="form-control" id="textareaInput" name="description" aria-label="text input"
             maxlength="1000" rows="8" required style="display: block; width: 100%;"></textarea>
     </div>
 
+    <div id="formAlert" class="alert alert-danger mb-3" role="alert" style="display: none;">
+        Please fill out all required fields using appropriate values.
+    </div>
+
     <button type="submit" class="btn btn-primary">Submit the form</button>
+
+
+
 </form>
 
 
 <script>
     var form = document.querySelector('.needs-validation');
+    var formAlert = document.getElementById('formAlert');
+
     form.addEventListener('submit', function (event) {
         if (form.checkValidity() === false) {
             event.preventDefault();
-            alert("Please fill out all required fields");
             event.stopPropagation();
             form.classList.add('was-validated');
+
+            formAlert.style.display = 'block';
+        } else {
+            formAlert.style.display = 'none';
         }
     });
 </script>
