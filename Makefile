@@ -8,7 +8,7 @@ CONFIGS = $(shell find $(CONFIG_DIR) -type f -name 'config.yml')
 JBROWSE_CONFIGS = $(subst $(CONFIG_DIR)/,$(DATA_DIR)/,$(CONFIGS:.yml=.json))
 
 # Defines the DOWNLOAD_TARGETS variable
-include targets.mk
+include $(DATA_DIR)/targets.mk
 
 LOCAL_FILES = $(DOWNLOAD_TARGETS:.gz=.bgz)
 FASTA_INDICES = $(addsuffix .fai,$(filter %.fna.bgz,$(LOCAL_FILES)))
@@ -108,7 +108,7 @@ ifneq ($(GFF_INDICES),)
 	@printf '  - %s\n' $(GFF_INDICES)
 endif
 
-targets.mk: $(CONFIGS)
+$(DATA_DIR)/targets.mk: $(CONFIGS)
 	@CONFIG_DIR=$(CONFIG_DIR) DATA_DIR=$(DATA_DIR) $(SHELL) scripts/make_download_targets.sh $(CONFIGS) > /dev/null
 
 

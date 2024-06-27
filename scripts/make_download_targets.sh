@@ -7,7 +7,7 @@ BASE_DIR="$(git rev-parse --show-toplevel)"
 CACHE_DIR="${DATA_DIR:=data}/.downloads"
 
 source "$BASE_DIR/scripts/utils.sh"
-MAKEFILE="$BASE_DIR/targets.mk"
+MAKEFILE="$DATA_DIR/targets.mk"
 DOWNLOAD_EXTENSIONS=(".fna" ".gff")
 
 _extract_urls() {
