@@ -1,7 +1,30 @@
 {{ define "main" }}
 
-{{ .Content }}
+<div class="container mt-3">
+    <div class="row">
+        <div class="col scilife-subsection mt-3">
+            {{ .Content }}
+        </div>
+    </div>
 
-[Contact form html code here]
+
+    <div class="row scilife-subsection">
+        {{ partial "contact_form.html" .}}
+    </div>
+
+
+    <div class="row">
+        <div class="col scilife-subsection mt-3">
+            <h3>Personal data policy</h3>
+            <p>TODO</p>
+        </div>
+    </div>
+
+
+
+</div>
+
+
+
 
 {{ end }}
