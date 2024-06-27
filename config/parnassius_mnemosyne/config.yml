@@ -3,57 +3,42 @@ assembly:
   name: Parnassius_mnemosyne_n_2023_11
   accession: GCA_963668995.1
   url: "https://ftp.ebi.ac.uk/pub/databases/ena/wgs/public/cav/CAVLGL01.fasta.gz"
-
-#Suggestion 1: control the displayed name of the view so that if we want to have a different view name than the assembly name, we can set it here
-# This will give room to add a popular name in addition to the assembly name that is already displayed elsewhere 
-# My understanding from messing around in the exported session files is that this is stored in '.session.views[0].displayName' of session.json
-  #viewDisplayName: "Clouded Apollo (Parnassius mnemosyne)"
-
-#Suggestion 2 : add support for alias files using jbrowse add-assembly --refNameAliases="" 
-# One way would be to generate the alias files in the back-end. In that case, I guess that alias file does not need to be stated here in the config?
-
-# Another way that probably confers better with the FAIR principles would be to generate the alias separatelly and host them on SLL figshare 
-# so that all users will have access to them. In that case, the config might need the following key:value pairs for the download
-
-  #aliasFileURL: ""
-  #aliasFileName: ""
-
-# A third way would be a mix of the two former: generate the file in the back-end without specifying it here in the config, 
-# and then store a copy on SLL Figshare after the fact. 
-
-#Suggestion 3: support for datasets that contain multiple assemblies
-# As mentioned a while ago, we will be getting a separate mitochondrial assembly for clouded apollo butterfly.
-# I think what we said back then was we will probably need to display this as a separate view in the same JBrowse session.
-# The mito assembly has one GFF track (this is probably what we can expect from all organelle assemblies - one additional view and one data track).
-# What are your thoughts on how to implement support for this? It is preferrable to handle it in the same config.yml as the primary assembly, 
-# or would a separate config be needed?
+  # Temp storage for alias file. At a later stage it would be more FAIR to store it in a another repo (such as SLL Figshare) where it can get a PID.
+  aliases: "https://raw.githubusercontent.com/ScilifelabDataCentre/swedgene/main/scripts/data_stewardship/alias_files_temp_storage/CAVLGL01.fna.alias"
 
 tracks:
-  - name: "Protein coding genes"
+  - name: "Protein coding genes (NCBI version)"
+    #trackDescription: "Annotation of protein coding genes, processed by NCBI"
     url: "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/963/668/995/GCA_963668995.1_Parnassius_mnemosyne_n_2023_11/GCA_963668995.1_Parnassius_mnemosyne_n_2023_11_genomic.gff.gz"
-    
-#Suggestion 4: send a string with a track descriptipon to the --description="" option in jbrowse add-track. 
-# This would add a possibility to include more meta-data about the track, if needed. 
-    #trackDescription: "Annotation of protein coding genes, processed by NCBI and might thus differ from the original file submitted to ENA."
+    #defaultSession: no
+  - name: "Protein coding genes (Original version)"
+    #trackDescription: "Annotation of protein coding genes, original version that was submitted to ENA"
+    url: "https://figshare.scilifelab.se/ndownloader/files/47209624"
+    fileName: "pmne_functional_edit1.gff.gz"
+    #defaultSession: yes
+  - name: "Illumina RNAseq transcript assembly (thorax muscle tissue)"
+    url: "https://figshare.scilifelab.se/ndownloader/files/47209648"
+    fileName: "pmne_Illumina_RNAseq_StringTie_sorted-transcripts_match.gff.gz"
+    #defaultSession: yes
+  - name: "Non-coding RNA (ncRNA) genes"
+    url: "https://figshare.scilifelab.se/ndownloader/files/47209660"
+    fileName: "pmne_ncRNAs.gff.gz"
+    #defaultSession: no
+  - name: "tRNA genes and putative pseudogenes"
+    url: "https://figshare.scilifelab.se/ndownloader/files/47209663"
+    fileName: "pmne_tRNAs_and_pseudogenes.gff.gz"
+    #defaultSession: no
 
-#Suggestion 5: add an option to toggle whether or not to a track should be turned on by default when a user opens the genome browser. 
-# Protein Coding Genes should probably always be on by default, but there might be other track types of more specialist interest and 
-# might clutter up the display if they are on by default
-    #displayInDefaultSession: [yes/no]
-
-## Default session suggestions
-# The remaining suggestions are probably not going to be controlled by config.json and not config.yml, but I thought that I write them down here anyway.
-
-#Suggestion 6: always display the track selector menu when opening JBrowse. From playing around, I suspect that it is controlled 
-# by hierarchicalTrackSelector in the session.json ?
-
-#Suggestion 7: set the default zoom in so that the user does not need to click "force load" when a view is opened. 
-# It seems like one way to control this is by .session.views[0].bpPerPx (I don't know if it is the preferred way, but it works). 
-# I found that using a value of bpPerPx= 0.0005 * length of the first sequence in the fasta, gave a useful starting point for the zoom level.
-# Back when I was working with genome assembly, I used awk to count fasta lengths. This is what I used to get the length of the first 
-# sequence in the fasta:
-# gzcat CAVLGL01.fasta.gz| awk '/^>/{if (seen++ >= 1) exit; else {if (l!="") print l; l=0; next}}{l+=length($0)}END{print l}'
-
-#Suggestion 8: Wouldn't it look nice set to the default session so that when a user clicks on "browse genome" in the portal, it goes directly to 
-# the view(s), skipping the session landing page and assembly dropdown page? I think that many genome portals are configured in this way. See e.g
-# the JBrowse human data demo: https://jbrowse.org/code/jb2/v2.11.2/?config=test_data%2Fconfig_demo.json&session=local-zSe1Ywzok-PqRGdNZU9eC
+# ### Notes on mitochondrial assembly and tracks. To remain commented until a decision on how to handle secondary assemblies is made.
+# assembly:
+#   name: "Parnassius mnemosyne genome assembly, organelle: mitochondrion"
+#   accession: OZ075093.1
+#   url: "https://www.ebi.ac.uk/ena/browser/api/fasta/OZ075093.1?download=true&gzip=true"
+#   fileName: "OZ075093.1.fasta.gz"
+#   #aliases: ""
+# tracks:
+#   - name: "Mitochondrial genes"
+#     trackDescription: "Annotation of protein coding genes in the mitochondrion"
+#     url: "https://figshare.scilifelab.se/ndownloader/files/47209654"
+#     fileName: "pmne_mtdna.gff.gz"
+#     #defaultSession: yes
