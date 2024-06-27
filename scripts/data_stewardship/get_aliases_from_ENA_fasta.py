@@ -21,7 +21,7 @@ The script supports gzipped, bgzipped, and non-compressed ENA fasta files.
 A tab-separated file with the following columns:
 ENA header, NCBI header, Contig name
 
-If not specified, the outfile will be saved to the same directory as the fasta file, with the
+If not specified, the outfile will be saved to a subdirectory named 'alias_files_temp_storage/' within the same directory as the script, and will have the
 file name of the fasta file appended with the extension: .alias
 
 ### Examples:
@@ -31,6 +31,7 @@ python get_aliases_from_ENA_fasta.py --fasta filename.fa
 
 import argparse
 import gzip
+import os
 import re
 
 
@@ -57,8 +58,8 @@ def parse_the_arguments():
         type=str,
         metavar=".tsv",
         help="""
-        Output [optional]; the path to save the generated alias file. If not specified, the outfile will be saved to the current directory
-        with using the file name of the fasta file appended with the suffix: .alias
+        Output [optional]; the path to save the generated alias file. If not specified, the outfile will be saved to 'alias_files_temp_storage/'
+        in the current directory and will be given the file name of the fasta file appended with the suffix: .alias
         """,
     )
 
@@ -119,7 +120,12 @@ if __name__ == "__main__":
     if args.out is not None:
         alias_output = args.out
     else:
-        alias_output = fasta + ".alias"
+        fasta_filename = os.path.basename(fasta)
+        # Strip extensions like .gz and .bgz. The conditional checks for extensions that should be stripped.
+        # os.path.splitext strips the last extension only, but will remove any extension. So *.fna.gz will be stripped to .fna)
+        while any(fasta_filename.endswith(ext) for ext in [".gz", ".bgz"]):
+            fasta_filename, _ = os.path.splitext(fasta_filename)
+        alias_output = "alias_files_temp_storage/" + fasta_filename + ".alias"
 
     # Read the ENA formated fasta file and generate dictionary with the aliases:
     try:
