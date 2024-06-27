@@ -5,7 +5,7 @@ RUN wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
     && chmod +x /usr/bin/yq
 RUN npm install -g @jbrowse/cli
 # COPY config config fails
-COPY config species
-COPY scripts scripts/
+COPY config config
+COPY scripts scripts
 COPY Makefile .
-CMD ["make", "CONFIG_DIR=species", "debug"]
+CMD ["make", "debug"]
