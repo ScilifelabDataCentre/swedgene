@@ -13,6 +13,11 @@ hugo/public
 # more Hugo stuff
 hugo/.hugo_build.lock
 
+#data stewardship
+scripts/data_stewardship/temp/**
+scripts/data_stewardship/logs/**
+scripts/data_steward_workflow
+
 # OSX
 *.DS_Store
 
