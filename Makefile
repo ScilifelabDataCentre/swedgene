@@ -112,8 +112,9 @@ $(DATA_DIR)/targets.mk: $(CONFIGS)
 	@CONFIG_DIR=$(CONFIG_DIR) DATA_DIR=$(DATA_DIR) $(SHELL) scripts/make_download_targets.sh $(CONFIGS) > /dev/null
 
 
-$(JBROWSE_CONFIGS): $(DATA_DIR)%.json: $(CONFIG_DIR)%.yml
-	$(SHELL) scripts/generate_jbrowse_config.sh $@ $<
+$(JBROWSE_CONFIGS): $(DATA_DIR)/%.json: $(CONFIG_DIR)/%.yml
+	@echo "Generating JBrowse configuration for $(*D)"
+	@$(SHELL) scripts/generate_jbrowse_config.sh $@ $<
 
 
 $(FASTA_INDICES): %.fai: %
