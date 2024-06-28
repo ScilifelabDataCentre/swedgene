@@ -283,9 +283,8 @@ iframe#matoOpOut {
 }
 
 /* Styles for different screen sizes */
-@media (max-width: 412px)  { iframe#matoOpOut { height: 25vh; } }
-@media (max-width: 479px)  { iframe#matoOpOut { height: 20vh; } }
-@media (min-width: 480px)  { iframe#matoOpOut { height: 14vh; } }
-@media (min-width: 600px)  { iframe#matoOpOut { height: 13vh; } }
-@media (min-width: 768px)  { iframe#matoOpOut { height: 12vh; } }
-@media (min-width: 1024px) { iframe#matoOpOut { height: 10vh; } }
+@media (max-width: 360px)  { iframe#matoOpOut { height: 50vh; } }
+@media (min-width: 361px)  { iframe#matoOpOut { height: 25vh; } }
+@media (min-width: 492px)  { iframe#matoOpOut { height: 20vh; } }
+@media (min-width: 768px)  { iframe#matoOpOut { height: 15vh; } }
+@media (min-width: 1024px) { iframe#matoOpOut { height: 14vh; } }
