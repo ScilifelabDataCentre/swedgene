@@ -1,12 +1,20 @@
 {{ define "main" }}
 
-<div class="alert alert-primary scilife-alert" role="alert">
-    <i class="bi bi-info-circle">
-        This page also exists in english,
-        <a href="/about">click here to go to this page.</a>
-    </i>
-</div>
+<div class="container mt-3">
+    <div class="row">
+        <div class="alert alert-primary scilife-alert" role="alert">
+            <i class="bi bi-info-circle">
+                This page also exists in english,
+                <a href="/about">click here to go to this page.</a>
+            </i>
+        </div>
+    </div>
 
-{{ .Content }}
+    <div class="row">
+        <div class="col scilife-subsection mt-3">
+            {{ .Content }}
+        </div>
+    </div>
+</div>
 
 {{ end }}
