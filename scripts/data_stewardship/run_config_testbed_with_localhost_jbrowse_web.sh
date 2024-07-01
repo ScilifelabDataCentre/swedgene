@@ -37,7 +37,7 @@
 #
 
 ### General usage ###
-# Usage: $0 [-c config_file] [-j jbrowse_web_dir] [-p python_script_path]
+# Usage: run_config_testbed_with_localhost_jbrowse_web.sh [-c config_file] [-j jbrowse_web_dir] [-p python_script_path]
 # Options:
 #   -c, --config            Specify the config file (mandatory)
 #   -h, --help              Display this help message
