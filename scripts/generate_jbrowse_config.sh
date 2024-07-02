@@ -1,7 +1,7 @@
 #!/bin/bash
 
-BASE_DIR="$(git rev-parse --show-toplevel)"
-source "$BASE_DIR"/scripts/utils.sh
+SRC_DIR="${BASH_SOURCE%/*}"
+source "$SRC_DIR/utils.sh"
 
 TARGET="$1"
 CONFIG="$2"

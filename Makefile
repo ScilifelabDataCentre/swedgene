@@ -4,7 +4,15 @@ MAKEFLAGS += -r
 
 CONFIG_DIR=config
 DATA_DIR=data
-CONFIGS = $(shell find $(CONFIG_DIR) -type f -name 'config.yml')
+
+# To restrict operations on a subset of available species, specify
+# them as a comma separated list on the command line (after
+# invalidating `targets.mk` if necessary)
+# Example:
+#   rm data/targets.mk && make SPECIES=linum_tenue,clupea_harengus build
+SPECIES=$(SPECIES:%:{%})
+
+CONFIGS = $(shell find $(CONFIG_DIR)/$(SPECIES) -type f -name 'config.yml')
 JBROWSE_CONFIGS = $(subst $(CONFIG_DIR)/,$(DATA_DIR)/,$(CONFIGS:.yml=.json))
 
 # Defines the DOWNLOAD_TARGETS variable
@@ -112,8 +120,9 @@ $(DATA_DIR)/targets.mk: $(CONFIGS)
 	@CONFIG_DIR=$(CONFIG_DIR) DATA_DIR=$(DATA_DIR) $(SHELL) scripts/make_download_targets.sh $(CONFIGS) > /dev/null
 
 
-$(JBROWSE_CONFIGS): $(DATA_DIR)%.json: $(CONFIG_DIR)%.yml
-	$(SHELL) scripts/generate_jbrowse_config.sh $@ $<
+$(JBROWSE_CONFIGS): $(DATA_DIR)/%.json: $(CONFIG_DIR)/%.yml
+	@echo "Generating JBrowse configuration for $(*D)"
+	@$(SHELL) scripts/generate_jbrowse_config.sh $@ $<
 
 
 $(FASTA_INDICES): %.fai: %
