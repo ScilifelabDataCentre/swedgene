@@ -1,21 +1,24 @@
-<footer>
-    <div class="container-fluid">
-        <hr>
+<footer style="background-color: #ebebeb;">
+    <hr>
 
+    <div class="container">
         <!-- Site links -->
         <div class="row">
-            <div class="col-md-2">
-                <ul class="list-unstyled">
+            <div class="col-lg-3">
+                <h2 class="scilife-footer-titles">Site Navigation</h2>
+                <ul class="list-unstyled scilife-footer-text">
                     <li><a href="/">Home</a></li>
                     <li><a href="/add_genome">Add a genome project</a></li>
-                    <li><a href="/about">About</a></li>
+                    <li><a href="/about">About the portal</a></li>
                     <li><a href="/about/sv">Information på svenska</a></li>
+                    <li><a href="/contact">Contact us</a></li>
                     <li><a href="/privacy">Privacy policy</a></li>
                 </ul>
             </div>
 
             <!-- Explaination about the site and more -->
-            <div class="col-md-5">
+            <div class="col-lg-5">
+                <h2 class="scilife-footer-titles">About the portal</h2>
                 <ul class="list-unstyled">
                     <li>
                         <p> This site is developed and operated by the SciLifeLab Data Centre and is
@@ -24,62 +27,53 @@
                             If you have a genome project you would like to add to this site, please visit the
                             <a href="/add_genome">Add a genome project</a> page for further instructions.
 
-                            The code used to create this site is
+                            The source code for this website is
                             <a href="https://github.com/ScilifelabDataCentre/swedgene/" target="_blank">
                                 available on GitHub
                             </a>.
                         </p>
                     </li>
                     <li>
-                        <p> Please email <a href="mailto:dsn-eb@scilifelab.se">dsn-eb@scilifelab.se</a> with questions.</p>
+                        <p> Please email <a href="mailto:dsn-eb@scilifelab.se">dsn-eb@scilifelab.se</a> with any questions.</p>
                     </li>
-
                 </ul>
             </div>
 
-            <!--bootstrap icons with links to different services -->
-            <div class="col-md-2">
-                <h2 class="small text-uppercase text-black-50">Stay Updated</h2>
-                <ul class="list-unstyled center"></ul>
-                <div class="d-flex">
-                    <a href="https://www.linkedin.com/company/science-for-life-laboratory/">
-                        <i class="bi bi-linkedin mrtb-2" target="_blank" fill="currentColor"
-                            style="font-size: 2rem;"></i>
-                        <span class="visually-hidden">Visit Scilifelab's linkedin Page</span>
-                    </a>
-                    <a href="https://twitter.com/scilifelab">
-                        <i class="bi bi-twitter-x m-2" target="_blank" fill="currentColor" style="font-size: 2rem;"></i>
-                        <span class="visually-hidden">Visit Scilifelab's Twitter Page</span>
-                    </a>
-                    <a href="TODO">
-                        <i class="bi bi-envelope-fill" target="_blank" fill="currentColor" style="font-size: 2rem;"></i>
-                        <span class="visually-hidden">Send an email to Scilifelab</span>
-                    </a>
-                </div>
-            </div>
 
-            <!-- Overview of SciLifeLab image -->
-            <div class="col-md-3">
-                <a class="d-block">
-                    <img style="max-width: 300px" src="/img/logos/scilifelab_kaw_unis_etc.png"
-                        alt="Logos of SciLifeLab, the Knut and Alice Wallenberg Foundation and SciLifeLab affiliated universities">
+            <div class="col-lg-4">
+                <!-- Funders etc... part -->
+                <h2 class="scilife-footer-titles mb-2">Supported by</h2>
+
+                <img class="scilife-footer-img" src="/img/logos/kaw_logo.png"
+                alt="Logo for the Knut and Alice Wallenberg Foundation">
+                <img class="scilife-footer-img" src="/img/logos/sfsr_logo.png"
+                alt="Logo for the Swedish Foundation for Strategic Research">
+                <img class="scilife-footer-img" src="/img/logos/scilifelab-logo.svg"
+                alt="SciLifeLab's Logo">
+
+                <!--bootstrap icons with links to different services -->
+                <h2 class="scilife-footer-titles mt-2 mb-1">Stay Updated</h2>
+
+                <a href="https://www.linkedin.com/company/science-for-life-laboratory/" target="_blank" style="text-decoration: none;">
+                    <i class="bi bi-linkedin mx-2" fill="currentColor" style="font-size: 2rem;"></i>
+                    <span class="visually-hidden">Visit Scilifelab's linkedin Page</span>
                 </a>
+                <a href="https://twitter.com/scilifelab" target="_blank" style="text-decoration: none;">
+                    <i class="bi bi-twitter-x mx-2" fill="currentColor" style="font-size: 2rem;"></i>
+                    <span class="visually-hidden">Visit Scilifelab's Twitter Page</span>
+                </a>
+                <a href="https://www.youtube.com/channel/UCfWQHAK8UW0mPghV8R-Jqzg" target="_blank" style="text-decoration: none;">
+                    <i class="bi bi-youtube mx-2" fill="currentColor" style="font-size: 2rem;"></i>
+                    <span class="visually-hidden">Visit Scilifelab's Youtube Channel</span>
+                </a>
+
             </div>
-
-
-            <hr>
-
-            <!-- Website last updated-->
-            <p style="text-align: center;"> Website last updated: {{ now.Format "02 January 2006"}} </p>
-            <p style="text-align: center;">
-                <a href="https://github.com/ScilifelabDataCentre/swedgene/">The source code for this website is
-                    available on GitHub</a>
-            </p>
-
-
         </div>
-</footer>
 
+        <p class="mt-2 mb-0 text-start text-lg-center"><i> Website last updated: {{ now.Format "02 January 2006"}} </i></p>
+        <br>
+    </div>
+</footer>
 
 <!-- Matomo tracking info -->
 <!-- <script>

@@ -32,6 +32,10 @@
 } 
 
 
+a {
+  color: var(--scilife-teal);
+}
+
 body {
   font-family: "Lato", Times, Arial;
 }
@@ -50,7 +54,23 @@ body {
 }
 
 .scilife-navbar li a {
-  color: var(--scilife-aqua);
+  color: var(--scilife-teal);
+}
+
+.scilife-footer-text a {
+  color: var(--scilife-teal);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.045rem;
+  text-decoration: none;
+}
+
+.scilife-footer-titles {
+  color: var(--scilife-dark-grey);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.0625rem;
+  margin-bottom: 0.5rem;
 }
 
 
@@ -268,6 +288,41 @@ body {
   text-align: center;
 }
 
+
+/* footer images */
+.scilife-footer-img {
+  max-width: 150px; 
+}
+
+@media (min-width: 992px) {
+  .scilife-footer-img {
+      max-width: 75px;
+  }
+}
+
+@media (min-width: 1100px) {
+  .scilife-footer-img {
+      max-width: 90px; 
+  }
+}
+
+@media (min-width: 1200px) {
+  .scilife-footer-img {
+      max-width: 100px; 
+  }
+}
+
+@media (min-width: 1300px) {
+  .scilife-footer-img {
+      max-width: 115px; 
+  }
+}
+
+@media (min-width: 1400px) {
+  .scilife-footer-img {
+      max-width: 125px; 
+  }
+}
 
 
 
