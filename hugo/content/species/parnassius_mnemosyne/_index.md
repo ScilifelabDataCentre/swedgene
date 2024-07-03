@@ -30,7 +30,7 @@ iucn_category: "Least concern"
 iucn_link: "https://www.iucnredlist.org/species/174210/122602056"
 
 swe_red_list: "Near threatened"
-swe_red_list_link: "[EDIT]"
+swe_red_list_link: "https://artfakta.se/taxa/parnassius-apollo-101509"
 
 # These 3 params define the initial view for the map
 # latitude and longitude are for the map center.

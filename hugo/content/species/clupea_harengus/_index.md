@@ -26,11 +26,11 @@ goat_webpage: "https://goat.genomehubs.org/record?recordId=213953&result=taxon&t
 
 # Optional params below,
 # remove them if you don't want them or they are not relevant.
-iucn_category: "[EDIT]"
-iucn_link: "[EDIT]"
+iucn_category: "Least Concern"
+iucn_link: "https://www.iucnredlist.org/species/155123/4717767"
 
-swe_red_list: "[EDIT]"
-swe_red_list_link: "[EDIT]"
+swe_red_list: "Viable"
+swe_red_list_link: "https://artfakta.se/taxa/206089/"
 
 # These 3 params define the initial view for the map
 # latitude and longitude are for the map center.

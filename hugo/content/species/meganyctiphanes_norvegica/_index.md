@@ -20,21 +20,12 @@ weight: 1
 science_name: "Meganyctiphanes norvegica"
 lineage_data_path: "meganyctiphanes_norvegica/taxonomy"
 
-gbif_taxon_id: "[EDIT]"
-goat_webpage: "[EDIT]"
-
-
-# Optional params below,
-# remove them if you don't want them or they are not relevant.
-iucn_category: "[EDIT]"
-iucn_link: "[EDIT]"
-
-swe_red_list: "[EDIT]"
-swe_red_list_link: "[EDIT]"
+gbif_taxon_id: "2227978"
+goat_webpage: "https://goat.genomehubs.org/record?recordId=48144&result=taxon&taxonomy=ncbi#Meganyctiphanes%20norvegica"
 
 # These 3 params define the initial view for the map
 # latitude and longitude are for the map center.
-latitude: 0
+latitude: 30
 longitude: 0
 initialZoom: 1
 ---

@@ -21,16 +21,8 @@ science_name: "Linum tenue"
 lineage_data_path: "linum_tenue/taxonomy"
 
 gbif_taxon_id: 4048383
-goat_webpage: "[EDIT]"
+goat_webpage: "https://goat.genomehubs.org/record?recordId=586396&result=taxon&taxonomy=ncbi#Linum%20tenue"
 
-
-# Optional params below,
-# remove them if you don't want them or they are not relevant.
-iucn_category: "[EDIT]"
-iucn_link: "[EDIT]"
-
-swe_red_list: "[EDIT]"
-swe_red_list_link: "[EDIT]"
 
 # These 3 params define the initial view for the map
 # latitude and longitude are for the map center.

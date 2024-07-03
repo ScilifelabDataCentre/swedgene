@@ -24,14 +24,6 @@ gbif_taxon_id: "2873874"
 goat_webpage: "https://goat.genomehubs.org/record?recordId=586398&result=taxon&taxonomy=ncbi#linum%20trigynum"
 
 
-# Optional params below,
-# remove them if you don't want them or they are not relevant.
-iucn_category: "[EDIT]"
-iucn_link: "[EDIT]"
-
-swe_red_list: "[EDIT]"
-swe_red_list_link: "[EDIT]"
-
 # These 3 params define the initial view for the map
 # latitude and longitude are for the map center.
 latitude: 20

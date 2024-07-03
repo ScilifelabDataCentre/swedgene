@@ -1,10 +1,10 @@
 ---
 key_info:
-  - "Assembly Name": "[EDIT]"
+  - "Assembly Name": "Mnor_HA_v2"
   - "Assembly Type": "[EDIT]"
-  - "Assembly Level": "[EDIT]"
-  - "Genome Representation": "[EDIT]"
-  - "Accession": "[EDIT]"
+  - "Assembly Level": "Scaffold"
+  - "Genome Representation": "full"
+  - "Accession": "GCA_964058975.1"
 
 
 # The params below were auto-generated, you should not need to edit them...

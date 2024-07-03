@@ -4,7 +4,7 @@ key_info:
   - "Assembly Type": "haploid"
   - "Assembly Level": "scaffold"
   - "Genome Representation": "full"
-  - "Accession": "GCA_963668995"
+  - "Accession": "GCA_963668995.1"
 
 
 # The params below were auto-generated, you should not need to edit them...
