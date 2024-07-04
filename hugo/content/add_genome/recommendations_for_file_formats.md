@@ -2,9 +2,9 @@
 title: Recommendations for file formats
 ---
 
-This page contains recommendations for the file formats that can be used for displaying data on the Genome Portal and is intended as a support for researchers that want to add a new genome to the site. The text assumes some previous knowledge about bioinformatics file formats and familiarity with command line tools. The Genome Portal staff will also be happy to discuss choice of file formats and give advice on file format conversion. Please see the <a href="/contact">Contact page</a> for how to easiest get in touch with us.
+This page contains recommendations for the file formats that can be used for displaying data on the Genome Portal and is intended as a support for researchers that want to add a new genome to the site. The text assumes some previous knowledge about bioinformatics file formats and familiarity with command line tools. The Genome Portal staff will also be happy to discuss choice of file formats and give advice on file format conversion. Please see the <a href="/contact">Contact page</a> for how to get in touch with us.
 
-The Genome Portal uses JBrowse 2 to display the datasets. JBrowse 2 supports several formats that are commonly used in genomics and transcriptomics (see this <a href="https://jbrowse.org/jb2/features/#supported-data-formats">link</a> for a full list) and these can thus technically be displayed in the genome portal. However, at the moment we do **NOT display BAM files** in the genome portal since they can be quite big and might affect performance.
+The Genome Portal uses JBrowse 2 to display the datasets. JBrowse 2 <a href="https://jbrowse.org/jb2/features/#supported-data-formats">supports several formats</a> that are commonly used in genomics and transcriptomics and these can thus technically be displayed in the genome portal. However, at the moment we do **NOT display BAM files** in the genome portal since they can be quite big and might affect performance.
 
 - We still encourage research groups to make their BAM files publicly available, since that enables users to load the data as a local custom tracks in their JBrowse 2 instance.
 
@@ -12,7 +12,7 @@ Readers that have looked at the <a href="https://jbrowse.org/jb2/features/#suppo
 
 The Genome Portal project advocates the FAIR principles for sharing of research data. As part of this work, all datasets are required to have been made publicly available in repositories that uses persistent identifiers. We therefore encourage researchers that are interested in adding a genome to the Genome Portal to first read this guide on file format recommendations and then read the recommendations for how to make the data files publicly available that can be found <a href="/add_genome/recommendations_for_making_data_public">here</a>.
 
-The data that is displayed in JBrowse 2 can be divided in two groups: genome assemblies and data tracks. Below follows specific recommendations for making sure that the data is compatible with JBrowse.
+The data that is displayed in JBrowse 2 can be divided in two groups: [genome assemblies](#genome-assemblies) and [data tracks](#data-tracks). Below follows specific recommendations for making sure that the data is compatible with JBrowse.
 
 ### Genome assemblies
 
@@ -48,11 +48,12 @@ One of the most common formats for storing annotations for genomic features is G
 
 GTF is another format for storing annotations that is very similar format to GFF. However, JBrowse 2 does support GTF files and they therefore also need to be converted to GFF3.
 
-There are several bioinformatics tools that can convert GTF and older GFF versions to GFF3. We recommend using AGAT (<https://agat.readthedocs.io>). This is a command line toolkit designed by the NBIS bioinformatics platform at SciLifeLab. The AGAT script `agat_convert_sp_gxf2gxf.pl` is used to achieve conversions from GFF and GTF to GFF3.
+There are several bioinformatics tools that can convert GTF and older GFF versions to GFF3. We recommend using <a href="https://agat.readthedocs.io">AGAT</a>. This is a command line toolkit designed by the NBIS bioinformatics platform at SciLifeLab. The AGAT script `agat_convert_sp_gxf2gxf.pl` is used to achieve conversions from GFF and GTF to GFF3.
 
-```bash
+```text
 # Usage example based on the AGAT documentation
 # https://agat.readthedocs.io/en/latest/tools/agat_convert_sp_gxf2gxf.html
+
 agat_convert_sp_gxf2gxf.pl -g annotation_file1.gtf --output annotation_file1.gff
 ```
 
@@ -60,27 +61,29 @@ agat_convert_sp_gxf2gxf.pl -g annotation_file1.gtf --output annotation_file1.gff
 
 Another very common format for describing genomic features is BED (Browser Extensible Data). BED files have a less complicated version history than GFF/GTF and should, in general, be directly compatible with JBrowse 2. Note that BED documentation sometimes discusses BED followed with a number, such as BED3, BED6, BED12. The numbers indicate the number of the established BED columns that are included in that particular BED file. The first three columns are mandatory, meaning that BED3 is the minimal formatting for a BED file. To our knowledge, JBrowse 2 supports BED versions with different number of columns as long as the number of columns are consistent across the rows within each BED file.
 
-JBrowse 2 also supports the bigBED format which is a binary, indexed format which is recommended for large BED-formatted datasets in order to improve performance. See this documentation for how to convert BED to bigBED: <https://genome.ucsc.edu/goldenPath/help/bigBed.html>.
+JBrowse 2 also supports the bigBED format which is a binary, indexed format which is recommended for large BED-formatted datasets in order to improve performance. Please see the <a href="https://genome.ucsc.edu/goldenPath/help/bigBed.html">bigBED documentation</a> for how to convert BED to bigBED.
 
 #### EMBL
 
 JBrowse does not support the EMBL annotation format, but it can be converted to GFF with the AGAT toolkit which was also discussed in the GFF/GTF section above. Note that a different different AGAT script is needed for converting EMBL file: `agat_convert_sp_gxf2gxf.pl`.
 
-```bash
+```text
 # Usage example based on the AGAT documentation
 # https://agat.readthedocs.io/en/latest/tools/agat_convert_embl2gff.html
+
 agat_converter_embl2gff.pl --embl annotation_file2.embl --output annotation_file2.gff
 ```
 
 #### RepeatMasker output format (.out)
 
-A common methodology to predict repeated sequences (“repeats”) in genome assemblies is to use the RepeatModeller and RepeatMasker software (<https://www.repeatmasker.org/>). The default setting of the RepeatModeller/RepeatMasker pipeline is to output an annotation file in the proprietary format .out, which is not supported by JBrowse. Thus, we recommend on of these two options: convert to BED or convert to GFF.
+A common methodology to predict repeated sequences (“repeats”) in genome assemblies is to use the <a href="https://www.repeatmasker.org/">RepeatModeller and RepeatMasker software</a>. The default setting of the RepeatModeller/RepeatMasker pipeline is to output an annotation file in the proprietary format .out, which is not supported by JBrowse. Thus, we recommend on of these two options: convert to BED or convert to GFF.
 
-BED: The .out format is very similar in its formatting to .bed and can easily be converted using established bioinformatics tools. Below is an example of how to use the `convert2bed` function of the BEDOPS toolkit (<https://bedops.readthedocs.io/> ) to perform the conversion.
+BED: The .out format is very similar in its formatting to .bed and can easily be converted using established bioinformatics tools. Below is an example of how to use the `convert2bed` function of the  <a href="https://bedops.readthedocs.io/">BEDOPS toolkit</a> to perform the conversion.
 
-```bash
+```text
 # Usage example based on the BEDOPS documentation
 # https://bedops.readthedocs.io/en/latest/content/reference/file-management/conversion/convert2bed.html
+
 convert2bed --input=rmsk --output=bed < repeats.out > repeats.bed
 ```
 
@@ -96,48 +99,42 @@ We still encourage research groups to make their .bam files publicly available, 
 
 #### Links to format documentation
 
-- FASTA: <https://www.ncbi.nlm.nih.gov/genbank/fastaformat/>
+- <a href="https://www.ncbi.nlm.nih.gov/genbank/fastaformat/">FASTA definition</a>
 
-- GFF3: <https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md>
+- <a href="https://github.com/The-Sequence-Ontology/Specifications/blob/master/gff3.md">GFF3 definition</a> and a comprehensive <a href="ttps://agat.readthedocs.io/en/latest/gxf.html"> overview of GTF and older GFF versions</a>
 
-- A comprehensive overview of GTF and older GFF versions: <https://agat.readthedocs.io/en/latest/gxf.html>
+- <a href="https://samtools.github.io/hts-specs/BEDv1.pdf">BED definition</a>
 
-- BED: <https://samtools.github.io/hts-specs/BEDv1.pdf>
-
-- RepeatMasker .out (see section 3): <https://www.genome.iastate.edu/bioinfo/resources/manuals/RepeatMasker.html>
+- <a href="https://www.genome.iastate.edu/bioinfo/resources/manuals/RepeatMasker.html">RepeatMasker .out format</a> (see Section 3 in link)
 
 #### Indexing of data files is required for certain file formats
 
-Fasta, GFF, BED and VCF files need to be indexed in order to be displayed with JBrowse 2. In short, indexing enables large genomes to be browsable while minimizing the negative effect on performance. As mentioned above, this will be done on the server side when a new species is added to the Genome Portal. However, if a user wants to download the datasets and view them in e.g. the JBrowse Desktop client (<https://jbrowse.org/jb2/download/>), the index files need to be supplied by the user.
+Fasta, GFF, BED and VCF files need to be indexed in order to be displayed with JBrowse 2. In short, indexing enables large genomes to be browsable while minimizing the negative effect on performance. As mentioned above, this will be done on the server side when a new species is added to the Genome Portal. However, if a user wants to download the datasets and view them in e.g. the  <a href="https://jbrowse.org/jb2/download/">JBrowse Desktop client</a>, the index files need to be supplied by the user.
 
 The seminal biinformatics toolkit SAMtools can be used to handle all the required indexing.  It is a command line tool, and will thus require some knowledge on how to run and install this kind of software.
 
 FASTA files can be indexed using the `samtools faidx` command.
 
-```bash
+```text
 # Example of standard fasta indexing with SAMtools:
 # this command will index the file 'assembly.fasta' and create an
 # index file named 'assembly.fasta.fai' in the same directory as the fasta
+
 samtools faidx path/to/assembly.fasta
 ```
 
 Furthermore, it is common to compress the FASTA file before indexing to save storage space. SAMtools comes with the bgzip compression tool, which compresses the file in a manner similar to gzip but with optimization suitable for genomics and transcriptomics data. Note that JBrowse 2 only supports bgzipped files and not regular gzipped files. This means that fasta.gz files downloaded from ENA and NCBI might not be displayable without first unzipping them and re-compressing them with bgzip.
 
-```bash
+```text
 # Example of bgzipping and indexing of fasta files with SAMtools
 # faidx supports bgzipped files as input, so the code can be modified as:
 # (the resulting file will be named assembly.fasta.bgz.fai)
+
 bgzip < path/to/assembly.fasta > path/to/assembly.fasta.bgz
 samtools faidx path/to/assembly.fasta.bgz
 ```
 
-The above examples were adapted from the manual pages for faidx, bgzip, and tabix, which are available here:
-
-<http://www.htslib.org/doc/samtools-faidx.html>
-
-<https://www.htslib.org/doc/bgzip.html>
-
-<https://www.htslib.org/doc/tabix.html>
+The above examples were adapted from the manual pages for <a href="http://www.htslib.org/doc/samtools-faidx.html">faidx</a>, <a href="https://www.htslib.org/doc/bgzip.html">bgzip</a>, and <a href="https://www.htslib.org/doc/tabix.html">tabix</a>.
 
 #### refNameAlias - displaying data tracks on an assembly version when the FASTA header formatting differs
 

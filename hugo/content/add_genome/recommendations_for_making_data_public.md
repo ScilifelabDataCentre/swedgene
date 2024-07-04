@@ -6,7 +6,7 @@ The Genome Portal uses the FAIR principles as a guidance for sharing of research
 
 - For more information on the FAIR principles, we recommend <a href="https://data-guidelines.scilifelab.se/topics/fair-principles/ ">this page</a> from SciLifeLab.
 
-Below we list three recommendations of how to share research data in a manner that follows the FAIR principles and facilitates the integration with the Genome Portal. For recommendations for the file formats that can be used for displaying data on the Genome Portal, please see this  <a href="/add_genome/recommendations_for_file_formats">page</a>.
+Below we list three recommendations of how to share research data in a manner that follows the FAIR principles and facilitates the integration with the Genome Portal. For information relating to the data files themselves, please also see the <a href="/add_genome/recommendations_for_file_formats"> recommendations for file formats</a> for displaying data on the Genome Portal.
 
 #### Recommendations
 
@@ -26,9 +26,11 @@ Below we list three recommendations of how to share research data in a manner th
 
     - Note! The persistent identifier can refer to a collection of data files, e.g. an Acession Number on ENA/NCBI or a DOI to a SciLifeLab Data Repository submission, but each file that is connected to that persistent identifier need to have its own download URL.
 
-3. The files should be compressed to save disk size. It is recommended to use gzip (.gz) since this is very common compression format used in bioinformatics, which is for instance used by the major repositories ENA (European Nucleotide Archive) and NCBI GenBank for storing and sharing genome assembly data. Additionally, gzip natively only supports single files, which helps adhere to the bullet number 2 above.
+3. The files should be compressed to save disk size. It is recommended to use gzip (.gz) since this is very common compression format used in bioinformatics. It is for instance used by the major repositories ENA (European Nucleotide Archive) and NCBI GenBank for storing and sharing genome assembly data.
 
-    - It might be tempting to add multiple files to an archive (e.g. .tar) and compressing them together (e.g. .tar.gz), but this not suitable for compatibility with the Genome Portal. Instead use gzip to compress each file separately.
+    - Gzip itself only supports single files as input, which helps adhere to the bullet number 2 above.
+
+    - It might be tempting to add multiple files to an archive (e.g. .tar) and compressing them together (e.g. .tar.gz), but this not suitable for compatibility with the Genome Portal.
 
 #### Example
 

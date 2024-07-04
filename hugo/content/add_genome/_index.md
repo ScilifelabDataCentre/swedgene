@@ -2,18 +2,18 @@
 title: Add your own genome project
 ---
 
-Are you a researcher affiliated with a Swedish research institution and have genome you would liked to be displayed in the Genome Portal? Great! We will be happy to hear about your data and discuss how we can accommodate it. Don't hesitate to <a href="/contact" target="_blank">contact us</a>.
+Are you a researcher affiliated with a Swedish research institution and have genome with annotation tracks you would liked to be displayed in the Genome Portal? Great! Please <a href="/contact" target="_blank">send us a mail</a>. We will be happy to hear about your data and discuss how we can accommodate it.
 
-On this page, we have collected requirements and recommendations for how to add a new species to the Genome Portal that we believe will aid in the conversation when contacting us.
+On this page, we have collected requirements and recommendations for researchers that want to add their species to the Genome Portal.
 
 #### Scope and requirements
 
 The Genome Portal displays genomes and associated data tracks that have been produced by researchers in Sweden. We especially encourage researchers to display data types that might otherwise not be shared via the main nucleotide repositories, such as annotations of genomic features other than Protein Coding Genes, and transcriptome assembly alignments. For more details about the scope of the Genome Portal, please see the <a href="/about" target="_blank">About page</a>.
 
 For a dataset to be included in the Genome Portal, it needs to fulfill the following requirements:
-*[Please note that these might be subject to change in the future]*
+[*Please note that these might be subject to change in the future*]
 
-1. The genome needs to have been co-authored by **researchers affiliated to a Swedish research institution**. Please note that the organism itself does not need occur naturally in Sweden.
+1. The genome needs to have been co-authored by **researchers affiliated to a Swedish research institution**. Note that the organism itself does not need occur naturally in Sweden.
 
 2. **No human data** is allowed in the Genome Portal.
 
