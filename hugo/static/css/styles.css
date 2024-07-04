@@ -291,14 +291,18 @@ iframe#matoOpOut {
 
 /* Styles for markdown formatting of inline code and code blocks */
 code {
-  color: black;  /* A shade of gray #6e6e6e;*/
+  color: black;
   background-color: var(--scilife-light-grey);
 }
 
 pre {
-  color: black !important;
-  background-color: var(--scilife-light-grey) !important; 
+  color: black;
+  background-color: var(--scilife-light-grey); 
   -moz-tab-size: 4;
   -o-tab-size: 4;
   tab-size: 4;
+  border: 1px solid var(--scilife-medium-grey);
+  border-radius: 10px; 
+  line-height: 1.5;
+  padding: 5px;
 }

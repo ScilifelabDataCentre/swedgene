@@ -2,15 +2,17 @@
 title: Recommendations for file formats
 ---
 
+## Recommendations for file formats
+
 This page contains recommendations for the file formats that can be used for displaying data on the Genome Portal and is intended as a support for researchers that want to add a new genome to the site. The text assumes some previous knowledge about bioinformatics file formats and familiarity with command line tools. The Genome Portal staff will also be happy to discuss choice of file formats and give advice on file format conversion. Please see the <a href="/contact">Contact page</a> for how to get in touch with us.
 
 The Genome Portal uses JBrowse 2 to display the datasets. JBrowse 2 <a href="https://jbrowse.org/jb2/features/#supported-data-formats">supports several formats</a> that are commonly used in genomics and transcriptomics and these can thus technically be displayed in the genome portal. However, at the moment we do **NOT display BAM files** in the genome portal since they can be quite big and might affect performance.
 
 - We still encourage research groups to make their BAM files publicly available, since that enables users to load the data as a local custom tracks in their JBrowse 2 instance.
 
-Readers that have looked at the <a href="https://jbrowse.org/jb2/features/#supported-data-formats">list of file formats supported by JBrowse</a> might have noticed the mention of index files. Indexing of files is taken care of on the server side of the Genome Portal, and therefore index files do not need to be supplied in the process of adding a new species to the portal. For advanced users, a description of how indexing can be performed is available in the [Additional Resources](#additional-resources) section below.
+Readers that have looked at the list of file formats supported by JBrowse might have noticed the mention of index files. Indexing of files is taken care of on the server side of the Genome Portal, and therefore index files do not need to be supplied in the process of adding a new species to the portal. For advanced users, a description of how indexing can be performed is available in the [Additional Resources](#additional-resources) section below.
 
-The Genome Portal project advocates the FAIR principles for sharing of research data. As part of this work, all datasets are required to have been made publicly available in repositories that uses persistent identifiers. We therefore encourage researchers that are interested in adding a genome to the Genome Portal to first read this guide on file format recommendations and then read the recommendations for how to make the data files publicly available that can be found <a href="/add_genome/recommendations_for_making_data_public">here</a>.
+The Genome Portal project advocates the FAIR principles for sharing of research data. As part of this work, all datasets are required to have been made publicly available in repositories that uses persistent identifiers. We therefore encourage researchers that are interested in adding a genome to the Genome Portal to first read this guide on file format recommendations and then read the <a href="/add_genome/recommendations_for_making_data_public">recommendations for how to make the data files publicly available</a>.
 
 The data that is displayed in JBrowse 2 can be divided in two groups: [genome assemblies](#genome-assemblies) and [data tracks](#data-tracks). Below follows specific recommendations for making sure that the data is compatible with JBrowse.
 
@@ -50,7 +52,7 @@ GTF is another format for storing annotations that is very similar format to GFF
 
 There are several bioinformatics tools that can convert GTF and older GFF versions to GFF3. We recommend using <a href="https://agat.readthedocs.io">AGAT</a>. This is a command line toolkit designed by the NBIS bioinformatics platform at SciLifeLab. The AGAT script `agat_convert_sp_gxf2gxf.pl` is used to achieve conversions from GFF and GTF to GFF3.
 
-```text
+```
 # Usage example based on the AGAT documentation
 # https://agat.readthedocs.io/en/latest/tools/agat_convert_sp_gxf2gxf.html
 
@@ -67,7 +69,7 @@ JBrowse 2 also supports the bigBED format which is a binary, indexed format whic
 
 JBrowse does not support the EMBL annotation format, but it can be converted to GFF with the AGAT toolkit which was also discussed in the GFF/GTF section above. Note that a different different AGAT script is needed for converting EMBL file: `agat_convert_sp_gxf2gxf.pl`.
 
-```text
+```
 # Usage example based on the AGAT documentation
 # https://agat.readthedocs.io/en/latest/tools/agat_convert_embl2gff.html
 
@@ -80,7 +82,7 @@ A common methodology to predict repeated sequences (“repeats”) in genome ass
 
 BED: The .out format is very similar in its formatting to .bed and can easily be converted using established bioinformatics tools. Below is an example of how to use the `convert2bed` function of the  <a href="https://bedops.readthedocs.io/">BEDOPS toolkit</a> to perform the conversion.
 
-```text
+```
 # Usage example based on the BEDOPS documentation
 # https://bedops.readthedocs.io/en/latest/content/reference/file-management/conversion/convert2bed.html
 
@@ -115,7 +117,7 @@ The seminal biinformatics toolkit SAMtools can be used to handle all the require
 
 FASTA files can be indexed using the `samtools faidx` command.
 
-```text
+```
 # Example of standard fasta indexing with SAMtools:
 # this command will index the file 'assembly.fasta' and create an
 # index file named 'assembly.fasta.fai' in the same directory as the fasta
@@ -125,7 +127,7 @@ samtools faidx path/to/assembly.fasta
 
 Furthermore, it is common to compress the FASTA file before indexing to save storage space. SAMtools comes with the bgzip compression tool, which compresses the file in a manner similar to gzip but with optimization suitable for genomics and transcriptomics data. Note that JBrowse 2 only supports bgzipped files and not regular gzipped files. This means that fasta.gz files downloaded from ENA and NCBI might not be displayable without first unzipping them and re-compressing them with bgzip.
 
-```text
+```
 # Example of bgzipping and indexing of fasta files with SAMtools
 # faidx supports bgzipped files as input, so the code can be modified as:
 # (the resulting file will be named assembly.fasta.bgz.fai)
@@ -144,7 +146,7 @@ To be able to display data tracks that use a different version of the formatting
 
 - Example from the Clouded Apollo refNameAlias file:
 
-```text
+```
 #ENA_formatted_header #NCBI_formatted_header #original_header
 ENA|CAVLGL010000001|CAVLGL010000001.1 CAVLGL010000001.1 scaffold_1
 ENA|CAVLGL010000002|CAVLGL010000002.1 CAVLGL010000002.1 scaffold_10

@@ -6,7 +6,7 @@ Are you a researcher affiliated with a Swedish research institution and have gen
 
 On this page, we have collected requirements and recommendations for researchers that want to add their species to the Genome Portal.
 
-#### Scope and requirements
+## Scope and requirements
 
 The Genome Portal displays genomes and associated data tracks that have been produced by researchers in Sweden. We especially encourage researchers to display data types that might otherwise not be shared via the main nucleotide repositories, such as annotations of genomic features other than Protein Coding Genes, and transcriptome assembly alignments. For more details about the scope of the Genome Portal, please see the <a href="/about" target="_blank">About page</a>.
 
@@ -21,7 +21,7 @@ For a dataset to be included in the Genome Portal, it needs to fulfill the follo
 
 4. All data that is displayed in the Genome Portal needs to be **publicly available in external repositories** (such as ENA, NCBI, Figshare, Zenodo, etc.). No data is hosted on the Genome Portal itself. Our recommendations for how to share data can be found below.
 
-#### Recommendations
+## Recommendations
 
 The Genome Portal is able to display many data types that are commonly used in genomics and transcriptomics studies. In the two sub-pages below we have collected recommendations about file formats and how to upload data files to public repositories. Following these will help in the process of assuring that the data is compatible for the display in the Genome Portal.
 

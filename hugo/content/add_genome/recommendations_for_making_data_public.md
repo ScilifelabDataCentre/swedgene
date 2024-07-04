@@ -2,13 +2,15 @@
 title: Recommendations of how to make data files publicly available
 ---
 
+## Recommendations of how to make data files publicly available
+
 The Genome Portal uses the FAIR principles as a guidance for sharing of research data. FAIR encourages researchers to make their data Findable, Accessible, Interoperable, and Reusable. One of the ways that we encourage this is by requiring that all data that is displayed in the Genome Portal is submitted to external research data repositories. In this way, we hope that many valuable datasets that otherwise might not be shared via the main nucleotide repositories can be made public.
 
-- For more information on the FAIR principles, we recommend <a href="https://data-guidelines.scilifelab.se/topics/fair-principles/ ">this page</a> from SciLifeLab.
+- For more information on the FAIR principles, we recommend <a href="https://data-guidelines.scilifelab.se/topics/fair-principles/ ">this summary </a> in the SciLifeLab Research Data Management guidelines.
 
 Below we list three recommendations of how to share research data in a manner that follows the FAIR principles and facilitates the integration with the Genome Portal. For information relating to the data files themselves, please also see the <a href="/add_genome/recommendations_for_file_formats"> recommendations for file formats</a> for displaying data on the Genome Portal.
 
-#### Recommendations
+### Recommendations
 
 1. The files should be uploaded to a repository that provides a persistent identifier, such as a DOI.
 
@@ -42,6 +44,6 @@ Let’s say that a user wants to make three files publicly available by submitti
 
 - `data_track3.gff.gz` (the gzipped version of the file `data_track3.gff`)
 
-#### Questions?
+### Questions?
 
  We are happy to discuss and advice on how to best practices for making research data available. Please see our <a href="/contact" target="_blank">contact details</a> for information on how to get in touch with us.
