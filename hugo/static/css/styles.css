@@ -31,7 +31,6 @@
   --scilife-dark-grey: #3F3F3F;
 } 
 
-
 a {
   color: var(--scilife-teal);
 }
@@ -273,7 +272,7 @@ body {
 }
 
 
-.scilife-sort-dropdown, .scilife-search-box {
+.scilife-sort-dropdown, .scilife-search-box, .scilife-search-icon {
   color: var(--scilife-grape);
   border-color: var(--scilife-lime);
   border-width: 2px;
@@ -312,18 +311,18 @@ body {
   background-color: var(--scilife-lime-025);
 }
 
-
-
-.scilife-search-icon {
+.scilife-search-box::placeholder {
   color: var(--scilife-grape);
-  background-color: var(--scilife-lime-025);
-  font-size: 1.25rem;
 }
 
-
-
-
-
+.scilife-search-icon {
+  background-color: var(--scilife-lime-025);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 15px;
+  padding-right: 15px;
+}
 
 
 .last-updated_text {
