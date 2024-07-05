@@ -6,17 +6,20 @@
 </div>
 
 <!-- Search box -->
-<div class="row">
-    <div class="col scilife-search-box">
+<div class="row mb-4 justify-content-center">
+    <div class="col-11 col-md-10 scilife-search-box ">
         <div class="input-group">
-            <input type="text" id="Search" class="form-control" placeholder="Start typing to filter the species shown.">
-            <label class="form-control-label" for="Search" aria-labelledby="Search">
+            <input type="text" id="Search" class="form-control" placeholder="Start typing to filter the species shown." aria-label="Search" aria-describedby="basic-addon1">
+            <span class="input-group-text" id="basic-addon1">
+                <i class="bi bi-search" style="font-size: 1.25rem;"></i>
+            </span>
         </div>
     </div>
 </div>
 
+
 <!-- Species cards -->
-<div class="row mt-2 row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4" id="card-container">
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4" id="card-container">
     {{ $species := .Site.GetPage "section" "Species" }}
     {{ range $species.Sections }}
     <div class="col ">
