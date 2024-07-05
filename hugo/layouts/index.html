@@ -5,11 +5,38 @@
     {{ .Content }}
 </div>
 
-<!-- Search box -->
+<!-- sort species and search box -->
+<!-- scilife-search-box  TODO -->
 <div class="row mb-4 justify-content-center">
-    <div class="col-11 col-md-10 scilife-search-box ">
+    <div class="col-12 col-md-3">
+        <div class="dropdown">
+            <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-sort-down"></i> Sort Species
+            </button>
+            <ul class="dropdown-menu">
+                <li>
+                    <div id="Alphabet" role="button" class="dropdown-item active">
+                        <i class="bi bi-sort-alpha-down"></i> Alphabetical
+                    </div>
+                </li>
+                <li>
+                    <div id="RevAlphabet" role="button" class="dropdown-item">
+                        <i class="bi bi-sort-alpha-up"></i> Reverse Alphabetical
+                    </div>
+                </li>
+                <li>
+                    <div id="Updated" role="button" class="dropdown-item">
+                        <i class="bi bi-clock"></i> Last updated
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-11 col-md-9">
         <div class="input-group">
-            <input type="text" id="Search" class="form-control" placeholder="Start typing to filter the species shown." aria-label="Search" aria-describedby="basic-addon1">
+            <input type="text" id="Search" class="form-control" placeholder="Start typing to filter the species shown."
+                aria-label="Search" aria-describedby="basic-addon1">
             <span class="input-group-text" id="basic-addon1">
                 <i class="bi bi-search" style="font-size: 1.25rem;"></i>
             </span>
@@ -27,7 +54,8 @@
             <div class="card-image">
                 <figure>
                     <a href="{{ .RelPermalink }}" title="Go to the {{ .Title | markdownify }} page">
-                        <img src="{{ .Params.cover_image }}" class="card-img-top" alt="Image of {{ .Title | markdownify }}">
+                        <img src="{{ .Params.cover_image }}" class="card-img-top"
+                            alt="Image of {{ .Title | markdownify }}">
                     </a>
 
                     <a href="{{ .Params.img_attrib_link }}" title="Go to the image source" target="_blank">
@@ -44,13 +72,15 @@
 
             <div class="d-flex justify-content-between align-items-center">
                 <p class="card-text mb-0 mt-auto">Last updated: {{ .Params.last_updated }}</p>
-                <a href="{{ .RelPermalink }}"
-                    class="btn btn-primary scilife-species-button"
+                <!-- The date below is hidden because used only in the sorting algo for easier date parsing -->
+                <div class="hidden-date" style="display: none;">{{ .Params.last_updated }}</div>
+
+                <a href="{{ .RelPermalink }}" class="btn btn-primary scilife-species-button"
                     title="Click here to view the {{ .Title | markdownify }}">
                     <i class="bi bi-arrow-right" style="font-size: 1.25em;"></i>
                 </a>
-
             </div>
+
         </div>
     </div>
     {{ end }}
@@ -67,42 +97,86 @@
 <script>
     const speciesCards = Array.from(document.querySelectorAll('.scilife-species-card'));
 
-    function searchAndFilter() {
-        const searchText = $("#Search").val().toLowerCase();
+    function sortAlphabetically(a, b) {
+        const titleA = $(a).find('.card-title').text();
+        const titleB = $(b).find('.card-title').text();
+        return titleA.localeCompare(titleB);
+    }
 
-        $("#card-container").empty();
+    function sortRevAlphabetically(a, b) {
+        const titleA = $(a).find('.card-title').text();
+        const titleB = $(b).find('.card-title').text();
+        return titleB.localeCompare(titleA);
+    }
+
+    // All dates have DD/MM/YYYY format but
+    // JS Dates object need standard define in stringToDate function
+    function stringToDate(str) {
+        const [dd, mm, yyyy] = str.split('/');
+        return new Date(yyyy, mm - 1, dd);
+    }
+
+    function sortUpdated(a, b) {
+        const dateStrA = $(a).find('.hidden-date').text();
+        const dateStrB = $(b).find('.hidden-date').text();
+
+        const dateA = stringToDate(dateStrA);
+        const dateB = stringToDate(dateStrB);
+        return dateB - dateA;
+    }
+
+    function searchAndFilter() {
+        const searchText = document.querySelector("#Search").value.toLowerCase();
+        const AlphabetSet = document.querySelector("#Alphabet").classList.contains("active");
+        const RevAlphabetSet = document.querySelector("#RevAlphabet").classList.contains("active");
+        const UpdatedSet = document.querySelector("#Updated").classList.contains("active");
+
+        document.querySelector("#card-container").innerHTML = "";
+        let cardsToAppend = [];
 
         if (searchText === "") {
-            speciesCards.forEach(function(card) {
-                $("#card-container").append(card.parentElement);
-            });
-
+            cardsToAppend = speciesCards.slice();
         } else {
-            const matchedCards = speciesCards.filter(function(card) {
-                const title = $(card).find('.card-title').text().toLowerCase();
-                const cardText = $(card).find('.card-text').text().toLowerCase();
-
-                const matches = [
-                    title.includes(searchText),
-                    cardText.includes(searchText),
-                ];
-                // true if any match
-                return matches.some(Boolean);
+            cardsToAppend = speciesCards.filter(function (card) {
+                const title = card.querySelector('.card-title').textContent.toLowerCase();
+                const cardText = card.querySelector('.card-text').textContent.toLowerCase();
+                return title.includes(searchText) || cardText.includes(searchText);
             });
+        }
 
-            matchedCards.forEach(function(card) {
-                $("#card-container").append(card.parentElement);
-            });
+        if (cardsToAppend.length === 0) {
+            document.querySelector("#no-filtered-card").style.display = 'block';
+        } else {
+            document.querySelector("#no-filtered-card").style.display = 'none';
 
-
-            if (matchedCards.length === 0) {
-                $("#no-filtered-card").show();
-            } else {
-                $("#no-filtered-card").hide();
+            if (RevAlphabetSet) {
+            cardsToAppend.sort(sortRevAlphabetically);
             }
+            else if (UpdatedSet) {
+                cardsToAppend.sort(sortUpdated);
+            }
+            else {
+                cardsToAppend.sort(sortAlphabetically)
+            }
+
+            cardsToAppend.forEach(function (card) {
+                document.querySelector("#card-container").appendChild(card.parentElement);
+            });
         }
     }
-    $("#Search").on("input", searchAndFilter);
+
+    // Event listeners for sorting buttons and then search box
+    const sortingButtons = ["Alphabet", "RevAlphabet", "Updated"];
+    sortingButtons.forEach(buttonId => {
+        document.getElementById(buttonId).addEventListener("click", function() {
+            sortingButtons.forEach(id => document.getElementById(id).classList.remove("active"));
+            this.classList.add("active");
+            searchAndFilter();
+        });
+    });
+
+    document.querySelector("#Search").addEventListener("input", searchAndFilter);
+
 </script>
 
 {{ end }}

@@ -4,7 +4,7 @@ title: "*Linum trigynum*"
 subtitle: "French flax"
 summary: "[EDIT]"
 
-last_updated: "[EDIT - USE FORMAT LIKE THIS: 15/05/2024]"
+last_updated: "05/07/2024"
 contact_person: "[EDIT First Name Surname (firstname.surname@scilifelab.se)] "
 
 cover_image: "/img/species/linum_trigynum.webp"
