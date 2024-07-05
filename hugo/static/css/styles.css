@@ -273,11 +273,58 @@ body {
 }
 
 
-.scilife-search-box {
-  padding: 0.4rem;
-  border-radius: 0.4rem;
-  background: var(--scilife-teal-025);
+.scilife-sort-dropdown, .scilife-search-box {
+  color: var(--scilife-grape);
+  border-color: var(--scilife-lime);
+  border-width: 2px;
+  padding: 6px 6px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.045rem;
 }
+
+.scilife-sort-dropdown:hover {
+  color: var(--scilife-grape);
+  border-color: var(--scilife-lime);
+  background-color: var(--scilife-lime-025);
+}
+
+.scilife-sort-dropdown:focus {
+  color: var(--scilife-grape);
+  border-color: var(--scilife-lime);
+  background-color: var(--scilife-lime-025);
+}
+
+.scilife-dropdown-item {
+  color: black; 
+  background-color: white; 
+  border-radius: 4px; 
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.scilife-dropdown-item:hover {
+  background-color: var(--scilife-light-grey); 
+}
+
+.scilife-dropdown-item.active {
+  color: var(--scilife-grape);
+  background-color: var(--scilife-lime-025);
+}
+
+
+
+.scilife-search-icon {
+  color: var(--scilife-grape);
+  background-color: var(--scilife-lime-025);
+  font-size: 1.25rem;
+}
+
+
+
+
+
+
 
 .last-updated_text {
   margin-top: 3rem;

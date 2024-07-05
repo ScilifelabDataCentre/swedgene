@@ -6,26 +6,26 @@
 </div>
 
 <!-- sort species and search box -->
-<!-- scilife-search-box  TODO -->
 <div class="row mb-4 justify-content-center">
-    <div class="col-12 col-md-3">
+    <div class="col-12 col-md-3 col-xl-2 mb-3">
         <div class="dropdown">
-            <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-sort-down"></i> Sort Species
+            <button class="btn btn-lg scilife-sort-dropdown dropdown-toggle"
+                type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-sort-alpha-down"></i> A to Z
             </button>
             <ul class="dropdown-menu">
                 <li>
-                    <div id="Alphabet" role="button" class="dropdown-item active">
-                        <i class="bi bi-sort-alpha-down"></i> Alphabetical
+                    <div id="Alphabet" role="button" class="dropdown-item scilife-dropdown-item active">
+                        <i class="bi bi-sort-alpha-down"></i> A to Z
                     </div>
                 </li>
                 <li>
-                    <div id="RevAlphabet" role="button" class="dropdown-item">
-                        <i class="bi bi-sort-alpha-up"></i> Reverse Alphabetical
+                    <div id="RevAlphabet" role="button" class="dropdown-item scilife-dropdown-item">
+                        <i class="bi bi-sort-alpha-up"></i> Z to A
                     </div>
                 </li>
                 <li>
-                    <div id="Updated" role="button" class="dropdown-item">
+                    <div id="Updated" role="button" class="dropdown-item scilife-dropdown-item">
                         <i class="bi bi-clock"></i> Last updated
                     </div>
                 </li>
@@ -33,12 +33,13 @@
         </div>
     </div>
 
-    <div class="col-11 col-md-9">
+    <div class="col-12 col-md-9 col-xl-10">
         <div class="input-group">
-            <input type="text" id="Search" class="form-control" placeholder="Start typing to filter the species shown."
-                aria-label="Search" aria-describedby="basic-addon1">
-            <span class="input-group-text" id="basic-addon1">
-                <i class="bi bi-search" style="font-size: 1.25rem;"></i>
+            <input type="text" id="Search" class="form-control scilife-search-box"
+                placeholder="Start typing to filter the species shown..."
+                aria-label="Search">
+            <span class="input-group-text scilife-search-icon" title="Start typing to search">
+                <i class="bi bi-search"></i>
             </span>
         </div>
     </div>
@@ -171,6 +172,20 @@
         document.getElementById(buttonId).addEventListener("click", function() {
             sortingButtons.forEach(id => document.getElementById(id).classList.remove("active"));
             this.classList.add("active");
+
+            // (Update the dropdown text with selected item)
+            const dropdown = document.querySelector(".scilife-sort-dropdown");
+            const sortOptionSelected = this.textContent.trim();
+            const iconMapping = {
+                'A to Z': 'bi-sort-alpha-down',
+                'Z to A': 'bi-sort-alpha-up',
+                'Last updated': 'bi-clock'
+            };
+            const icon = iconMapping[sortOptionSelected];
+
+            dropdown.textContent = sortOptionSelected;
+            dropdown.innerHTML = `<i class="bi ${icon}"></i> ` + sortOptionSelected;
+
             searchAndFilter();
         });
     });
