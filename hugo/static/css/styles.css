@@ -392,6 +392,8 @@ iframe#matoOpOut {
 code {
   color: black;
   background-color: var(--scilife-light-grey);
+  border-radius: 5px; 
+  padding: 2px;
 }
 
 pre {
