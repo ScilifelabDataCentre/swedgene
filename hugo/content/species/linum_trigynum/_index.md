@@ -1,7 +1,7 @@
 ---
 # Required params below
 title: "*Linum trigynum*"
-subtitle: "French flax"
+subtitle: "A species of flax"
 summary: "[EDIT]"
 
 last_updated: "05/07/2024"

@@ -1,7 +1,7 @@
 ---
 # Required params below
 title: "*Linum tenue*"
-subtitle: "Tiny herb"
+subtitle: "A species of flax"
 summary: "Genome assembly, genome annotation and 14 data tracks."
 
 last_updated: "15/05/2024"
