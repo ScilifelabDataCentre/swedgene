@@ -4,7 +4,7 @@ title: "[EDIT]"
 subtitle: "[EDIT]"
 summary: "[EDIT]"
 
-last_updated: "[EDIT - USE FORMAT LIKE THIS: 15/05/2024]"
+last_updated: "[EDIT - USE FORMAT LIKE THIS: DD/MM/YYYY]"
 contact_person: "[EDIT First Name Surname (firstname.surname@scilifelab.se)] "
 
 cover_image: "/img/species/[EDIT]"
