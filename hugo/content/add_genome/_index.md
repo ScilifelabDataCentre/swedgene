@@ -11,7 +11,10 @@ On this page, we have collected requirements and recommendations for researchers
 The Genome Portal displays genomes and associated data tracks that have been produced by researchers in Sweden. We especially encourage researchers to display data types that might otherwise not be shared via the main nucleotide repositories, such as annotations of genomic features other than Protein Coding Genes, and transcriptome assembly alignments. For more details about the scope of the Genome Portal, please see the <a href="/about" target="_blank">About page</a>.
 
 For a dataset to be included in the Genome Portal, it needs to fulfill the following requirements:
-[*Please note that these might be subject to change in the future*]
+
+{{< info_block >}}
+Please note that the requirements might be subject to change in the future
+{{< /info_block >}}
 
 1. The genome needs to have been co-authored by **researchers affiliated to a Swedish research institution**. Note that the organism itself does not need occur naturally in Sweden.
 

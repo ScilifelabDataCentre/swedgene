@@ -8,7 +8,9 @@ This page contains recommendations for the file formats that can be used for dis
 
 The Genome Portal uses JBrowse 2 to display the datasets. JBrowse 2 <a href="https://jbrowse.org/jb2/features/#supported-data-formats">supports several formats</a> that are commonly used in genomics and transcriptomics and these can thus technically be displayed in the genome portal. However, at the moment we do **NOT display BAM files** in the genome portal since they can be quite big and might affect performance.
 
-- We still encourage research groups to make their BAM files publicly available, since that enables users to load the data as a local custom tracks in their JBrowse 2 instance.
+{{< info_block >}}
+We still encourage research groups to make their BAM files publicly available, since that enables users to load the data as a local custom tracks in their JBrowse 2 instance.
+{{< /info_block >}}
 
 Readers that have looked at the list of file formats supported by JBrowse might have noticed the mention of index files. Indexing of files is taken care of on the server side of the Genome Portal, and therefore index files do not need to be supplied in the process of adding a new species to the portal. For advanced users, a description of how indexing can be performed is available in the [Additional Resources](#additional-resources) section below.
 
