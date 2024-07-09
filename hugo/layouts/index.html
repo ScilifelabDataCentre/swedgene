@@ -67,8 +67,8 @@
             </div>
 
             <div class="card-body">
-                <h2 class="card-title">{{ .Title | markdownify }}</h2>
-                <h3 class="card-title">{{ .Params.subtitle | markdownify }}</h3>
+                <h2 class="card-title" id="science-name">{{ .Title | markdownify }}</h2>
+                <h3 class="card-title" id="common-name">{{ .Params.subtitle | markdownify }}</h3>
                 <p class="card-text">{{ .Summary }}</p>
             </div>
 
@@ -100,14 +100,14 @@
     const speciesCards = Array.from(document.querySelectorAll('.scilife-species-card'));
 
     function sortAlphabetically(a, b) {
-        const titleA = $(a).find('.card-title').text();
-        const titleB = $(b).find('.card-title').text();
+        const titleA = $(a).find('#science-name').text();
+        const titleB = $(b).find('#science-name').text();
         return titleA.localeCompare(titleB);
     }
 
     function sortRevAlphabetically(a, b) {
-        const titleA = $(a).find('.card-title').text();
-        const titleB = $(b).find('.card-title').text();
+        const titleA = $(a).find('#science-name').text();
+        const titleB = $(b).find('#science-name').text();
         return titleB.localeCompare(titleA);
     }
 
@@ -140,9 +140,10 @@
             cardsToAppend = speciesCards.slice();
         } else {
             cardsToAppend = speciesCards.filter(function (card) {
-                const title = card.querySelector('.card-title').textContent.toLowerCase();
+                const title = card.querySelector('#science-name').textContent.toLowerCase();
+                const subtitle = card.querySelector('#common-name').textContent.toLowerCase();
                 const cardText = card.querySelector('.card-text').textContent.toLowerCase();
-                return title.includes(searchText) || cardText.includes(searchText);
+                return title.includes(searchText) || subtitle.includes(searchText) || cardText.includes(searchText);
             });
         }
 
@@ -166,9 +167,6 @@
             });
         }
     }
-
-
-
 
     // Event listeners for sorting buttons and then search box
     const sortingButtons = ["Alphabet", "RevAlphabet", "Updated"];
