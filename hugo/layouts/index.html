@@ -11,9 +11,14 @@
         <div class="dropdown">
             <button class="btn btn-lg scilife-sort-dropdown dropdown-toggle"
                 type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-clock"></i> Name (A to Z)
+                <i class="bi bi-clock"></i> Last updated
             </button>
             <ul class="dropdown-menu">
+                <li>
+                    <div id="Updated" role="button" class="dropdown-item scilife-dropdown-item active">
+                        <i class="bi bi-clock"></i> Last updated
+                    </div>
+                </li>
                 <li>
                     <div id="Alphabet" role="button" class="dropdown-item scilife-dropdown-item">
                         <i class="bi bi-sort-alpha-down"></i> Name (A to Z)
@@ -22,11 +27,6 @@
                 <li>
                     <div id="RevAlphabet" role="button" class="dropdown-item scilife-dropdown-item">
                         <i class="bi bi-sort-alpha-up"></i> Name (Z to A)
-                    </div>
-                </li>
-                <li>
-                    <div id="Updated" role="button" class="dropdown-item scilife-dropdown-item active">
-                        <i class="bi bi-clock"></i> Last updated
                     </div>
                 </li>
             </ul>
@@ -48,7 +48,7 @@
 
 
 <!-- Species cards -->
-<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4" id="card-container">
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-4" id="card-container">
     {{ $species := .Site.GetPage "section" "Species" }}
     {{ range $species.Sections }}
     <div class="col">
@@ -167,6 +167,9 @@
         }
     }
 
+
+
+
     // Event listeners for sorting buttons and then search box
     const sortingButtons = ["Alphabet", "RevAlphabet", "Updated"];
     sortingButtons.forEach(buttonId => {
@@ -191,6 +194,8 @@
         });
     });
 
+    // Event listners for when page fully loaded or search box input
+    document.addEventListener("DOMContentLoaded", searchAndFilter);
     document.querySelector("#Search").addEventListener("input", searchAndFilter);
 
 </script>
