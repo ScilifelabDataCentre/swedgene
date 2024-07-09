@@ -5,11 +5,10 @@ MAKEFLAGS += -r
 CONFIG_DIR=config
 DATA_DIR=data
 
-# To restrict operations on a subset of available species, specify
-# them as a comma separated list on the command line (after
-# invalidating `targets.mk` if necessary)
-# Example:
-#   rm data/targets.mk && make SPECIES=linum_tenue,clupea_harengus build
+# To restrict operations to a subset of species, assign them as a
+# comma-separated list to the SPECIES variable. Example:
+#
+#     make SPECIES=linum_tenue,clupea_harengus build
 SPECIES=$(SPECIES:%:{%})
 
 CONFIGS = $(shell find $(CONFIG_DIR)/$(SPECIES) -type f -name 'config.yml')
