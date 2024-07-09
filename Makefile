@@ -116,8 +116,12 @@ ifneq ($(GFF_INDICES),)
 	@printf '  - %s\n' $(GFF_INDICES)
 endif
 
-$(DATA_DIR)/targets.mk: $(CONFIGS)
+
+ifeq ($(MAKE_RESTARTS),)
+$(DATA_DIR)/targets.mk: FORCE
 	@CONFIG_DIR=$(CONFIG_DIR) DATA_DIR=$(DATA_DIR) $(SHELL) scripts/make_download_targets.sh $(CONFIGS) > /dev/null
+FORCE:;
+endif
 
 
 $(JBROWSE_CONFIGS): $(DATA_DIR)/%.json: $(CONFIG_DIR)/%.yml
