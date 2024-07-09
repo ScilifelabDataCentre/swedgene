@@ -58,7 +58,7 @@ debug:
 .PHONY: jbrowse-config
 jbrowse-config: $(JBROWSE_CONFIGS);
 	$(call log_info,'Generated JBrowse configuration in directories')
-	@printf "  \U1F4C1 %s\n" $(JBROWSE_CONFIGS:/config.json=)
+	@printf "  - %s\n" $(JBROWSE_CONFIGS:/config.json=)
 
 
 .PHONY: download
