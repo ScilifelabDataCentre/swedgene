@@ -1,4 +1,4 @@
-name: Build and push image to GitHub Container Registry
+name: Build and push Hugo site image to GitHub Container Registry
 on:
   push:
     tags:
@@ -14,7 +14,7 @@ on:
 jobs:
   push-to-container-registry:
     if: github.repository == 'ScilifelabDataCentre/swedgene'  
-    name: Build and push Docker image to GitHub Container Registry
+    name: Build and push Hugo site Docker image to GitHub Container Registry
 
     runs-on: ubuntu-latest
     permissions:
@@ -36,7 +36,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/scilifelabdatacentre/swedgene
+          images: ghcr.io/scilifelabdatacentre/hugo-site
           flavor: |
             latest=auto
           tags: |
@@ -50,6 +50,6 @@ jobs:
 
           push: ${{ github.event_name != 'pull_request' }}
           context: .
-          file: ./hugo.dockerfile
+          file: ./dockerfiles/hugo.dockerfile
           tags: ${{ github.event.inputs.docker_tag || steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
