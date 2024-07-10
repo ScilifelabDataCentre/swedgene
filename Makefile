@@ -4,7 +4,15 @@ MAKEFLAGS += -r
 
 CONFIG_DIR=config
 DATA_DIR=data
-CONFIGS = $(shell find $(CONFIG_DIR) -type f -name 'config.yml')
+INSTALL_DIR=hugo/static
+
+# To restrict operations to a subset of species, assign them as a
+# comma-separated list to the SPECIES variable. Example:
+#
+#     make SPECIES=linum_tenue,clupea_harengus build
+SPECIES=$(SPECIES:%:{%})
+
+CONFIGS = $(shell find $(CONFIG_DIR)/$(SPECIES) -type f -name 'config.yml')
 JBROWSE_CONFIGS = $(subst $(CONFIG_DIR)/,$(DATA_DIR)/,$(CONFIGS:.yml=.json))
 
 # Defines the DOWNLOAD_TARGETS variable
@@ -50,7 +58,7 @@ debug:
 .PHONY: jbrowse-config
 jbrowse-config: $(JBROWSE_CONFIGS);
 	$(call log_info,'Generated JBrowse configuration in directories')
-	@printf "  \U1F4C1 %s\n" $(JBROWSE_CONFIGS:/config.json=)
+	@printf "  - %s\n" $(JBROWSE_CONFIGS:/config.json=)
 
 
 .PHONY: download
@@ -86,12 +94,12 @@ compress: $(LOCAL_FILES);
 # Copy data and configuration to hugo static folder
 .PHONY: install
 install:
-	@cp --parents -t hugo/static $(LOCAL_FILES) $(GFF_INDICES) $(FASTA_INDICES) $(JBROWSE_CONFIGS)
+	@cp --parents -t $(INSTALL_DIR) $(LOCAL_FILES) $(GFF_INDICES) $(FASTA_INDICES) $(JBROWSE_CONFIGS)
 
 # Remove JBrowse data and configuration from hugo static folder
    .PHONY: uninstall
 uninstall:
-	rm -r hugo/static/data
+	rm -rf $(INSTALL_DIR)/$(DATA_DIR)
 
 
 .PHONY: index-fasta
@@ -108,12 +116,17 @@ ifneq ($(GFF_INDICES),)
 	@printf '  - %s\n' $(GFF_INDICES)
 endif
 
-$(DATA_DIR)/targets.mk: $(CONFIGS)
+
+ifeq ($(MAKE_RESTARTS),)
+$(DATA_DIR)/targets.mk: FORCE
 	@CONFIG_DIR=$(CONFIG_DIR) DATA_DIR=$(DATA_DIR) $(SHELL) scripts/make_download_targets.sh $(CONFIGS) > /dev/null
+FORCE:;
+endif
 
 
-$(JBROWSE_CONFIGS): $(DATA_DIR)%.json: $(CONFIG_DIR)%.yml
-	$(SHELL) scripts/generate_jbrowse_config.sh $@ $<
+$(JBROWSE_CONFIGS): $(DATA_DIR)/%.json: $(CONFIG_DIR)/%.yml
+	@echo "Generating JBrowse configuration for $(*D)"
+	@$(SHELL) scripts/generate_jbrowse_config.sh $@ $<
 
 
 $(FASTA_INDICES): %.fai: %

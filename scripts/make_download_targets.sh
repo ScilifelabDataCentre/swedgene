@@ -1,12 +1,15 @@
 #!/bin/bash
-# Generate a makefile defining data files to download
+# Generate a makefile initializing the DOWNLOAD_TARGETS variable.
 
-# Root of the project, in which Makefile and include.mk reside
-BASE_DIR="$(git rev-parse --show-toplevel)"
+# The value of DOWNLOAD_TARGETS is a space-separated list of files
+# that should be downloaded for local processing. As a side effect,
+# the URL from which target <species>/<filename> should be fectched is
+# stored in the file $DATA_DIR/.downloads/<species>/<file>.
+
+SRC_DIR="${BASH_SOURCE%/*}"
+source "$SRC_DIR/utils.sh"
 
 CACHE_DIR="${DATA_DIR:=data}/.downloads"
-
-source "$BASE_DIR/scripts/utils.sh"
 MAKEFILE="$DATA_DIR/targets.mk"
 DOWNLOAD_EXTENSIONS=(".fna" ".gff")
 
