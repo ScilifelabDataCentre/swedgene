@@ -5,9 +5,13 @@
 # user and group id of the host are used.
 
 CWD="$(pwd)"
-mkdir -p "${DATA_DIR:=data}"
+mkdir -p "${DATA_DIR:=data}" "${INSTALL_DIR:=hugo/static}"
 if [[ -n $SWG_UID || -n $SWG_GID ]];
 then
     SWG_DOCKER_USER=("-u" "${SWG_UID:-$(id -u)}:${SWG_GID:-$(id -g)}")
 fi
-docker run "${SWG_DOCKER_USER[@]}" -v "$CWD/${DATA_DIR}:/swedgene/data" -v "$CWD/Makefile:/swedgene/Makefile" swedgene-data make "$@"
+docker run "${SWG_DOCKER_USER[@]}" \
+       -v "$CWD/${DATA_DIR}:/swedgene/data" \
+       -v "$CWD/Makefile:/swedgene/Makefile" \
+       -v "$CWD/${INSTALL_DIR}:/swedgene/hugo/static" \
+       swedgene-data make "$@"

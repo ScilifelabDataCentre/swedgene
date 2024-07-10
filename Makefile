@@ -4,6 +4,7 @@ MAKEFLAGS += -r
 
 CONFIG_DIR=config
 DATA_DIR=data
+INSTALL_DIR=hugo/static
 
 # To restrict operations to a subset of species, assign them as a
 # comma-separated list to the SPECIES variable. Example:
@@ -93,12 +94,12 @@ compress: $(LOCAL_FILES);
 # Copy data and configuration to hugo static folder
 .PHONY: install
 install:
-	@cp --parents -t hugo/static $(LOCAL_FILES) $(GFF_INDICES) $(FASTA_INDICES) $(JBROWSE_CONFIGS)
+	@cp --parents -t $(INSTALL_DIR) $(LOCAL_FILES) $(GFF_INDICES) $(FASTA_INDICES) $(JBROWSE_CONFIGS)
 
 # Remove JBrowse data and configuration from hugo static folder
    .PHONY: uninstall
 uninstall:
-	rm -r hugo/static/data
+	rm -rf $(INSTALL_DIR)/$(DATA_DIR)
 
 
 .PHONY: index-fasta
