@@ -49,7 +49,7 @@ The genome assembly hosted in the portal was generated in a study by Höglund et
 
 If you use the data presented in the genome portal from this species in your research, please cite the original publication(s):
 
-- Höglund, J., Dias, G., Olsen, R. A., Soares, A., Bunikis, I., Talla, V., & Backström, N. (2024). A Chromosome-Level Genome Assembly and Annotation for the Clouded Apollo Butterfly (*Parnassius mnemosyne*): A Species of Global Conservation Concern. Genome Biology and Evolution, 16(2), evae031. <https://doi.org/10.1093/gbe/evae031>
+- <p> Höglund, J., Dias, G., Olsen, R. A., Soares, A., Bunikis, I., Talla, V., & Backström, N. (2024). A Chromosome-Level Genome Assembly and Annotation for the Clouded Apollo Butterfly (*Parnassius mnemosyne*): A Species of Global Conservation Concern. Genome Biology and Evolution, 16(2), evae031. <https://doi.org/10.1093/gbe/evae031> </p>
 
 #### References
 
