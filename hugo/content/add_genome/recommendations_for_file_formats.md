@@ -1,5 +1,6 @@
 ---
 title: Recommendations for file formats
+toc: true
 ---
 
 ## Recommendations for file formats

@@ -1,5 +1,6 @@
 ---
 title: Recommendations of how to make data files publicly available
+toc: true
 ---
 
 ## Recommendations of how to make data files publicly available
