@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
     {{- partial "head.html" . -}}
-    <body>
+    <body class="d-flex flex-column min-vh-100">
         {{- partial "navbar.html" . -}}
         {{- partial "banner.html" . -}}
 
@@ -31,6 +31,7 @@
         </main>
 
         {{ if not $isGenomePage }}
+            <br>
             {{- partial "footer.html" . -}}
         {{ end }}
     </body>
