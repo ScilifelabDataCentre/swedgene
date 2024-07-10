@@ -8,8 +8,11 @@ RUN curl -fsSL https://github.com/samtools/samtools/releases/download/1.20/samto
 RUN curl -fsSL --output /usr/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 \
     && chmod +x /usr/bin/yq
 RUN npm install -g @jbrowse/cli
-# COPY config config fails
 COPY config config
 COPY scripts scripts
 COPY Makefile .
+ARG SWG_UID=1000
+ARG SWG_GID=1000
+RUN groupmod -g ${SWG_GID} node && usermod -u ${SWG_UID} -g ${SWG_GID} node
+USER node
 CMD ["make", "debug"]
