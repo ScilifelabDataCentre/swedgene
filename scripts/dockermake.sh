@@ -4,18 +4,13 @@
 # container as a specific user and group. By default, the effective
 # user and group id of the host are used.
 #
-# The environment variable DOCKER_IMAGE can be used to specify the
-# Docker image to use.
+# The environment variables SWG_DOCKER_IMAGE and SWG_DOCKER_TAG can be
+# used to override the Docker image to use. For example:
+#
+# SWG_DOCKER_IMAGE=industrious-squirrel SWG_DOCKER_TAG=slim-buster scripts/dockerbuild.sh build
 
-DEFAULT_IMAGE="ghcr.io/scilifelabdatacentre/data-builder:latest"
-DOCKER_IMAGE="$DEFAULT_IMAGE"
-
-for arg in "$@"; do
-  if [[ $arg == DOCKER_IMAGE=* ]]; then
-    DOCKER_IMAGE="${arg#DOCKER_IMAGE=}"
-    break
-  fi
-done
+_DEFAULT_TAG="latest"
+_DEFAULT_IMAGE="ghcr.io/scilifelabdatacentre/data-builder"
 
 CWD="$(pwd)"
 mkdir -p "${DATA_DIR:=data}" "${INSTALL_DIR:=hugo/static}"
@@ -29,4 +24,4 @@ docker run "${SWG_DOCKER_USER[@]}" \
        -v "$CWD/${DATA_DIR}:/swedgene/data" \
        -v "$CWD/Makefile:/swedgene/Makefile" \
        -v "$CWD/${INSTALL_DIR}:/swedgene/hugo/static" \
-       "$DOCKER_IMAGE" make "$@"
+       "${SWG_DOCKER_IMAGE:-$_DEFAULT_IMAGE}:${SWG_DOCKER_TAG:-$_DEFAULT_TAG}" make "$@"
