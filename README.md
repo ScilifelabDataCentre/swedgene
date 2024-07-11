@@ -75,6 +75,51 @@ them to `hugo/static`, set the `DATADIRS` variable as follows:
 	make DATADIRS=data/clupea_harengus build
 
 
+# Docker 
+
+This repository comes with 2 Dockerfiles:
+
+### 1. `docker/hugo.dockerfile` : Builds a docker image containing the hugo website ready to be run. 
+You can obtain the latest version of this image from the [packages section of this repository](https://github.com/orgs/ScilifelabDataCentre/packages?repo_name=swedgene). 
+
+To build an run the Hugo site yourself/locally you can do the following from the root directory of the repository. 
+
+_Please note that you need to be in the root of the repository for this to work_
+
+```bash 
+docker build -t hugo-site:local -f docker/hugo.dockerfile .
+```
+
+You can run then run this image locally as follows: 
+
+```bash 
+docker run -p 8080:8080 hugo-site:local
+```
+
+The site will be then visible to you at the address: http://localhost:8080/ on your web browser. 
+
+
+
+### 2. `docker/data.dockerfile` : Builds a Docker image that can be used to download and process the data assets needed for the JBrowse section of the website. 
+
+As above, you can obtain the latest version of this image from the [packages section of this repository](https://github.com/orgs/ScilifelabDataCentre/packages?repo_name=swedgene). 
+
+Then to use the image to build all the data files you can use the provided script: 
+
+```bash 
+./scripts/dockermake.sh build
+```
+
+If you want to specfiy the image and/or tag used you can specify them via enviroment variables
+For example:
+
+```bash 
+SWG_DOCKER_IMAGE=ghcr.io/scilifelabdatacentre/data-builder SWG_DOCKER_TAG=docker-dir ./scripts/dockermake.sh build
+```
+
+
+
+
 # pre-commit
 
 This repository uses [`pre-commit`](https://pre-commit.com/) which can be used to automatically test the changes made between each commit to check your code. Things like linting and bad formatting can be spott
