@@ -8,7 +8,7 @@ _DEFAULT_TAG=local
 if [[ -z "$1" || "$1" == "data" ]];
 then
     _DEFAULT_IMAGE=ghcr.io/scilifelabdatacentre/data-builder
-    _DEFAULT_DOCKERFILE=dockerfiles/data.dockerfile
+    _DEFAULT_DOCKERFILE=docker/data.dockerfile
     declare -a _BUILD_ARGS
     if [[ -z ${SWG_DEFAULT_USER} ]];then
 	_BUILD_ARGS+=("--build-arg" "SWG_UID=$(id -u)")
