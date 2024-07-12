@@ -1,15 +1,3 @@
-Swedgene
-========
-
-This genome portal prototype demonstrates how a genome browser
-can be embedded into a static website, and display pre-configured
-genome assemblies and annotation tracks.
-
-Two organisms are used for the puropose of demonstration:
-
--   Aspergillus Nidulans
--   Clupea Harengus (Atlantic herring)
-
 # Table of Contents
 
 1.  [Data organization](#org88ad8e6)
@@ -18,20 +6,22 @@ Two organisms are used for the puropose of demonstration:
 
 <a id="org88ad8e6"></a>
 
+Swedgene
+========
+
 # Data organization
 
-Each organism gets a directory in the `data/` directory, for example
-`data/aspergillus_nidulans` for the fungi species.
+Each organism gets a sub-directory of `config/`, for example
+`data/clupea_harengus`.
 
-Each organism directory includes a `config.yml` file specifying
-the assembly and tracks are to be displayed in JBrowse. 
+Each organism configuration directory includes a `config.yml` file
+specifying the assembly and tracks to be displayed in JBrowse.
 
 Different `make` recipes (documented below) use this information to
-download local copies of some genome files, create indices when
-needed, and generate a `config.json` configuration file used by
-JBrowse internally.
+download and prepare genome files when necessary, and generate a
+`config.json` configuration file used by JBrowse.
 
-All those generated assets are then moved by `make install` under the
+All those generated assets are then moved by `make install` to the
 `hugo/static` directory, and thus made accessible to the development
 server.
 
@@ -44,7 +34,7 @@ Primary sources for genomic assemblies and annotations tracks should
 be hosted remotely. However, for some data formats such as `FASTA` and
 `GFF`, JBrowse expects acompanying index files.
 
-Therefore, remote FASTA and GFF files need to be downloaded for
+Therefore, remote `FASTA` and `GFF` files need to be downloaded for
 indexing. We keep local copies of those files and ensure they are
 compressed using the block gzip format.
 
@@ -53,27 +43,26 @@ compressed using the block gzip format.
 
 # Up and running!
 
+As a prerequisite to running the site locally, `docker` and `hugo` must be installed. 
 
-To run the demo:
+To build and install JBrowse assets:
+
+	# Build local docker image
+	./scripts/dockerbuild.sh
 	
-	cd hugo
+	# Install JBrowse assets
+	SWG_DOCKER_TAG=local ./scripts/dockermake.sh
+	
+	# Run local development server
     hugo server
 
-To build JBrowse assets, [`yq`](https://mikefarah.gitbook.io/yq/) and [`samtools`](http://www.htslib.org/) need to
-be installed. The command succession below will build the assets,
-install them under `hugo/static` and start the development server:
-
-    make
-	cd hugo
-	hugo server
-
 ## Selectively build JBrowse assets
-To build JBrowse assests for a particular species, without copying
-them to `hugo/static`, set the `DATADIRS` variable as follows:
+
+
+To build JBrowse assests for a particular species:
 	
 	# Builds JBrowse assets for the herring only
-	make DATADIRS=data/clupea_harengus build
-
+	./scripts/dockermake.sh SPECIES=clupea_harengus build
 
 # Docker 
 
