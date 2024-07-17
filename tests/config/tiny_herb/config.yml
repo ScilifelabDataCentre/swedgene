@@ -1,0 +1,8 @@
+organism: "Lilliputianus herba"
+assembly:
+  name: Tiny_herb_v1
+  accession: GCA_12345678.9
+  url: "http://localhost:8000/tiny_herb/genome.fna.gz"
+tracks:
+  - name: "Protein coding genes"
+    url: "http://localhost:8000/tiny_herb/genes.gff.gz"
