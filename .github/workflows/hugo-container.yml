@@ -36,7 +36,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/scilifelabdatacentre/hugo-site
+          images: ghcr.io/scilifelabdatacentre/swg-hugo-site
           flavor: |
             latest=auto
           tags: |

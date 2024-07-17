@@ -36,7 +36,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/scilifelabdatacentre/data-builder
+          images: ghcr.io/scilifelabdatacentre/swg-data-builder
           flavor: |
             latest=auto
           tags: |

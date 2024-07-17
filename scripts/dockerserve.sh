@@ -5,7 +5,7 @@
 # the `latest` image:
 #
 # SWG_PORT=8000 SWG_TAG=latest ./scripts/dockerserve.sh
-_IMAGE=ghcr.io/scilifelabdatacentre/hugo-site
+_IMAGE=ghcr.io/scilifelabdatacentre/swg-hugo-site
 _TAG=local
 _NAME=swedgene-site
 _DATA_DIR=data
