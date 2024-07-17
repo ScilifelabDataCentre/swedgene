@@ -9,7 +9,7 @@ weight: 3
 
 Genome assembly:
 
-- ENA mirror: [GCA_963668995.1.fasta.gz](https://www.ebi.ac.uk/ena/browser/api/fasta/GCA_963668995.1?download=true&gzip=true)
+- ENA mirror: [CAVLGL01.fasta.gz](https://ftp.ebi.ac.uk/pub/databases/ena/wgs/public/cav/CAVLGL01.fasta.gz)
 - NCBI mirror: [GCA_963668995.1_Parnassius_mnemosyne_n_2023_11_genomic.fna.gz](https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/963/668/995/GCA_963668995.1_Parnassius_mnemosyne_n_2023_11/GCA_963668995.1_Parnassius_mnemosyne_n_2023_11_genomic.fna.gz)
 
 Mitochondrial assembly:
@@ -29,7 +29,7 @@ Genome annotation (protein coding genes):
 
 Illumina RNAseq transcript assembly (thorax muscle tissue):
 
-- [pmne_Illumina_RNAseq_StringTie_sorted-transcripts_match.gff.gz"](https://figshare.scilifelab.se/ndownloader/files/47209648)
+- [pmne_Illumina_RNAseq_StringTie_sorted-transcripts_match.gff.gz](https://figshare.scilifelab.se/ndownloader/files/47209648)
 
 Non-coding RNA (ncRNA) genes:
 
