@@ -13,7 +13,7 @@ docker_build () {
 
 if [[ -z "$1" || "$1" == "data" ]];
 then
-    _DEFAULT_IMAGE=ghcr.io/scilifelabdatacentre/data-builder
+    _DEFAULT_IMAGE=ghcr.io/scilifelabdatacentre/swg-data-builder
     _DEFAULT_DOCKERFILE=docker/data.dockerfile
     declare -a _BUILD_ARGS
     if [[ -z ${SWG_DEFAULT_USER} ]];then
@@ -24,7 +24,7 @@ then
 fi
 
 if [[ "$1" = hugo ]]; then
-    _DEFAULT_IMAGE=ghcr.io/scilifelabdatacentre/hugo-site
+    _DEFAULT_IMAGE=ghcr.io/scilifelabdatacentre/swg-hugo-site
     _DEFAULT_DOCKERFILE=docker/hugo.dockerfile
     docker_build  && exit 0
 fi

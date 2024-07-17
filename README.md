@@ -76,13 +76,13 @@ To build an run the Hugo site yourself/locally you can do the following from the
 _Please note that you need to be in the root of the repository for this to work_
 
 ```bash 
-docker build -t hugo-site:local -f docker/hugo.dockerfile .
+docker build -t swg-hugo-site:local -f docker/hugo.dockerfile .
 ```
 
 You can run then run this image locally as follows: 
 
 ```bash 
-docker run -p 8080:8080 hugo-site:local
+docker run -p 8080:8080 swg-hugo-site:local
 ```
 
 The site will be then visible to you at the address: http://localhost:8080/ on your web browser. 
@@ -103,7 +103,7 @@ If you want to specfiy the image and/or tag used you can specify them via enviro
 For example:
 
 ```bash 
-SWG_DOCKER_IMAGE=ghcr.io/scilifelabdatacentre/data-builder SWG_DOCKER_TAG=docker-dir ./scripts/dockermake.sh build
+SWG_DOCKER_IMAGE=ghcr.io/scilifelabdatacentre/swg-data-builder SWG_DOCKER_TAG=docker-dir ./scripts/dockermake.sh build
 ```
 
 

@@ -10,7 +10,7 @@
 # SWG_DOCKER_IMAGE=industrious-squirrel SWG_DOCKER_TAG=slim-buster scripts/dockerbuild.sh build
 
 _DEFAULT_TAG="latest"
-_DEFAULT_IMAGE="ghcr.io/scilifelabdatacentre/data-builder"
+_DEFAULT_IMAGE="ghcr.io/scilifelabdatacentre/swg-data-builder"
 
 CWD="$(pwd)"
 mkdir -p "${DATA_DIR:=data}" "${INSTALL_DIR:=hugo/static}"
