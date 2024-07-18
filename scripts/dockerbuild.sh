@@ -7,7 +7,7 @@ _DEFAULT_TAG=local
 
 docker_build () {
     docker build "${_BUILD_ARGS[@]}" \
-	   -t "${SWG_DOCKER_IMAGE:-$_DEFAULT_IMAGE}:${SWG_DOCKER_TAG:-$_DEFAULT_TAG}" \
+	   -t "${SWG_IMAGE:-$_DEFAULT_IMAGE}:${SWG_TAG:-$_DEFAULT_TAG}" \
 	   -f "${SWG_DOCKERFILE:-$_DEFAULT_DOCKERFILE}" .
 }
 
