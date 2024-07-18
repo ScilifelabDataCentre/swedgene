@@ -29,7 +29,7 @@ docker_make() {
 	   -v "$CWD/$SWG_DATA_DIR:$_DOCKER_WORKDIR/data" \
 	   -v "$CWD/Makefile:$_DOCKER_WORKDIR/Makefile" \
 	   -v "$CWD/$SWG_CONFIG_DIR:$_DOCKER_WORKDIR/config" \
-	   -v "$CWD/$SWG_INSTALL_DIR:$_DOCKER__WORKDIR/hugo/static" \
+	   -v "$CWD/$SWG_INSTALL_DIR:$_DOCKER_WORKDIR/hugo/static" \
 	   "${SWG_IMAGE}:${SWG_TAG}" make "$@"
 }
 
