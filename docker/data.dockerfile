@@ -1,7 +1,6 @@
 ARG NODE_VERSION=22.2.0
 
-
-# Stage 1:
+# Stage 1: Build
 FROM node:${NODE_VERSION} AS build
 ARG SAMTOOLS_VERSION="1.20"
 
@@ -13,30 +12,29 @@ RUN curl -fsSL https://github.com/samtools/samtools/releases/download/${SAMTOOLS
 RUN curl -fsSL --output /usr/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 \
     && chmod +x /usr/bin/yq
 
-RUN npm install -g @jbrowse/cli
-
-# Stage 2: Slim image to reduce size. 
+# Final stage with slim image to save space
 FROM node:${NODE_VERSION}-slim 
 
 WORKDIR /swedgene
 VOLUME /swedgene/data
 
-# Install missing dependencies, then clean up non-required files.
 RUN apt-get update && apt-get install -y --no-install-recommends \
     make \
+    curl \
+    ca-certificates \
     libdeflate0 \
     libcurl4 \
+    libncursesw6 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy required installs from the build stage 
 COPY --from=build /usr/local/bin/samtools /usr/local/bin/
 COPY --from=build /usr/local/bin/htsfile /usr/local/bin/
 COPY --from=build /usr/local/bin/bgzip /usr/local/bin/
 COPY --from=build /usr/local/bin/tabix /usr/local/bin/
 COPY --from=build /usr/bin/yq /usr/bin/
-COPY --from=build /usr/local/lib/node_modules/@jbrowse /usr/local/lib/node_modules/@jbrowse
-RUN ln -s /usr/local/lib/node_modules/@jbrowse/cli/bin/jbrowse /usr/local/bin/jbrowse
+
+RUN npm install -g @jbrowse/cli
 
 COPY config config
 COPY scripts scripts
