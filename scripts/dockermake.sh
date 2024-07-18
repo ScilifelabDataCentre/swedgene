@@ -9,10 +9,11 @@
 #
 # SWG_IMAGE=industrious-squirrel SWG_TAG=slim-buster scripts/dockerbuild.sh build
 
-_DEFAULT_TAG="latest"
-_DEFAULT_IMAGE="ghcr.io/scilifelabdatacentre/swg-data-builder"
+: ${SWG_TAG="latest"}
+: ${SWG_IMAGE:="ghcr.io/scilifelabdatacentre/swg-data-builder"}
 
 CWD="$(pwd)"
+
 if [[ -n $SWG_UID || -n $SWG_GID ]];
 then
     SWG_USER=("-u" "${SWG_UID:-$(id -u)}:${SWG_GID:-$(id -g)}")
@@ -22,32 +23,47 @@ if [[ "$1" == "--test" || "$1" == "-t" ]]; then
     # Discard first argument
     shift
 
-    DATA_DIR=tests/data
-    INSTALL_DIR=tests/public
-    CONFIG_DIR=tests/config
-    FIXTURES_DIR=tests/fixtures
+    SWG_DATA_DIR=tests/data
+    SWG_INSTALL_DIR=tests/public
+    SWG_CONFIG_DIR=tests/config
+    SWG_FIXTURES_DIR=tests/fixtures
+    _TEST_NET=swg-test-net
+    _TEST_SERVER_NAME=fixtures
+    _WORKDIR=/swedgene
 
-    mkdir -p "$DATA_DIR" "$INSTALL_DIR"
+    mkdir -p "$SWG_DATA_DIR" "$SWG_INSTALL_DIR"
 
-    docker network create -d bridge swg-test-net
+    if [[ ! "$(docker network ls -q -f name=$_TEST_NET)" ]]; then
+	echo "Creating test network $_TEST_NET"
+	docker network create $_TEST_NET
+    fi
 
-    # Start fixture server
-    docker run -d --name=fixtures \
-	   --network=swg-test-net \
-	   -v "$CWD/tests/fixtures":/usr/share/nginx/html \
+    if [[ "${_CID:=$(docker ps -a -q -f name=$_TEST_SERVER_NAME)}" ]]; then
+	echo "Removing previous test server container ${_CID}"
+	docker rm -f $_CID &> /dev/null
+    fi
+
+    echo "Starting test server..."
+    docker run -d -q --name=$_TEST_SERVER_NAME \
+	   --network=$_TEST_NET \
+	   -v "$CWD/$SWG_FIXTURES_DIR":/usr/share/nginx/html \
 	   nginx:alpine
 
     # Run the test build
     docker run --rm "${SWG_USER[@]}" \
-	   --network=swg-test-net \
-	   -v "$CWD/$DATA_DIR:/swedgene/data" \
-	   -v "$CWD/Makefile:/swedgene/Makefile" \
-	   -v "$CWD/tests/config:/swedgene/config" \
-	   -v "$CWD/$INSTALL_DIR:/swedgene/hugo/static" \
-	   "${SWG_IMAGE:-$_DEFAULT_IMAGE}:${SWG_TAG:-$_DEFAULT_TAG}" make "$@"
+	   --network=$_TEST_NET \
+	   -v "$CWD/$SWG_DATA_DIR:$_WORKDIR/data" \
+	   -v "$CWD/Makefile:$_WORKDIR/Makefile" \
+	   -v "$CWD/$SWG_CONFIG_DIR:$_WORKDIR/config" \
+	   -v "$CWD/$SWG_INSTALL_DIR:$_WORKDIR/hugo/static" \
+	   "${SWG_IMAGE}:${SWG_TAG}" make "$@"
 
-    docker container rm -f fixtures
-    docker network remove swg-test-net
+    echo "Cleaning up..."
+    {
+	docker container rm -f $_TEST_SERVER_NAME
+	docker network rm -f $_TEST_NET
+    } > /dev/null
+
 else
     mkdir -p "${DATA_DIR:=data}" "${INSTALL_DIR:=hugo/static}"
     docker run --rm "${SWG_USER[@]}" \
