@@ -9,14 +9,33 @@
 #
 # SWG_IMAGE=industrious-squirrel SWG_TAG=slim-buster scripts/dockerbuild.sh build
 
-: ${SWG_TAG="latest"}
-: ${SWG_IMAGE:="ghcr.io/scilifelabdatacentre/swg-data-builder"}
-
 CWD="$(pwd)"
+
+: ${SWG_TAG="main"}
+: ${SWG_IMAGE:="ghcr.io/scilifelabdatacentre/swg-data-builder"}
+: ${SWG_DATA_DIR:="data"}
+: ${SWG_INSTALL_DIR:="hugo/static"}
+: ${SWG_CONFIG_DIR:="config"}
+
+_DOCKER_ARGS=()
+
+# Run make in Docker container using host Makefile, with data,
+# configuration and installation directories mounted.
+docker_make() {
+    _DOCKER_WORKDIR=/swedgene
+    # Make sure writable directories exist on the host
+    mkdir -p "$SWG_DATA_DIR" "$SWG_INSTALL_DIR"
+    docker run --rm "${_DOCKER_ARGS[@]}" \
+	   -v "$CWD/$SWG_DATA_DIR:$_DOCKER_WORKDIR/data" \
+	   -v "$CWD/Makefile:$_DOCKER_WORKDIR/Makefile" \
+	   -v "$CWD/$SWG_CONFIG_DIR:$_DOCKER_WORKDIR/config" \
+	   -v "$CWD/$SWG_INSTALL_DIR:$_DOCKER__WORKDIR/hugo/static" \
+	   "${SWG_IMAGE}:${SWG_TAG}" make "$@"
+}
 
 if [[ -n $SWG_UID || -n $SWG_GID ]];
 then
-    SWG_USER=("-u" "${SWG_UID:-$(id -u)}:${SWG_GID:-$(id -g)}")
+    _DOCKER_ARGS+=("-u" "${SWG_UID:-$(id -u)}:${SWG_GID:-$(id -g)}")
 fi
 
 if [[ "$1" == "--test" || "$1" == "-t" ]]; then
@@ -30,8 +49,6 @@ if [[ "$1" == "--test" || "$1" == "-t" ]]; then
     _TEST_NET=swg-test-net
     _TEST_SERVER_NAME=fixtures
     _WORKDIR=/swedgene
-
-    mkdir -p "$SWG_DATA_DIR" "$SWG_INSTALL_DIR"
 
     if [[ ! "$(docker network ls -q -f name=$_TEST_NET)" ]]; then
 	echo "Creating test network $_TEST_NET"
@@ -50,13 +67,8 @@ if [[ "$1" == "--test" || "$1" == "-t" ]]; then
 	   nginx:alpine
 
     # Run the test build
-    docker run --rm "${SWG_USER[@]}" \
-	   --network=$_TEST_NET \
-	   -v "$CWD/$SWG_DATA_DIR:$_WORKDIR/data" \
-	   -v "$CWD/Makefile:$_WORKDIR/Makefile" \
-	   -v "$CWD/$SWG_CONFIG_DIR:$_WORKDIR/config" \
-	   -v "$CWD/$SWG_INSTALL_DIR:$_WORKDIR/hugo/static" \
-	   "${SWG_IMAGE}:${SWG_TAG}" make "$@"
+    _DOCKER_ARGS+=(--network="$_TEST_NET")
+    docker_make "$@"
 
     echo "Cleaning up..."
     {
@@ -65,10 +77,6 @@ if [[ "$1" == "--test" || "$1" == "-t" ]]; then
     } > /dev/null
 
 else
-    mkdir -p "${DATA_DIR:=data}" "${INSTALL_DIR:=hugo/static}"
-    docker run --rm "${SWG_USER[@]}" \
-	   -v "$CWD/${DATA_DIR}:/swedgene/data" \
-	   -v "$CWD/Makefile:/swedgene/Makefile" \
-	   -v "$CWD/${INSTALL_DIR}:/swedgene/hugo/static" \
-	   "${SWG_IMAGE:-$_DEFAULT_IMAGE}:${SWG_TAG:-$_DEFAULT_TAG}" make "$@"
+    docker_make "$@"
 fi
+
