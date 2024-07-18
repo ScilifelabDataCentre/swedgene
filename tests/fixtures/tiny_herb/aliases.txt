@@ -1,1 +1,1 @@
-chr1 1 chromosome1
+chr1	1	chromosome1

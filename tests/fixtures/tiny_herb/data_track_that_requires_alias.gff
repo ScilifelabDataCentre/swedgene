@@ -1,3 +1,4 @@
 ##gff-version 3
-chromosome1     tRNAscan-SE     tRNA    20 58 29.1    -       .       ID=chromosome1.trna1;Name=chromosome1.tRNA1-UndetNNN;isotype=Undet;anticodon=NNN;gene_biotype=tRNA;
-chromosome1      tRNAscan-SE     pseudogene      63 76 25.2    +       .       ID=chromosome1.trna2;Name=chromosome1.tRNA2-SerCGA;isotype=Ser;anticodon=CGA;gene_biotype=pseudogene;
+chromosome1	      annotationPipeline	tRNA	26	57	.	+	.	ID=tRNA001
+chromosome1	      annotationPipeline	tRNA	34	51	.	-	.	ID=tRNA002
+chromosome1	      annotationPipeline	tRNA	61	78	.	-	.	ID=tRNA003
