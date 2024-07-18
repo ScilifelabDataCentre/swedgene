@@ -3,7 +3,7 @@ assembly:
   name: Tiny_herb_v1
   accession: GCA_12345678.9
   url: "http://fixtures/tiny_herb/genome.fna.gz"
-  #aliases: "http://fixtures/tiny_herb/aliases.txt"
+  aliases: "http://fixtures/tiny_herb/aliases.txt"
 tracks:
   - name: "Protein coding genes"
     url: "http://fixtures/tiny_herb/genes.gff.gz"
