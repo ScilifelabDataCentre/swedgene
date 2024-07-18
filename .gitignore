@@ -3,10 +3,10 @@
 
 /data
 tests/data
+tests/public
 
 # Hugo data directory - from make install 
-hugo/static/data/**/*.bgz*
-hugo/static/data/**/*gff*
+hugo/static/data
 
 # Hugo default output directory
 hugo/public
