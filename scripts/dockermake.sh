@@ -13,11 +13,14 @@ CWD="$(pwd)"
 
 : ${SWG_TAG="main"}
 : ${SWG_IMAGE:="ghcr.io/scilifelabdatacentre/swg-data-builder"}
+
+# Directories on the host that are mounted in the container, and used
+# by `make`. Paths must be *relative* to the repository root.
 : ${SWG_DATA_DIR:="data"}
 : ${SWG_INSTALL_DIR:="hugo/static"}
 : ${SWG_CONFIG_DIR:="config"}
 
-_DOCKER_ARGS=()
+_DOCKER_FLAGS=()
 
 # Run make in Docker container using host Makefile, with data,
 # configuration and installation directories mounted.
@@ -25,17 +28,26 @@ docker_make() {
     _DOCKER_WORKDIR=/swedgene
     # Make sure writable directories exist on the host
     mkdir -p "$SWG_DATA_DIR" "$SWG_INSTALL_DIR"
-    docker run --rm "${_DOCKER_ARGS[@]}" \
-	   -v "$CWD/$SWG_DATA_DIR:$_DOCKER_WORKDIR/data" \
-	   -v "$CWD/Makefile:$_DOCKER_WORKDIR/Makefile" \
-	   -v "$CWD/$SWG_CONFIG_DIR:$_DOCKER_WORKDIR/config" \
-	   -v "$CWD/$SWG_INSTALL_DIR:$_DOCKER_WORKDIR/hugo/static" \
-	   "${SWG_IMAGE}:${SWG_TAG}" make "$@"
+
+    # Build the docker argument list, specifying mount points and
+    # environment variables
+    for dir in SWG_DATA_DIR SWG_INSTALL_DIR SWG_CONFIG_DIR; do
+	# The ! in the parameter expansion introductes a level of
+	# indirection: the result is the value of the variable whose
+	# name is $dir
+	_DOCKER_FLAGS+=(
+	    -v "$CWD/${!dir}:$_DOCKER_WORKDIR/${!dir}"
+	    -e "$dir=${!dir}"
+	)
+    done
+    # Don't forget the Makefile
+    _DOCKER_FLAGS+=(-v "$CWD/Makefile:$_DOCKER_WORKDIR/Makefile")
+    docker run --rm "${_DOCKER_FLAGS[@]}" "${SWG_IMAGE}:${SWG_TAG}" make "$@"
 }
 
 if [[ -n $SWG_UID || -n $SWG_GID ]];
 then
-    _DOCKER_ARGS+=("-u" "${SWG_UID:-$(id -u)}:${SWG_GID:-$(id -g)}")
+    _DOCKER_FLAGS+=("-u" "${SWG_UID:-$(id -u)}:${SWG_GID:-$(id -g)}")
 fi
 
 if [[ "$1" == "--test" || "$1" == "-t" ]]; then
@@ -72,7 +84,7 @@ if [[ "$1" == "--test" || "$1" == "-t" ]]; then
     fi
 
     # Run the test build
-    _DOCKER_ARGS+=(--network="$_TEST_NET")
+    _DOCKER_FLAGS+=(--network="$_TEST_NET")
     docker_make "$@"
 
     if [[ $_NO_TEARDOWN == 1 ]]; then
