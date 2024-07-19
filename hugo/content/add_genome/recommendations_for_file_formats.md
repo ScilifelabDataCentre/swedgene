@@ -5,7 +5,7 @@ toc: true
 
 ## Recommendations for file formats
 
-This page contains recommendations for the file formats that can be used for displaying data on the Genome Portal and is intended as a support for researchers that want to add a new genome to the site. The text assumes some previous knowledge about bioinformatics file formats and familiarity with command line tools. The Genome Portal staff will also be happy to discuss choice of file formats and give advice on file format conversion. Please see the <a href="/contact">Contact page</a> for how to get in touch with us.
+This page contains recommendations for the file formats that can be used for displaying data on the Genome Portal and is intended as a support for researchers that want to add a new genome to the site. The text assumes some previous knowledge about bioinformatics file formats and familiarity with command line tools. The Genome Portal staff will also be happy to discuss choice of file formats and give advice on file format conversion. Please contact us via email at [dsn-eb@scilifelab.se](mailto:dsn-eb@scilifelab.se) or through the <a href="/contact">Contact page</a>.
 
 The Genome Portal uses JBrowse 2 to display the datasets. JBrowse 2 <a href="https://jbrowse.org/jb2/features/#supported-data-formats">supports several formats</a> that are commonly used in genomics and transcriptomics and these can thus technically be displayed in the genome portal. However, at the moment we do **NOT display BAM files** in the genome portal since they can be quite big and might affect performance.
 
