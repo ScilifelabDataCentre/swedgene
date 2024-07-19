@@ -18,7 +18,7 @@ INSTALL_DIR=$(SWG_INSTALL_DIR)
 SPECIES=$(SPECIES:%:{%})
 
 CONFIGS = $(shell find $(CONFIG_DIR)/$(SPECIES) -type f -name 'config.yml')
-JBROWSE_CONFIGS = $(subst $(CONFIG_DIR)/,$(DATA_DIR)/,$(CONFIGS:.yml=.json))
+JBROWSE_CONFIGS = $(patsubst $(CONFIG_DIR)/%,$(DATA_DIR)/%,$(CONFIGS:.yml=.json))
 
 # Defines the DOWNLOAD_TARGETS variable
 include $(DATA_DIR)/targets.mk
