@@ -2,9 +2,14 @@ SHELL=/bin/bash
 # Disable builtin implicit rules
 MAKEFLAGS += -r
 
-CONFIG_DIR=config
-DATA_DIR=data
-INSTALL_DIR=hugo/static
+# SWG_* variables can be set in the process environment
+SWG_CONFIG_DIR ?= config
+SWG_DATA_DIR ?= data
+SWG_INSTALL_DIR ?= hugo/static/data
+
+CONFIG_DIR=$(SWG_CONFIG_DIR)
+DATA_DIR=$(SWG_DATA_DIR)
+INSTALL_DIR=$(SWG_INSTALL_DIR)
 
 # To restrict operations to a subset of species, assign them as a
 # comma-separated list to the SPECIES variable. Example:
