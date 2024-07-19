@@ -49,7 +49,7 @@ endef
 
 define log_list	
 @printf $(1)"\n"
-@printf "  - %s\n" $(2)
+@printf "  - %s\n" $(sort $(2))
 endef
 .PHONY: all
 all: build install
