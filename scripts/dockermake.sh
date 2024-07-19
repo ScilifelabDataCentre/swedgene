@@ -39,8 +39,12 @@ then
 fi
 
 if [[ "$1" == "--test" || "$1" == "-t" ]]; then
-    # Discard first argument
     shift
+
+    if [[ "$1" == "--keep" || "$1" == "-k" ]]; then
+	_NO_TEARDOWN=1
+	shift
+    fi
 
     SWG_DATA_DIR=tests/data
     SWG_INSTALL_DIR=tests/public
@@ -50,26 +54,34 @@ if [[ "$1" == "--test" || "$1" == "-t" ]]; then
     _TEST_SERVER_NAME=fixtures
     _WORKDIR=/swedgene
 
-    if [[ ! "$(docker network ls -q -f name=$_TEST_NET)" ]]; then
+    if [[ "$(docker network ls -q -f name=$_TEST_NET)" ]]; then
+	echo "Using existing network: $_TEST_NET"
+    else
 	echo "Creating test network $_TEST_NET"
 	docker network create $_TEST_NET
     fi
 
     if [[ "${_CID:=$(docker ps -a -q -f name=$_TEST_SERVER_NAME)}" ]]; then
-	echo "Removing previous test server container ${_CID}"
-	docker rm -f $_CID &> /dev/null
+	echo "Using existing test server container: ${_TEST_SERVER_NAME}"
+    else
+	    echo "Starting test server..."
+	    docker run -d -q --name=$_TEST_SERVER_NAME \
+		   --network=$_TEST_NET \
+		   -v "$CWD/$SWG_FIXTURES_DIR":/usr/share/nginx/html \
+		   nginx:alpine
     fi
-
-    echo "Starting test server..."
-    docker run -d -q --name=$_TEST_SERVER_NAME \
-	   --network=$_TEST_NET \
-	   -v "$CWD/$SWG_FIXTURES_DIR":/usr/share/nginx/html \
-	   nginx:alpine
 
     # Run the test build
     _DOCKER_ARGS+=(--network="$_TEST_NET")
     docker_make "$@"
 
+    if [[ $_NO_TEARDOWN == 1 ]]; then
+	echo "Keeping test resources running"
+	echo "To clean up manually:"
+	echo "    docker container rm -f $_TEST_SERVER_NAME"
+	echo "    docker network rm $_TEST_NET"
+	exit
+    fi
     echo "Cleaning up..."
     {
 	docker container rm -f $_TEST_SERVER_NAME
