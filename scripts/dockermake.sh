@@ -40,8 +40,11 @@ docker_make() {
 	    -e "$dir=${!dir}"
 	)
     done
-    # Don't forget the Makefile
-    _DOCKER_FLAGS+=(-v "$CWD/Makefile:$_DOCKER_WORKDIR/Makefile")
+    # Don't forget the Makefile and script directory
+    _DOCKER_FLAGS+=(
+	-v "$CWD/Makefile:$_DOCKER_WORKDIR/Makefile"
+	-v "$CWD/scripts:$_DOCKER_WORKDIR/scripts"
+    )
     docker run --rm "${_DOCKER_FLAGS[@]}" "${SWG_IMAGE}:${SWG_TAG}" make "$@"
 }
 
