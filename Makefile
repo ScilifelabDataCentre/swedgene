@@ -167,4 +167,4 @@ $(filter %.gff.bgz,$(LOCAL_FILES)): %.gff.bgz: %.gff.gz
 $(DOWNLOAD_TARGETS): $(DATA_DIR)/%:| $(DATA_DIR)/.downloads/%
 	@echo "Downloading $@ ..."; \
 	mkdir -p --mode=0755 $(@D) && \
-	curl -# -L --output $@ "$$(< $|)"
+	curl -# -f -L --output $@ "$$(< $|)"
