@@ -1,0 +1,11 @@
+organism: "Lilliputianus herba"
+assembly:
+  name: Tiny_herb_v1
+  accession: GCA_12345678.9
+  url: "http://fixtures/tiny_herb/genome.fna.gz"
+  aliases: "http://fixtures/tiny_herb/aliases.txt"
+tracks:
+  - name: "Gzipped genes"
+    url: "http://fixtures/zip_extensions/other_genes.gff.gz"
+  - name: "Zipped jeans"
+    url: "http://fixtures/zip_extensions/genes.gff.zip"
