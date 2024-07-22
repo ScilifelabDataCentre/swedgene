@@ -42,7 +42,7 @@ do
     target_file="${data_dir}/$(std_extension $target)"
     _should_download $target_file || continue
     printf "$target_file " | tee -a "$MAKEFILE"
-    cached="$CACHE_DIR/${target_file#*/}"
+    cached="$CACHE_DIR/${target_file/${DATA_DIR}}"
     if [[ ! -e  "$cached" || ! ( "$(< $cached)" == $url ) ]];
     then
 	mkdir -p "${cached%/*}"

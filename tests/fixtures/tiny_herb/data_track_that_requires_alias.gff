@@ -1,0 +1,4 @@
+##gff-version 3
+chromosome1	      annotationPipeline	tRNA	26	57	.	+	.	ID=tRNA001
+chromosome1	      annotationPipeline	tRNA	34	51	.	-	.	ID=tRNA002
+chromosome1	      annotationPipeline	tRNA	61	78	.	-	.	ID=tRNA003
