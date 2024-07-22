@@ -6,6 +6,6 @@ assembly:
   aliases: "http://fixtures/tiny_herb/aliases.txt"
 tracks:
   - name: "Gzipped genes"
-    url: "http://fixtures/zip_extensions/other_genes.gff.gz"
+    url: "http://fixtures/zip_extensions/genes.gff.gz"
   - name: "Zipped jeans"
-    url: "http://fixtures/zip_extensions/genes.gff.zip"
+    url: "http://fixtures/zip_extensions/other_genes.gff.zip"
