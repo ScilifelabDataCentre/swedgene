@@ -16,7 +16,7 @@ CWD="$(pwd)"
 
 docker run -d \
        -p "${SWG_PORT:-$_PORT}":8080 \
-       -v "$CWD/${SWG_DATA_DIR:-$_DATA_DIR}":"$_WWW/static/data" \
+       -v "$CWD/${SWG_DATA_DIR:-$_DATA_DIR}":"$_WWW/data" \
        --name "${SWG_NAME:-$_NAME}" \
        "${SWG_IMAGE:-$_IMAGE}:${SWG_TAG:-$_TAG}" && \
      cat <<EOF
