@@ -254,6 +254,8 @@ body {
 .scilife-subsection .scilife-ncbi-ena-btn {
   background-color: var(--scilife-grape);
   border-color: var(--scilife-grape);
+  display: inline-flex;
+  align-items: center;
 }
 
 /* Overrides default button */
@@ -338,6 +340,30 @@ body {
   font-weight: 400;
   color: var(--scilife-contrast-okay-grey);
   text-align: center;
+}
+
+.scilife-icon-sm {
+  margin-left: 0.2rem;
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.scilife-icon {
+  margin-left: 0.25rem;
+  width: 1.3rem;
+  height: 1.3rem; 
+}
+
+.scilife-icon-lg {
+  margin-left: 0.25rem;
+  width: 1.6rem;
+  height: 1.6rem; 
+}
+
+.scilife-icon-xl {
+  margin-left: 0.25rem;
+  width: 2rem;
+  height: 2rem; 
 }
 
 

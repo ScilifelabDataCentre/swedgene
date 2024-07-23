@@ -78,7 +78,7 @@
 
     // Add a help button, when clicked, toast pop-up happens.
     const helpControl = L.control({ position: 'topright' });
-    const helpButtonHTML = '<button class="btn btn-light" id="helpButton" style="font-size: 1.3rem"><i class="bi bi-question-circle"></i></button>';
+    const helpButtonHTML = '<button class="btn btn-light" id="helpButton" style="font-size: 1.3rem"><img src="/img/icons/question.svg" alt="Help button" class="scilife-icons-xl"></button>';
 
     helpControl.onAdd = function (map) {
         let div = L.DomUtil.create('div', 'help-control');

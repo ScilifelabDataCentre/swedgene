@@ -104,7 +104,7 @@
             <div class="d-grid gap-2 d-md-flex text-center text-md-left">
                 <a href="TODO" target="_blank">
                     <button class="scilife-external-btn btn btn-lg">
-                        <img src="/img/icons/bio_eco.svg" alt="Icon that looks like a plant">
+                        <img src="/img/icons/plant1.svg" alt="Plant icon" class="scilife-icon">
                         <br>
                         Biology and Ecology
                     </button>
@@ -113,7 +113,7 @@
                 {{ if .Params.gbif_taxon_id }}
                     <a href="https://species.biodiversitydata.se/species/{{ .Params.gbif_taxon_id }}" target="_blank">
                         <button class="scilife-external-btn btn btn-lg">
-                            <i class="bi bi-geo-alt" style="font-size: 1.2rem"></i>
+                            <img src="/img/icons/location.svg" alt="Location Icon" class="scilife-icon">
                             <br>
                             Occurrence data in SBDI
                         </button>
@@ -121,7 +121,7 @@
 
                     <a href="https://www.gbif.org/species/{{ .Params.gbif_taxon_id }}" target="_blank">
                         <button class="scilife-external-btn btn btn-lg">
-                            <i class="bi bi-geo-alt" style="font-size: 1.2rem"></i>
+                            <img src="/img/icons/location.svg" alt="Location Icon" class="scilife-icon">
                             <br>
                             Occurrence data in GBIF
                         </button>
@@ -133,7 +133,7 @@
                 {{ if .Params.goat_webpage }}
                     <a href="{{ .Params.goat_webpage }}" target="_blank">
                         <button class="scilife-external-btn btn btn-lg">
-                            <i class="bi bi-database" style="font-size: 1.2rem"></i>
+                            <img src="/img/icons/db.svg" alt="Database Icon" class="scilife-icon">
                             <br>
                             Record in Genomes on a Tree (GoaT)
                         </button>
