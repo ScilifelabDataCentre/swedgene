@@ -1,0 +1,85 @@
+[
+  {
+    "dataTrackName": "genome",
+    "description": "Reference genome sequence",
+    "links": [
+      {"download": "www.filelink.com"},
+      {"download2": "www.filelink2.com"}
+    ],
+    "accession": "GCA_900323705.1",
+    "fileName": "CAVLGL01.fasta.gz",
+    "submitterName": "Jacob Höglund",
+    "principalInvestigator": "Jacob Höglund",
+    "principalInvestigatorEmail": "TODO@gmail.com",
+    "submitterAffiliation": "Uppsala University",
+    "firstDateOnPortal": "April 8 2024"
+  },
+  {
+    "dataTrackName": "mt genome",
+    "description": "Reference mitochondrial genome sequence",
+    "links": [],
+    "accession": "OZ075093.1",
+    "fileName": "OZ075093.1.fasta.gz",
+    "submitterName": "Jacob Höglund",
+    "principalInvestigator": "Jacob Höglund",
+    "principalInvestigatorEmail": "TODO@gmail.com",
+    "submitterAffiliation": "Uppsala University",
+    "firstDateOnPortal": "April 8 2024"
+  },
+  {
+    "dataTrackName": "nc genes",
+    "description": "Genome annotation (protein coding genes)",
+    "links": [],
+    "accession": "",
+    "fileName": "pmne_functional_edit1.gff.gz",
+    "submitterName": "Freddy Mercury",
+    "principalInvestigator": "Jacob Höglund",
+    "principalInvestigatorEmail": "TODO@gmail.com",
+    "submitterAffiliation": "Uppsala University",
+    "firstDateOnPortal": "April 8 2024"
+  },
+  {
+    "dataTrackName": "transcripts",
+    "description": "Illumina RNAseq transcript assembly (thorax muscle tissue)",
+    "links": [],
+    "accession": "",
+    "fileName": "pmne_Illumina_RNAseq_StringTie_sorted-transcripts_match.gff.gz",
+    "submitterName": "Andrea Echeverry",
+    "principalInvestigator": "Ebba Jacobson",
+    "submitterAffiliation": "SLU",
+    "firstDateOnPortal": "May 8 2024"
+  },
+  {
+    "dataTrackName": "ncRNA genes",
+    "description": "Non-coding RNA (ncRNA) genes",
+    "links": [],
+    "accession": "",
+    "fileName": "pmne_ncRNAs.gff.gz",
+    "submitterName": "Ruben Albarran",
+    "principalInvestigator": "Ebba Jacobson",
+    "submitterAffiliation": "SLU",
+    "firstDateOnPortal": "May 9 2024"
+  },
+  {
+    "dataTrackName": "tRNA genes",
+    "description": "tRNA genes and putative pseudogenes",
+    "links": [],
+    "accession": "",
+    "fileName": "pmne_tRNAs_and_pseudogenes.gff.gz",
+    "submitterName": "Tom Yorke",
+    "principalInvestigator": "Ebba Jacobson",
+    "submitterAffiliation": "SLU",
+    "firstDateOnPortal": "June 7 2024"
+  },
+  {
+    "dataTrackName": "mt genes",
+    "description": "Annotation of protein coding genes in the mitochondrion",
+    "links": [],
+    "accession": "",
+    "fileName": "pmne_mtdna.gff.gz",
+    "submitterName": "Joe Arroyo",
+    "principalInvestigator": "Ebba Jacobson",
+    "submitterAffiliation": "SLU",
+    "firstDateOnPortal": "June 17 2024"
+  }
+]

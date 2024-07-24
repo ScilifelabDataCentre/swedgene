@@ -1,59 +1,57 @@
-{{ $PiCol :=  7 }}
 
-{{ with resources.Get .Params.download_data_path }}
-    {{ with . | transform.Unmarshal }}
+{{ $json_file := (split .Params.download_data_path "/") }}
+{{ with $data := index .Site.Data $json_file }}
 
-        {{ $tableData := . }}
-        {{ $headers := index $tableData 0 }}
-        {{ $data := after 1 $tableData }}
+    <div class="table-responsive">
+        <table id="annotationTable" class="table table-hover table-bordered">
+            <thead class="table-light">
+                <tr>
+                    <th>Data track name</th>
+                    <th>Description</th>
+                    <th>Links</th>
+                    <th>Accession</th>
+                    <th>File name</th>
+                    <th>Submitter name</th>
+                    <th>Principal investigator</th>
+                    <th>Submitter affiliation</th>
+                    <th>First date on portal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{ range $data }}
 
-        <div class="table-responsive">
-            <table id="annotationTable" class="table table-hover table-bordered">
-                <thead class="table-light">
                     <tr>
-                        {{ range $headers }}
-                            <th scope="col">{{ . }}</th>
-                        {{ end }}
-                    </tr>
-                </thead>
-                <tbody>
-                    {{ range $data }}
-                        <tr>
-                            {{ $currentCol := 0 }}
-                            {{ range . }}
-                                {{ $currentCol = add $currentCol 1 }}
-
-
-                                {{ if eq $currentCol $PiCol }}
-                                    {{ $details := split . "|" }}
-                                    {{ $name := index $details 0 }}
-                                    {{ $email := index $details 1 }}
-
-                                    <td>{{ $name }}
-
-                                        {{ with $email }}
-                                            <a href="mailto:{{ $email }}" aria-label="Email {{ $name }}">
-                                                <i class="bi bi-envelope" aria-hidden="true"></i>
-                                                <span class="visually-hidden">Email {{ $name }}</span>
-                                            </a>
-                                        {{ end }}
-                                    </td>
-
-
-                                {{ else }}
-                                    <td>{{ . }}</td>
+                        <td>{{ .dataTrackName }}</td>
+                        <td>{{ .description }}</td>
+                        <td>
+                            {{ range .links }}
+                                {{ range $linkType, $url := . }}
+                                    {{ $linkType }}: {{ $url }}<br>
                                 {{ end }}
-
                             {{ end }}
-                        </tr>
-                    {{ end }}
-                </tbody>
-            </table>
-        </div>
+                        </td>
+                        <td>{{ .accession }}</td>
+                        <td>{{ .fileName }}</td>
+                        <td>{{ .submitterName }}</td>
+                        <td>
+                            {{ .principalInvestigator }}
+                            {{ with .principalInvestigatorEmail }}
+                            <a href="mailto:{{ . }}" aria-label="Email {{ . }}">
+                                    <i class="bi bi-envelope" aria-hidden="true"></i>
+                                    <span class="visually-hidden">Email {{ . }}</span>
+                                </a>
+                            {{ end }}
+                        </td>
+                        <td>{{ .submitterAffiliation }}</td>
+                        <td>{{ .firstDateOnPortal }}</td>
+                    </tr>
 
-    {{ else }}
-        <p>Unable to process the CSV file.</p>
-    {{ end }}
+                {{ end }}
+            </tbody>
+
+        </table>
+    </div>
+
 {{ else }}
     <p>No download table available for this species.</p>
 {{ end }}
