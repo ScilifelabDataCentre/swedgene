@@ -2,9 +2,14 @@ SHELL=/bin/bash
 # Disable builtin implicit rules
 MAKEFLAGS += -r
 
-CONFIG_DIR=config
-DATA_DIR=data
-INSTALL_DIR=hugo/static
+# SWG_* variables can be set in the process environment
+SWG_CONFIG_DIR ?= config
+SWG_DATA_DIR ?= data
+SWG_INSTALL_DIR ?= hugo/static/data
+
+CONFIG_DIR=$(SWG_CONFIG_DIR)
+DATA_DIR=$(SWG_DATA_DIR)
+INSTALL_DIR=$(SWG_INSTALL_DIR)
 
 # To restrict operations to a subset of species, assign them as a
 # comma-separated list to the SPECIES variable. Example:
@@ -13,7 +18,7 @@ INSTALL_DIR=hugo/static
 SPECIES=$(SPECIES:%:{%})
 
 CONFIGS = $(shell find $(CONFIG_DIR)/$(SPECIES) -type f -name 'config.yml')
-JBROWSE_CONFIGS = $(subst $(CONFIG_DIR)/,$(DATA_DIR)/,$(CONFIGS:.yml=.json))
+JBROWSE_CONFIGS = $(patsubst $(CONFIG_DIR)/%,$(DATA_DIR)/%,$(CONFIGS:.yml=.json))
 
 # Defines the DOWNLOAD_TARGETS variable
 include $(DATA_DIR)/targets.mk
@@ -22,6 +27,13 @@ LOCAL_FILES = $(DOWNLOAD_TARGETS:.gz=.bgz)
 FASTA_INDICES = $(addsuffix .fai,$(filter %.fna.bgz,$(LOCAL_FILES)))
 FASTA_GZINDICES=$(FASTA_INDICES:.fai=.gzi)
 GFF_INDICES = $(addsuffix .tbi,$(filter %.gff.bgz,$(LOCAL_FILES)))
+
+# Files to install
+INSTALLED_FILES = $(patsubst $(DATA_DIR)/%,$(INSTALL_DIR)/%,\
+	$(LOCAL_FILES) \
+	$(FASTA_INDICES) $(FASTA_GZINDICES) \
+	$(GFF_INDICES) \
+	$(JBROWSE_CONFIGS))
 
 # Formatting
 INFO = '\x1b[0;46m'
@@ -37,7 +49,7 @@ endef
 
 define log_list	
 @printf $(1)"\n"
-@printf "  - %s\n" $(2)
+@printf "  - %s\n" $(sort $(2))
 endef
 .PHONY: all
 all: build install
@@ -54,6 +66,7 @@ debug:
 	$(call log_list, "Compressed local files :", $(LOCAL_FILES))
 	$(call log_list,"FASTA indices :", $(FASTA_INDICES) $(FASTA_GZINDICES))
 	$(call log_list, "GFF indices :", $(GFF_INDICES))
+	$(call log_list, "Files to install:", $(INSTALLED_FILES))
 
 .PHONY: jbrowse-config
 jbrowse-config: $(JBROWSE_CONFIGS);
@@ -93,11 +106,15 @@ compress: $(LOCAL_FILES);
 
 # Copy data and configuration to hugo static folder
 .PHONY: install
-install:
-	@cp --parents -t $(INSTALL_DIR) $(LOCAL_FILES) $(GFF_INDICES) $(FASTA_INDICES) $(JBROWSE_CONFIGS)
+install: $(INSTALLED_FILES);
+
+$(INSTALLED_FILES): $(INSTALL_DIR)/%: $(DATA_DIR)/%
+	@echo "Installing $*"
+	@mkdir -p $(@D)
+	@cp $< $@
 
 # Remove JBrowse data and configuration from hugo static folder
-   .PHONY: uninstall
+.PHONY: uninstall
 uninstall:
 	rm -rf $(INSTALL_DIR)/$(DATA_DIR)
 
@@ -150,4 +167,4 @@ $(filter %.gff.bgz,$(LOCAL_FILES)): %.gff.bgz: %.gff.gz
 $(DOWNLOAD_TARGETS): $(DATA_DIR)/%:| $(DATA_DIR)/.downloads/%
 	@echo "Downloading $@ ..."; \
 	mkdir -p --mode=0755 $(@D) && \
-	curl -# -L --output $@ "$$(< $|)"
+	curl -# -f -L --output $@ "$$(< $|)"
