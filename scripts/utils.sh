@@ -6,7 +6,13 @@ chrom_names() {
     sed -n 's/>\([A-Za-z0-9._]\+\).*/\1/p' "$1"
 }
 
-_zip_extensions=(.gz .zip)
+# Supported compression extensions
+_zip_extensions=(gz zip)
+
+# Sentinel extension we use for uncompressed files. That wy we can
+# internally assume that all files are of the form:
+# NAME.BIO_EXTENSION.ZIP_EXTENSION
+_nozip_extension=nozip
 
 # Mapping between common extensions used for genomic files, and the
 # normalized equivalent we use internally.
@@ -27,5 +33,16 @@ std_extension() {
 	    break
 	fi
     done
+
+    final_ext="${filename##*.}"
+    zipped=0
+    for zip_ext in "${_zip_extensions[@]}"; do
+	[[ "$final_ext" == "$zip_ext" ]] && { zipped=1; break; }
+    done
+
+    if [[ "$zipped" == 0 ]]; then
+	filename="${filename}.${_nozip_extension}"
+    fi
+
     echo "$filename"
 }
