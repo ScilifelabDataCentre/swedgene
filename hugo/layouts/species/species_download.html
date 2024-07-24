@@ -13,17 +13,46 @@
     <div class="row">
         <div class="col-md scilife-subsection">
             <h3>Data availability</h3>
-            <p>Download the versions of the species data that are currently being used in the genome portal:</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            {{ .Content }}
+            <p>
+                The table below lists the data files currently displayed on the genome portal.
+                In the Links column, you can find action buttons to download the data file,
+                go to the website of the source repository from where the data was fetched,
+                and (if applicable) the associated scientific article(s) to the data.</p>
+
+            <p>Use the toggle on the right to switch between the default and the expanded table view.</p>
+
+            {{ partial "download_table_long.html" . }}
+
         </div>
     </div>
 </div>
 
 
 {{ partial "last_updated.html" . }}
+
+{{ end }}
+
+{{ define "scripts" }}
+
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha384-wsqsSADZR1YRBEZ4/kKHNSmU+aX8ojbnKUMN4RyD3jDkxw5mHtoe2z/T/n4l56U/" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/2.0.2/css/dataTables.dataTables.css" integrity="sha384-zxIWrl6qlRc1gf8mdRhQEZUap0s1QKZYh7n91f2nDSoExwY+xIrewx7nOxbdsIkB" crossorigin="anonymous">
+<script src="https://cdn.datatables.net/2.0.2/js/dataTables.js" integrity="sha384-ZAOiyxyrmrFcIJwxqcjS1FW7bDREPo2tjhgp2r3Bqm0YGGZw60y+JVznuSfcEDg/" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready( function () {
+        $('#assemblyTable').DataTable({
+      paging: false,
+      info: false,
+      searching: false,
+      ordering: false
+    });
+        $('#annotationTable').DataTable({
+      paging: false,
+      info: false,
+      searching: false,
+      ordering: false
+    });
+    } );
+</script>
 
 {{ end }}
