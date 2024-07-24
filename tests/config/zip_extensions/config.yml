@@ -7,5 +7,7 @@ assembly:
 tracks:
   - name: "Gzipped genes"
     url: "http://fixtures/zip_extensions/genes.gff.gz"
-  - name: "Zipped jeans"
+  - name: "Zipped genes"
     url: "http://fixtures/zip_extensions/other_genes.gff.zip"
+  - name: "Unzipped genes"
+    url: "http://fixtures/zip_extensions/unzipped_genes.gff3"

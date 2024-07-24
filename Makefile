@@ -165,8 +165,8 @@ $(DOWNLOAD_TARGETS): $(DATA_DIR)/%:| $(DATA_DIR)/.downloads/%
 
 # Recompress downloaded files using bgzip(1).
 #
-# File type specific transformations that need to occur before
-# recompression may be specified in scripts/transform.sh
+# File-type-specific transformations that need to occur before
+# recompression may be implemented in scripts/filter.sh
 #
 # Use a variable to properly escape
 # pattern character. Using \% does not work well with secondary
