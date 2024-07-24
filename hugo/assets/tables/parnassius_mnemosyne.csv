@@ -1,8 +1,8 @@
 Data track name,Description,Links,Accession,File name,Submitter name,Principal investigator,Submitter affiliation,First date on portal
-genome,Reference genome sequence,,GCA_900323705.1,CAVLGL01.fasta.gz,Jacob Höglund,Jacob Höglund,Uppsala University,April 8 2024
-mt genome,Reference mitochondrial genome sequence,,OZ075093.1,OZ075093.1.fasta.gz,Jacob Höglund,Jacob Höglund,Uppsala University,April 8 2024
-nc genes,Genome annotation (protein coding genes),,-,pmne_functional_edit1.gff.gz,Freddy Mercury,Jacob Höglund,Uppsala University,April 8 2024
-transcripts,Illumina RNAseq transcript assembly (thorax muscle tissue),,-,pmne_Illumina_RNAseq_StringTie_sorted-transcripts_match.gff.gz,Andrea Echeverry,Ebba Jacobson,SLU,May 8 2024
-ncRNA genes,Non-coding RNA (ncRNA) genes,,-,pmne_ncRNAs.gff.gz,Ruben Albarran,Ebba Jacobson,SLU,May 9 2024
-tRNA genes,tRNA genes and putative pseudogenes,,-,pmne_tRNAs_and_pseudogenes.gff.gz,Tom Yorke,Ebba Jacobson,SLU,June 7 2024
-mt genes,Annotation of protein coding genes in the mitochondrion,,-,pmne_mtdna.gff.gz,Joe Arroyo,Ebba Jacobson,SLU,June 17 2024
+genome,Reference genome sequence,download:   | ,GCA_900323705.1,CAVLGL01.fasta.gz,Jacob Höglund,Jacob Höglund | test@gmail.com,Uppsala University,April 8 2024
+mt genome,Reference mitochondrial genome sequence,,OZ075093.1,OZ075093.1.fasta.gz,Jacob Höglund,Jacob Höglund | test@gmail.com,Uppsala University,April 8 2024
+nc genes,Genome annotation (protein coding genes),,-,pmne_functional_edit1.gff.gz,Freddy Mercury,Jacob Höglund | test@gmail.com,Uppsala University,April 8 2024
+transcripts,Illumina RNAseq transcript assembly (thorax muscle tissue),,-,pmne_Illumina_RNAseq_StringTie_sorted-transcripts_match.gff.gz,Andrea Echeverry,Ebba Jacobson | test@gmail.com,SLU,May 8 2024
+ncRNA genes,Non-coding RNA (ncRNA) genes,,-,pmne_ncRNAs.gff.gz,Ruben Albarran,Ebba Jacobson | test@gmail.com,SLU,May 9 2024
+tRNA genes,tRNA genes and putative pseudogenes,,-,pmne_tRNAs_and_pseudogenes.gff.gz,Tom Yorke,Ebba Jacobson | test@gmail.com,SLU,June 7 2024
+mt genes,Annotation of protein coding genes in the mitochondrion,,-,pmne_mtdna.gff.gz,Joe Arroyo,Ebba Jacobson, SLU,June 17 2024
