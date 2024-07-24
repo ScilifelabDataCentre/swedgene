@@ -23,7 +23,9 @@ JBROWSE_CONFIGS = $(patsubst $(CONFIG_DIR)/%,$(DATA_DIR)/%,$(CONFIGS:.yml=.json)
 # Defines the DOWNLOAD_TARGETS variable
 include $(DATA_DIR)/targets.mk
 
-LOCAL_FILES = $(DOWNLOAD_TARGETS:.gz=.bgz)
+# Assumes that each download target ends with a compression format
+# extension, for example .zip or .gz
+LOCAL_FILES = $(addsuffix .bgz,$(basename $(DOWNLOAD_TARGETS)))
 FASTA_INDICES = $(addsuffix .fai,$(filter %.fna.bgz,$(LOCAL_FILES)))
 FASTA_GZINDICES=$(FASTA_INDICES:.fai=.gzi)
 GFF_INDICES = $(addsuffix .tbi,$(filter %.gff.bgz,$(LOCAL_FILES)))
@@ -157,10 +159,6 @@ $(GFF_INDICES): %.tbi: %
 $(filter %.fna.bgz,$(LOCAL_FILES)): %.fna.bgz: %.fna.gz
 	@$(SHELL) -o pipefail -c "zcat < $< | bgzip > $@"
 
-# Sort GFF files prior to compressing, as expected by tabix
-$(filter %.gff.bgz,$(LOCAL_FILES)): %.gff.bgz: %.gff.gz
-	@$(SHELL) -o pipefail -c "zcat < $< | grep -v \"^#\" | sort -t$$'\t' -k1,1 -k4,4n | bgzip > $@"
-
 # Order-only prerequisite to avoid re-downloading everything if data/.downloads
 # directory gets accidentally deleted. Downside: if an upstream file changes,
 # the local outdated copy must be deleted before running `make download`
@@ -168,3 +166,15 @@ $(DOWNLOAD_TARGETS): $(DATA_DIR)/%:| $(DATA_DIR)/.downloads/%
 	@echo "Downloading $@ ..."; \
 	mkdir -p --mode=0755 $(@D) && \
 	curl -# -f -L --output $@ "$$(< $|)"
+
+# Sort GFF files prior to compressing, as expected by tabix. Supports
+# both .zip and .gz extensions (and more generally any compression
+# format handled by zcat(1))
+#
+# Use a variable to properly escape
+# pattern character. Using \% does not work well with secondary
+# expansion
+_pattern = %
+.SECONDEXPANSION:
+$(filter %.gff.bgz,$(LOCAL_FILES)): %.bgz: $$(filter $$*$$(_pattern),$$(DOWNLOAD_TARGETS))
+	@$(SHELL) -o pipefail -c "zcat < $< | grep -v \"^#\" | sort -t$$'\t' -k1,1 -k4,4n | bgzip > $@"

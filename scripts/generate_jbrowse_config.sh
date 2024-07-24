@@ -24,9 +24,10 @@ ensure_local() {
     # Use explicit filename if provided, otherwise the file part of the URL
     LOCAL_FILE="$(std_extension ${FILENAME:-${URL##*/}})"
 
-    # Block gzip files are saved locally with the explicit .bgz extension
-    if [[ "$LOCAL_FILE" =~ .gz$ ]]; then
-	LOCAL_FILE="${LOCAL_FILE/.gz/.bgz}"
+    # Remote files are recompressed with bgzip(1) and saved locally
+    # with the .bgz extension.
+    if [[ "$LOCAL_FILE" == *.gz || "$LOCAL_FILE" == *.zip ]]; then
+	LOCAL_FILE="${LOCAL_FILE%.*}.bgz"
     fi
     if ! [[ -e "$SPECIES_DATA_DIR/$LOCAL_FILE" ]]; then
 	args_ref=("$URL")
