@@ -20,7 +20,7 @@ _extract_urls() {
 }
 
 _should_download () {
-    for ext in ${DOWNLOAD_EXTENSIONS[@]};
+    for ext in "${DOWNLOAD_EXTENSIONS[@]}";
     do
 	[[ "$1" == *$ext* ]] && return 0
     done
@@ -31,7 +31,7 @@ mkdir -p "$CACHE_DIR"
 
 printf 'DOWNLOAD_TARGETS = ' > "$MAKEFILE"
 
-while IFS=";" read url target config_file;
+while IFS=";" read -r url target config_file;
 do
     config_dir=${config_file%/*}
     data_dir=${config_dir/${CONFIG_DIR}/${DATA_DIR}}
@@ -39,13 +39,13 @@ do
     then
 	target=${url##*/}
     fi
-    target_file="${data_dir}/$(std_extension $target)"
-    _should_download $target_file || continue
-    printf "$target_file " | tee -a "$MAKEFILE"
+    target_file="${data_dir}/$(std_extension "$target")"
+    _should_download "$target_file" || continue
+    printf '%s' "$target_file " | tee -a "$MAKEFILE"
     cached="$CACHE_DIR/${target_file/${DATA_DIR}}"
-    if [[ ! -e  "$cached" || ! ( "$(< $cached)" == $url ) ]];
+    if [[ ! -e  "$cached" || ! ( "$(< "$cached")" == "$url" ) ]];
     then
 	mkdir -p "${cached%/*}"
-	printf "$url" > "$cached"
+	printf '%s' "$url" > "$cached"
     fi
 done < <(_extract_urls "$@" || exit 1)

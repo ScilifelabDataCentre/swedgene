@@ -138,7 +138,7 @@ endif
 
 ifeq ($(MAKE_RESTARTS),)
 $(DATA_DIR)/targets.mk: FORCE
-	@CONFIG_DIR=$(CONFIG_DIR) DATA_DIR=$(DATA_DIR) $(SHELL) scripts/make_download_targets.sh $(CONFIGS) > /dev/null
+	@CONFIG_DIR=$(CONFIG_DIR) DATA_DIR=$(DATA_DIR) $(SHELL) scripts/make_download_targets $(CONFIGS) > /dev/null
 FORCE:;
 endif
 
