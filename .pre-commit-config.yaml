@@ -40,5 +40,5 @@ repos:
   hooks:
     - id: shellcheck
       args: ["-f", "gcc", "-S", "warning"]
-      files: scripts/
-      types: [shell]
+      files: 'scripts/.*'
+      types_or: [shell, bash]
