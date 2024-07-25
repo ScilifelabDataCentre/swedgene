@@ -21,13 +21,31 @@
 
             <p>Use the toggle on the right to switch between the default and the expanded table view.</p>
 
-            {{ partial "download_table_long.html" . }}
 
+            <div class="form-check form-switch scilife-toggle">
+                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                <label class="form-check-label" for="flexSwitchCheckChecked">Reduce the number of table columns</label>
+            </div>
         </div>
+
+        <div id="table-container">
+            {{ partial "download_table_short.html" . }}
+        </div>
+
     </div>
 </div>
 
-
 {{ partial "last_updated.html" . }}
+
+<script>
+    document.getElementById('flexSwitchCheckChecked').addEventListener('change', function() {
+        var tableContainer = document.getElementById('table-container');
+        if (this.checked) {
+            tableContainer.innerHTML = `{{ partial "download_table_short.html" . | safeHTML }}`;
+        } else {
+            tableContainer.innerHTML = `{{ partial "download_table_long.html" . | safeHTML }}`;
+        }
+    });
+</script>
 
 {{ end }}

@@ -400,6 +400,26 @@ body {
 }
 
 
+.scilife-toggle {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+.scilife-toggle .form-check-input:checked {
+  background-color: var(--scilife-teal); 
+  border-color: var(--scilife-teal);
+  box-shadow: 0 0 0 0.2rem rgba(4, 92, 100, 0.5); 
+}
+
+.scilife-toggle .form-check-input::before {
+  background-color: #fff;
+}
+
+.scilife-toggle .form-check-label {
+  font-size: 1.2rem; 
+  margin-left: 0.5rem;
+}
 
 /* footer images */
 .scilife-footer-img {
