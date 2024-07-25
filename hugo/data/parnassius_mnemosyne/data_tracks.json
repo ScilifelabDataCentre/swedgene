@@ -3,8 +3,8 @@
     "dataTrackName": "genome",
     "description": "Reference genome sequence",
     "links": [
-      {"download": "www.filelink.com"},
-      {"download2": "www.filelink2.com"}
+      {"Download": "https://www.microsoft.com/TODO"},
+      {"Article": "https://www.microsoft.com/TODO"}
     ],
     "accession": "GCA_900323705.1",
     "fileName": "CAVLGL01.fasta.gz",
