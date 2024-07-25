@@ -155,10 +155,6 @@ $(FASTA_INDICES): %.fai: %
 $(GFF_INDICES): %.tbi: %
 	@$(SHELL) scripts/index_gff.sh $<
 
-
-$(filter %.fna.bgz,$(LOCAL_FILES)): %.fna.bgz: %.fna.gz
-	@$(SHELL) -o pipefail -c "zcat < $< | bgzip > $@"
-
 # Order-only prerequisite to avoid re-downloading everything if data/.downloads
 # directory gets accidentally deleted. Downside: if an upstream file changes,
 # the local outdated copy must be deleted before running `make download`
@@ -167,14 +163,15 @@ $(DOWNLOAD_TARGETS): $(DATA_DIR)/%:| $(DATA_DIR)/.downloads/%
 	mkdir -p --mode=0755 $(@D) && \
 	curl -# -f -L --output $@ "$$(< $|)"
 
-# Sort GFF files prior to compressing, as expected by tabix. Supports
-# both .zip and .gz extensions (and more generally any compression
-# format handled by zcat(1))
+# Recompress downloaded files using bgzip(1).
+#
+# File-type-specific transformations that need to occur before
+# recompression may be implemented in scripts/filter.sh
 #
 # Use a variable to properly escape
 # pattern character. Using \% does not work well with secondary
 # expansion
 _pattern = %
 .SECONDEXPANSION:
-$(filter %.gff.bgz,$(LOCAL_FILES)): %.bgz: $$(filter $$*$$(_pattern),$$(DOWNLOAD_TARGETS))
-	@$(SHELL) -o pipefail -c "zcat < $< | grep -v \"^#\" | sort -t$$'\t' -k1,1 -k4,4n | bgzip > $@"
+$(LOCAL_FILES): %.bgz: $$(filter $$*$$(_pattern),$$(DOWNLOAD_TARGETS))
+	@$(SHELL) -o pipefail -c "zcat -f < $< | ./scripts/filter.sh $(<F) | bgzip > $@"

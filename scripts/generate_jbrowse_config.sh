@@ -10,8 +10,8 @@ SPECIES_DATA_DIR="${TARGET%/*}"
 JBROWSE_ARGS=(--force --target="$TARGET")
 
 ensure_local() {
-    # Ensure that we are using a local copy of the file hosted at URL
-    # when it is found in DIR.
+    # Ensure that we use a local copy of the file hosted at URL when
+    # available.
     #
     # Usage :
     #    ensure_local URL FILENAME ARGS_REF
@@ -21,14 +21,18 @@ ensure_local() {
     URL="$1"
     FILENAME="$2"
     local -n args_ref="$3"
+
     # Use explicit filename if provided, otherwise the file part of the URL
     LOCAL_FILE="$(std_extension ${FILENAME:-${URL##*/}})"
 
-    # Remote files are recompressed with bgzip(1) and saved locally
-    # with the .bgz extension.
-    if [[ "$LOCAL_FILE" == *.gz || "$LOCAL_FILE" == *.zip ]]; then
-	LOCAL_FILE="${LOCAL_FILE%.*}.bgz"
-    fi
+    # Downloaded files are recompressed with bgzip(1) and saved
+    # locally with the .bgz extension. The original downloaded file
+    # name always ends with a compression extension that it is safe to
+    # strip off.
+    #
+    # Example: `original.fna.zip` is recompressed as `original.fna.bgz`
+    LOCAL_FILE="${LOCAL_FILE%.*}.bgz"
+
     if ! [[ -e "$SPECIES_DATA_DIR/$LOCAL_FILE" ]]; then
 	args_ref=("$URL")
 	>&2 echo "Using remote file $URL"
