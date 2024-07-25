@@ -1,9 +1,15 @@
+
 {{ define "main" }}
+
+{{ $json_file := (split .Params.download_data_path "/") }}
+{{ $data := index .Site.Data $json_file }}
+
+{{ $staticDirPath:= .Params.static_folder_path }}
+{{ $staticDirPath }}
 
 {{ partial "species_title.html" . }}
 
 {{ partial "species_nav.html" . }}
-
 
 <div class="container mt-3">
 
@@ -17,21 +23,39 @@
                 The table below lists the data files currently displayed on the genome portal.
                 In the Links column, you can find action buttons to download the data file,
                 go to the website of the source repository from where the data was fetched,
-                and (if applicable) the associated scientific article(s) to the data.</p>
+                and (if applicable) the associated scientific article(s) to the data.
+            </p>
+        </div>
+    </div>
 
+    <div class="row align-items-center">
+        <div class="col-lg-8">
             <p>Use the toggle on the right to switch between the default and the expanded table view.</p>
-
-
+        </div>
+        <div class="col-lg-4 text-lg-end">
             <div class="form-check form-switch scilife-toggle">
                 <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
-                <label class="form-check-label" for="flexSwitchCheckChecked">Reduce the number of table columns</label>
+                <label class="form-check-label" for="flexSwitchCheckChecked">Show all columns</label>
             </div>
         </div>
+    </div>
 
-        <div id="table-container">
-            {{ partial "download_table_short.html" . }}
+    <div class="row">
+        <div id="table-container-long">
+            {{ partial "download_table" (dict "tableType" "long" "data" $data "staticDirPath" $staticDirPath)}}
         </div>
 
+        <div id="table-container-short">
+            {{ partial "download_table" (dict "tableType" "short" "data" $data "staticDirPath" $staticDirPath)}}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col scilife-subsection mt-5">
+            <hr>
+            <h3> TODO: Figure out if the below content should be kept or removed</h3>
+            {{ .Content }}
+        </div>
     </div>
 </div>
 
@@ -39,12 +63,30 @@
 
 <script>
     document.getElementById('flexSwitchCheckChecked').addEventListener('change', function() {
-        var tableContainer = document.getElementById('table-container');
+        const longTable = document.getElementById('table-container-long');
+        const shortTable = document.getElementById('table-container-short');
+
         if (this.checked) {
-            tableContainer.innerHTML = `{{ partial "download_table_short.html" . | safeHTML }}`;
+            longTable.style.display = 'block';
+            shortTable.style.display = 'none';
         } else {
-            tableContainer.innerHTML = `{{ partial "download_table_long.html" . | safeHTML }}`;
+            longTable.style.display = 'none';
+            shortTable.style.display = 'block';
         }
+
+    // Initialize DataTables if not already initialized
+    if (!$.fn.DataTable.isDataTable('#downloadTableLong')) {
+            $('#downloadTableLong').DataTable();
+        }
+        if (!$.fn.DataTable.isDataTable('#downloadTableShort')) {
+            $('#downloadTableShort').DataTable();
+        }
+    });
+
+    // Initial state setup
+    document.addEventListener('DOMContentLoaded', function() {
+        const checkbox = document.getElementById('flexSwitchCheckChecked');
+        checkbox.dispatchEvent(new Event('change'));
     });
 </script>
 
