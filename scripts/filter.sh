@@ -1,14 +1,21 @@
 #!/bin/bash
 #
-# Apply filters to stdin prior to compression. The name of the file
-# being streamed is expected as first argument.
-_gff_pattern='\.gff(\.|$)'
-filename="$1"
-if [[ "$filename" =~ $_gff_pattern ]]; then
-    echo "Sorting GFF file $filename" 1>&2
-    grep -v "^#" | sort -t$'\t' -k1 -k4n
-# Default: just forward the stream unmolested
+# Apply file-type-specific filters to stdin
+#
+# Arguments:
+#   The name of the file being streamed
+# Output:
+#   Writes filtered stream to stdout
+
+readonly gff_pattern='\.gff(\.|$)'
+
+if [[ "$1" =~ ${gff_pattern} ]]; then
+    echo "Sorting GFF file $1" >&2
+    if ! grep -v "^#" | sort -t$'\t' -k1 -k4n; then
+	echo "Error filtering contents of GFF file: $1" >&2
+    fi
 else
+    # Default: just forward the stream unmolested
     cat
 fi
 

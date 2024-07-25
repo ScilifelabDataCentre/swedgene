@@ -166,7 +166,7 @@ $(DOWNLOAD_TARGETS): $(DATA_DIR)/%:| $(DATA_DIR)/.downloads/%
 # Recompress downloaded files using bgzip(1).
 #
 # File-type-specific transformations that need to occur before
-# recompression may be implemented in scripts/filter.sh
+# recompression may be implemented in scripts/filter
 #
 # Use a variable to properly escape
 # pattern character. Using \% does not work well with secondary
@@ -174,4 +174,4 @@ $(DOWNLOAD_TARGETS): $(DATA_DIR)/%:| $(DATA_DIR)/.downloads/%
 _pattern = %
 .SECONDEXPANSION:
 $(LOCAL_FILES): %.bgz: $$(filter $$*$$(_pattern),$$(DOWNLOAD_TARGETS))
-	@$(SHELL) -o pipefail -c "zcat -f < $< | ./scripts/filter.sh $(<F) | bgzip > $@"
+	@$(SHELL) -o pipefail -c "zcat -f < $< | ./scripts/filter $(<F) | bgzip > $@"
