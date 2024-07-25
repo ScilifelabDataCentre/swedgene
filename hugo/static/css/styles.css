@@ -367,6 +367,19 @@ body {
 }
 
 
+.download-table-caption {
+  color: var(--aqua-100, #4C979F);
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.575rem;
+  letter-spacing: 0.0625rem;
+}
+
+.download-table-caption img {
+  margin-right: 0.5rem;
+}
+
+
 /* footer images */
 .scilife-footer-img {
   max-width: 150px; 
