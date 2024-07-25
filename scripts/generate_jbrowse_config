@@ -23,7 +23,7 @@ ensure_local() {
     local -n args_ref="$3"
 
     # Use explicit filename if provided, otherwise the file part of the URL
-    LOCAL_FILE="$(std_extension ${FILENAME:-${URL##*/}})"
+    LOCAL_FILE="$(std_extension "${FILENAME:-${URL##*/}}")"
 
     # Downloaded files are recompressed with bgzip(1) and saved
     # locally with the .bgz extension. The original downloaded file
@@ -92,7 +92,7 @@ main () {
     add_hubs "$1"
 }
 
-if [[ ${BASH_SOURCE[0]} == $0 ]];
+if [[ ${BASH_SOURCE[0]} == "$0" ]];
 then
    [[ -f "$CONFIG" ]] && { main "$CONFIG" |& grep -v 'node'; } || echo "Non existing file: $CONFIG"
 fi

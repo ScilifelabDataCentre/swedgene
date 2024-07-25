@@ -145,7 +145,7 @@ endif
 
 $(JBROWSE_CONFIGS): $(DATA_DIR)/%.json: $(CONFIG_DIR)/%.yml
 	@echo "Generating JBrowse configuration for $(*D)"
-	@$(SHELL) scripts/generate_jbrowse_config.sh $@ $<
+	@$(SHELL) scripts/generate_jbrowse_config $@ $<
 
 
 $(FASTA_INDICES): %.fai: %
