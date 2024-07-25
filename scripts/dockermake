@@ -1,3 +1,5 @@
+#!/bin/bash
+#
 # Run `make` in a Docker container
 #
 # The environment variables SWG_UID and SWG_GID can be used to run the
@@ -10,6 +12,7 @@
 # SWG_IMAGE=industrious-squirrel SWG_TAG=slim-buster scripts/dockerbuild.sh build
 
 CWD="$(pwd)"
+readonly CWD
 
 : ${SWG_TAG="main"}
 : ${SWG_IMAGE:="ghcr.io/scilifelabdatacentre/swg-data-builder"}
@@ -20,12 +23,24 @@ CWD="$(pwd)"
 : ${SWG_INSTALL_DIR:="hugo/static"}
 : ${SWG_CONFIG_DIR:="config"}
 
-_DOCKER_FLAGS=()
+declare -a docker_flags
 
-# Run make in Docker container using host Makefile, with data,
-# configuration and installation directories mounted.
+# Run make in Docker container
+#
+# Mount Makefile and directories to use for data, configuration and
+# installation
+#
+# Globals:
+#   SWG_DATA_DIR
+#   SWG_INSTALL_DIR
+#   SWG_CONFIG_DIR
+#   SWG_IMAGE
+#   SWG_TAG
+#   CWD
+# Arguments:
+#   All passsed arguments are forwarded to `make`
 docker_make() {
-    _DOCKER_WORKDIR=/swedgene
+    local -r docker_workdir='/swedgene'
     # Make sure writable directories exist on the host
     mkdir -p "$SWG_DATA_DIR" "$SWG_INSTALL_DIR"
 
@@ -35,22 +50,22 @@ docker_make() {
 	# The ! in the parameter expansion introductes a level of
 	# indirection: the result is the value of the variable whose
 	# name is $dir
-	_DOCKER_FLAGS+=(
-	    -v "$CWD/${!dir}:$_DOCKER_WORKDIR/${!dir}"
+	docker_flags+=(
+	    -v "$CWD/${!dir}:$docker_workdir/${!dir}"
 	    -e "$dir=${!dir}"
 	)
     done
     # Don't forget the Makefile and script directory
-    _DOCKER_FLAGS+=(
-	-v "$CWD/Makefile:$_DOCKER_WORKDIR/Makefile"
-	-v "$CWD/scripts:$_DOCKER_WORKDIR/scripts"
+    docker_flags+=(
+	-v "$CWD/Makefile:$docker_workdir/Makefile"
+	-v "$CWD/scripts:$docker_workdir/scripts"
     )
-    docker run --rm "${_DOCKER_FLAGS[@]}" "${SWG_IMAGE}:${SWG_TAG}" make "$@"
+    docker run --rm "${docker_flags[@]}" "${SWG_IMAGE}:${SWG_TAG}" make "$@"
 }
 
 if [[ -n $SWG_UID || -n $SWG_GID ]];
 then
-    _DOCKER_FLAGS+=("-u" "${SWG_UID:-$(id -u)}:${SWG_GID:-$(id -g)}")
+    docker_flags+=("-u" "${SWG_UID:-$(id -u)}:${SWG_GID:-$(id -g)}")
 fi
 
 if [[ "$1" == "--test" || "$1" == "-t" ]]; then
@@ -87,7 +102,7 @@ if [[ "$1" == "--test" || "$1" == "-t" ]]; then
     fi
 
     # Run the test build
-    _DOCKER_FLAGS+=(--network="$_TEST_NET")
+    docker_flags+=(--network="$_TEST_NET")
     docker_make "$@"
 
     if [[ $_NO_TEARDOWN == 1 ]]; then
