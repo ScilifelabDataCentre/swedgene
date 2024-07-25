@@ -1,4 +1,6 @@
-# Serve hugo site locally in a docker container
+#!/bin/bash
+#
+# Serve hugo site locally in a Docker container
 #
 # Customize the run by setting the corresponding SWG-prefixed
 # environment variables. For example, to serve on host port 8000 with
