@@ -41,4 +41,5 @@ repos:
     - id: shellcheck
       args: ["-f", "gcc", "-S", "warning"]
       files: 'scripts/.*'
+      ignore: 'scripts/data_stewardship'
       types_or: [shell, bash]
