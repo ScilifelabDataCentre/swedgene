@@ -5,7 +5,7 @@
     <div class="table-responsive">
         <table id="downloadTable" class="table table-hover table-bordered">
             <thead class="table-light">
-                <tr>
+                <tr style="white-space: nowrap;">
                     <th>Data track name</th>
                     <th>Description</th>
                     <th>Links</th>
@@ -19,32 +19,37 @@
             </thead>
             <tbody class="table-responsive">
                 {{ range $data }}
-
                     <tr>
                         <td>{{ .dataTrackName }}</td>
                         <td>{{ .description }}</td>
                         <td>
+                            <div class="scilife-link-container">
                             {{ range .links }}
                                 {{ range $linkType, $url := . }}
 
                                     {{ if eq  $linkType "Download"}}
-                                        <a href="{{ $url }}" class="btn btn-primary m-2" target="_blank"
-                                            role="button" aria-label="Download">
-                                            <i class="bi bi-download" aria-hidden="true"></i>
-                                            <span class="visually-hidden">Download</span>
+                                        <a href="{{ $url }}" target="_blank" class="scilife-download-link">
+                                            <img src="/img/icons/download_aqua.svg" alt="Download Icon">
+                                            Download
+                                        </a>
+
+                                    {{ else if eq $linkType "Website"}}
+                                        <a href="{{ $url }}" target="_blank" class="scilife-download-link">
+                                            <img src="/img/icons/external_link_aqua.svg" alt="Download Icon">
+                                            Website
                                         </a>
 
                                     {{ else if eq $linkType "Article"}}
-                                        <a href="{{ $url }}" class="btn btn-primary m-2" target="_blank"
-                                            role="button">
-                                            <i class="bi bi-file-text" aria-hidden="true"></i>
-                                            <span class="visually-hidden">Article</span>
+                                        <a href="{{ $url }}" target="_blank" class="scilife-download-link">
+                                            <img src="/img/icons/file_text.svg" alt="Download Icon">
+                                            Article
                                         </a>
 
                                     {{ end }}
 
                                 {{ end }}
                             {{ end }}
+                            </div>
                         </td>
                         <td>{{ .accession }}</td>
                         <td>{{ .fileName }}</td>
@@ -64,24 +69,25 @@
 
                 {{ end }}
             </tbody>
-
-            <caption class="download-table-caption"> <a href="#TODO" target="_blank" >
-                <img src="/img/icons/download.svg" alt="Download Icon" class="scilife-icon">
-                Download this table in csv format.
-            </caption>
-
-            <caption class="download-table-caption"> <a href="#TODO" target="_blank" >
-                <img src="/img/icons/download.svg" alt="Download Icon" class="scilife-icon">
-                Download the refNameAlias text file used in JBrowse to set the aliases for reference sequence names (e.g., to define that "chr1" is an alias for "1").
-            </a></caption>
-
-            <caption class="download-table-caption"> <a href="#" target="_blank" >
-                <img src="/img/icons/book_open.svg" alt="Download Icon" class="scilife-icon">
-                Glossary
-            </a></caption>
-
         </table>
     </div>
+
+
+    <caption class="scilife-download-table-caption"> <a href="#TODO" target="_blank" >
+        <img src="/img/icons/download.svg" alt="Download Icon" class="scilife-icon">
+        Download this table in csv format.
+    </a></caption><br>
+
+
+    <caption class="scilife-download-table-caption"> <a href="#TODO" target="_blank" >
+        <img src="/img/icons/download.svg" alt="Download Icon" class="scilife-icon">
+        Download the refNameAlias text file used in JBrowse to set the aliases for reference sequence names (e.g., to define that "chr1" is an alias for "1").
+    </a></caption><br>
+
+    <caption class="scilife-download-table-caption"> <a href="#" target="_blank" >
+        <img src="/img/icons/book_open.svg" alt="Download Icon" class="scilife-icon">
+        Glossary
+    </a></caption><br>
 
 {{ else }}
     <p>No download table available for this species.</p>
@@ -97,7 +103,6 @@
             info: false,
             ordering: true,
             paging: false,
-            searching: true,
         });
     });
 </script>

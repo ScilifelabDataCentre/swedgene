@@ -367,7 +367,7 @@ body {
 }
 
 
-.download-table-caption {
+.scilife-download-table-caption {
   color: var(--aqua-100, #4C979F);
   font-size: 1.125rem;
   font-weight: 400;
@@ -375,9 +375,30 @@ body {
   letter-spacing: 0.0625rem;
 }
 
-.download-table-caption img {
+.scilife-download-table-caption img {
   margin-right: 0.5rem;
 }
+
+.scilife-link-container {
+  display: flex;
+  gap: 0.4rem; 
+}
+
+.scilife-download-link {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  text-decoration: none;
+  font-size: 0.7rem;
+}
+
+.scilife-download-link img {
+  margin-bottom: 0.2rem; 
+  width: 2.1rem; 
+  height: 2.1rem; 
+}
+
 
 
 /* footer images */
