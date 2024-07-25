@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Helper script to build Docker images
 #
 # By default, the host user ID and group ID are forwarded through
