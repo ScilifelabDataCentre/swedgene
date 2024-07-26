@@ -1,48 +1,46 @@
 #!/bin/bash
 
-chrom_names() {
-    # Get chromosome names from FASTA file
-    # Usage: chrom_names FILE
-    sed -n 's/>\([A-Za-z0-9._]\+\).*/\1/p' "$1"
-}
+normalize_filename() {
 
-# Supported compression extensions
-_zip_extensions=(gz zip)
+    # Supported compression extensions
+    local -ar ZIP_EXTENSIONS=(gz zip)
 
-# Sentinel extension we use for uncompressed files. That wy we can
-# internally assume that all files are of the form:
-# NAME.BIO_EXTENSION.ZIP_EXTENSION
-_nozip_extension=nozip
+    # Sentinel extension we use for uncompressed files. That way we can
+    # internally assume that all files are of the form:
+    # NAME.BIO_EXTENSION.ZIP_EXTENSION
+    local -r NOZIP_EXTENSION=nozip
 
-# Mapping between common extensions used for genomic files, and the
-# normalized equivalent we use internally.
-_fasta=fna
-_gff=gff
-declare -A _bio_extensions=(
-    [fasta]=$_fasta
-    [fa]=$_fasta
-    [gff3]=$_gff
-)
+    # Standard extensions used for genomic files
+    local -r FASTA=fna
+    local -r GFF=gff
 
-std_extension() {
+    # Mapping between common extensions used for genomic files, and the
+    # normalized equivalent we use internally.
+    local -rA BIO_EXTENSIONS=(
+	[fasta]=${FASTA}
+	[fa]=${FASTA}
+	[gff3]=${GFF}
+    )
+
     filename="$1"
-    for ext in "${!_bio_extensions[@]}"; do
+
+    for ext in "${!BIO_EXTENSIONS[@]}"; do
 	if [[ "$filename" =~ \."$ext"(\.|$) ]]; then
-	    _std_ext=${_bio_extensions[$ext]}
-	    filename=${filename/".$ext"/".$_std_ext"}
+	    std_ext=${BIO_EXTENSIONS["${ext}"]}
+	    filename=${filename/".$ext"/".${std_ext}"}
 	    break
 	fi
     done
 
-    final_ext="${filename##*.}"
+    last_ext="${filename##*.}"
     zipped=0
-    for zip_ext in "${_zip_extensions[@]}"; do
-	[[ "$final_ext" == "$zip_ext" ]] && { zipped=1; break; }
+    for zip_ext in "${ZIP_EXTENSIONS[@]}"; do
+	[[ "${last_ext}" == "${zip_ext}" ]] && { zipped=1; break; }
     done
 
-    if [[ "$zipped" == 0 ]]; then
-	filename="${filename}.${_nozip_extension}"
+    if [[ "${zipped}" == 0 ]]; then
+	filename="${filename}.${NOZIP_EXTENSION}"
     fi
 
-    echo "$filename"
+    echo -n "$filename"
 }

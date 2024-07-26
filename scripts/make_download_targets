@@ -39,7 +39,7 @@ do
     then
 	target=${url##*/}
     fi
-    target_file="${data_dir}/$(std_extension "$target")"
+    target_file="${data_dir}/$(normalize_filename "$target")"
     _should_download "$target_file" || continue
     printf '%s' "$target_file " | tee -a "$MAKEFILE"
     cached="$CACHE_DIR/${target_file/${DATA_DIR}}"
