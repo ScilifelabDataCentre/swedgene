@@ -12,7 +12,7 @@ repos:
     exclude: '^(hugo/static/|hugo/content/)'
 
   - id: trailing-whitespace
-    files: '^(hugo/|scripts/)'
+    files: '^(hugo/|scripts/|tests/)'
     exclude: 'hugo/static/'
 
 # for markdown
@@ -41,5 +41,5 @@ repos:
     - id: shellcheck
       args: ["-f", "gcc", "-S", "warning"]
       files: 'scripts/.*'
-      ignore: 'scripts/data_stewardship'
+      exclude: 'scripts/data_stewardship'
       types_or: [shell, bash]
