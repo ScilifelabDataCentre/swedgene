@@ -3,7 +3,8 @@
 normalize_filename() {
 
     # Supported compression extensions
-    local -ar ZIP_EXTENSIONS=(gz zip)
+    local -ar ZIP_EXTENSIONS=(gz zip bgz)
+    local -r BGZIP_EXTENSION=bgz
 
     # Sentinel extension we use for uncompressed files. That way we can
     # internally assume that all files are of the form:
@@ -22,6 +23,11 @@ normalize_filename() {
 	[gff3]=${GFF}
     )
 
+    # Override zip extension with .bgz
+    if [[ "$1" == "--bgz" ]]; then
+	shift
+	use_bgz_ext=1
+    fi
     filename="$1"
 
     for ext in "${!BIO_EXTENSIONS[@]}"; do
@@ -42,5 +48,8 @@ normalize_filename() {
 	filename="${filename}.${NOZIP_EXTENSION}"
     fi
 
+    if [[ -n "${use_bgz_ext}" ]]; then
+	filename="${filename%.*}.${BGZIP_EXTENSION}"
+    fi
     echo -n "$filename"
 }

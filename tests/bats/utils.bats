@@ -21,3 +21,11 @@ setup() {
     res="$(normalize_filename foo.gff.zip)"
     [ ${res} = foo.gff.zip ]
 }
+
+@test "Forces .bgz extension" {
+    res="$(normalize_filename --bgz foo.gff3.zip)"
+    [ "${res}" = foo.gff.bgz ]
+
+    res="$(normalize_filename --bgz foo.fasta)"
+    [ "${res}" = foo.fna.bgz ]
+}
