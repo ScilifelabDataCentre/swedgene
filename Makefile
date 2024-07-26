@@ -20,8 +20,8 @@ SPECIES=$(SPECIES:%:{%})
 CONFIGS = $(shell find $(CONFIG_DIR)/$(SPECIES) -type f -name 'config.yml')
 JBROWSE_CONFIGS = $(patsubst $(CONFIG_DIR)/%,$(DATA_DIR)/%,$(CONFIGS:.yml=.json))
 
-# Defines the DOWNLOAD_TARGETS variable
-include $(DATA_DIR)/targets.mk
+# Files to download for further processing (typically compressing and indexing)
+DOWNLOAD_TARGETS = $(shell ./scripts/make_download_targets $(CONFIGS))
 
 # Assumes that each download target ends with a compression format
 # extension, for example .zip or .gz
@@ -62,13 +62,12 @@ build: download index-gff index-fasta jbrowse-config
 
 .PHONY: debug
 debug:
-	$(info Restarts : $(MAKE_RESTARTS))
-	$(call log_list, "Target configuration files", $(JBROWSE_CONFIGS))
+	$(call log_list, "JBrowse configuration files :", $(JBROWSE_CONFIGS))
 	$(call log_list, "Files to download :", $(DOWNLOAD_TARGETS))
-	$(call log_list, "Compressed local files :", $(LOCAL_FILES))
-	$(call log_list,"FASTA indices :", $(FASTA_INDICES) $(FASTA_GZINDICES))
+	$(call log_list, "Compressed files :", $(LOCAL_FILES))
+	$(call log_list, "FASTA indices :", $(FASTA_INDICES) $(FASTA_GZINDICES))
 	$(call log_list, "GFF indices :", $(GFF_INDICES))
-	$(call log_list, "Files to install:", $(INSTALLED_FILES))
+	$(call log_list, "Files to install :", $(INSTALLED_FILES))
 
 .PHONY: jbrowse-config
 jbrowse-config: $(JBROWSE_CONFIGS);
@@ -133,13 +132,6 @@ index-gff: $(GFF_INDICES)
 ifneq ($(GFF_INDICES),)
 	$(call log_info,'Indexed GFF files')
 	@printf '  - %s\n' $(GFF_INDICES)
-endif
-
-
-ifeq ($(MAKE_RESTARTS),)
-$(DATA_DIR)/targets.mk: FORCE
-	@CONFIG_DIR=$(CONFIG_DIR) DATA_DIR=$(DATA_DIR) $(SHELL) scripts/make_download_targets $(CONFIGS) > /dev/null
-FORCE:;
 endif
 
 

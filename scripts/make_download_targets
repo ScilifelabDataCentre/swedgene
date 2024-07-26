@@ -1,51 +1,112 @@
 #!/bin/bash
-# Generate a makefile initializing the DOWNLOAD_TARGETS variable.
 
-# The value of DOWNLOAD_TARGETS is a space-separated list of files
-# that should be downloaded for local processing. As a side effect,
-# the URL from which target <species>/<filename> should be fectched is
-# stored in the file $DATA_DIR/.downloads/<species>/<file>.
+# List file names to be downloaded for local processing
+#
+# The output is used by make to initialize the DOWNLOAD_TARGETS make
+# variable.
+#
+# As a side effect, the URLs from which targets should be fetche are
+# cached on the filesystem under ${DATA_DIR}/.downloads
+#
+# Arguments:
+#   CONFIG [CONFIG...] : Names of the configuration files to consider
+# Globals:
+#   SWG_CONFIG_DIR
+#   SWG_DATA_DIR
+# Outputs:
+#   Writes target file name one per line to stdout
 
+: "${SWG_DATA_DIR:=data}"
+: "${SWG_CONFIG_DIR:=config}"
+
+# Import the normalize_filename helper
 SRC_DIR="${BASH_SOURCE%/*}"
-source "$SRC_DIR/utils.sh"
+source "${SRC_DIR}/utils.sh"
 
-CACHE_DIR="${DATA_DIR:=data}/.downloads"
-MAKEFILE="$DATA_DIR/targets.mk"
-DOWNLOAD_EXTENSIONS=(".fna" ".gff")
-
-_extract_urls() {
-    # Extract URL and optional file name for the assembly and every
-    # track in configuration files given as arguments
+# List URLs and optional file name for assembly and tracks
+# Arguments:
+#   CONFIG [CONFIG ...] : configuration files to consider
+# Outputs:
+#   Writes lines of semi-colon separated URL;FILENAME pairs to stdout
+list_urls() {
+    # TODO(kwentine): Detect if yq fails before streaming output (return status unreliable)
     yq --no-doc '(.assembly, .tracks[]) | [.url, .fileName // "", fileName] | join(";")' "$@"
 }
 
-_should_download () {
+# Filter targets that need to be downloaded
+# Inputs:
+#   Reads TARGET;URL lines from stdin
+# Outputs:
+#   Writes TARGETs that need to be downloaded to stdout
+filter_download_targets () {
+    local -ar DOWNLOAD_EXTENSIONS=(fna gff)
+    local -a GREP_PATTERNS
     for ext in "${DOWNLOAD_EXTENSIONS[@]}";
     do
-	[[ "$1" == *$ext* ]] && return 0
+	GREP_PATTERNS+=(-e ".${ext}")
     done
-    return 1
+    echo "filter_download_targets: using patterns ${GREP_PATTERNS[*]}" >&2
+    grep "${GREP_PATTERNS[@]}"
 }
 
-mkdir -p "$CACHE_DIR"
+# List file names to download and the URL where they should be fetched
+# Inputs:
+#   Reads URL;FILENAME lines from stdin
+# Globals:
+#   SWG_CONFIG_DIR
+#   SWG_DATA_DIR
+# Outputs:
+#   Writes TARGET;URL lines to stdout
+list_download_targets() {
 
-printf 'DOWNLOAD_TARGETS = ' > "$MAKEFILE"
+    while IFS=";" read -r url target config_file;
+    do
+	config_dir="${config_file%/*}"
+	data_dir="${config_dir/${SWG_CONFIG_DIR}/${SWG_DATA_DIR}}"
+	if [[ -z "$target" ]];
+	then
+	    target=${url##*/}
+	fi
+	target_file="${data_dir}/$(normalize_filename "$target")"
+	printf "%s;%s\n" "${target_file}" "${url}"
+    done
+}
 
-while IFS=";" read -r url target config_file;
-do
-    config_dir=${config_file%/*}
-    data_dir=${config_dir/${CONFIG_DIR}/${DATA_DIR}}
-    if [[ -z "$target" ]];
-    then
-	target=${url##*/}
-    fi
-    target_file="${data_dir}/$(normalize_filename "$target")"
-    _should_download "$target_file" || continue
-    printf '%s' "$target_file " | tee -a "$MAKEFILE"
-    cached="$CACHE_DIR/${target_file/${DATA_DIR}}"
-    if [[ ! -e  "$cached" || ! ( "$(< "$cached")" == "$url" ) ]];
-    then
-	mkdir -p "${cached%/*}"
-	printf '%s' "$url" > "$cached"
-    fi
-done < <(_extract_urls "$@" || exit 1)
+# Create or update files storing the download URLs for targets
+# Inputs:
+#   Reads lines of TARGET;URL pairs from stdin
+# Globals:
+#   SWG_DATA_DIR: data directory prefix
+# Returns:
+#   0, after updating or creating all files storing target URLs
+update_download_cache() {
+    local -r CACHE_DIR="${SWG_DATA_DIR}/.downloads"
+
+    while IFS=';' read -r target url;
+    do
+	cached="${CACHE_DIR}/${target/${SWG_DATA_DIR}}"
+	if [[ ! -e  "$cached" || ! ( "$(< "$cached")" == "${url}" ) ]];
+	then
+	    echo "update_download_cache: set entry '${cached}' to '${url}'" >&2
+	    mkdir -p "${cached%/*}"
+	    printf '%s' "${url}" > "${cached}"
+	else
+	    echo "update_download_cache: entry '${cached}' is up to date" >&2
+	fi
+    done
+}
+
+main() {
+    set -o pipefail
+    list_urls "$@" \
+	| list_download_targets \
+	| filter_download_targets \
+	| tee >(update_download_cache) \
+	| cut -d';' -f1
+}
+
+if [[ ${BASH_SOURCE[0]} == "$0" ]];
+then
+    main "$@"
+fi
+
