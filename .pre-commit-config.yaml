@@ -12,7 +12,7 @@ repos:
     exclude: '^(hugo/static/|hugo/content/)'
 
   - id: trailing-whitespace
-    files: '^(hugo/|scripts/)'
+    files: '^(hugo/|scripts/|tests/)'
     exclude: 'hugo/static/'
 
 # for markdown
@@ -34,3 +34,12 @@ repos:
     # Run the formatter.
     - id: ruff-format
       files: '^scripts/.*'
+
+- repo: https://github.com/koalaman/shellcheck-precommit
+  rev: v0.10.0
+  hooks:
+    - id: shellcheck
+      args: ["-f", "gcc", "-S", "warning"]
+      files: 'scripts/.*'
+      exclude: 'scripts/data_stewardship'
+      types_or: [shell, bash]

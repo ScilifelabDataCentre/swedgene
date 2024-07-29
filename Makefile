@@ -138,14 +138,14 @@ endif
 
 ifeq ($(MAKE_RESTARTS),)
 $(DATA_DIR)/targets.mk: FORCE
-	@CONFIG_DIR=$(CONFIG_DIR) DATA_DIR=$(DATA_DIR) $(SHELL) scripts/make_download_targets.sh $(CONFIGS) > /dev/null
+	@CONFIG_DIR=$(CONFIG_DIR) DATA_DIR=$(DATA_DIR) $(SHELL) scripts/make_download_targets $(CONFIGS) > /dev/null
 FORCE:;
 endif
 
 
 $(JBROWSE_CONFIGS): $(DATA_DIR)/%.json: $(CONFIG_DIR)/%.yml
 	@echo "Generating JBrowse configuration for $(*D)"
-	@$(SHELL) scripts/generate_jbrowse_config.sh $@ $<
+	@$(SHELL) scripts/generate_jbrowse_config $@ $<
 
 
 $(FASTA_INDICES): %.fai: %
@@ -166,7 +166,7 @@ $(DOWNLOAD_TARGETS): $(DATA_DIR)/%:| $(DATA_DIR)/.downloads/%
 # Recompress downloaded files using bgzip(1).
 #
 # File-type-specific transformations that need to occur before
-# recompression may be implemented in scripts/filter.sh
+# recompression may be implemented in scripts/filter
 #
 # Use a variable to properly escape
 # pattern character. Using \% does not work well with secondary
@@ -174,4 +174,4 @@ $(DOWNLOAD_TARGETS): $(DATA_DIR)/%:| $(DATA_DIR)/.downloads/%
 _pattern = %
 .SECONDEXPANSION:
 $(LOCAL_FILES): %.bgz: $$(filter $$*$$(_pattern),$$(DOWNLOAD_TARGETS))
-	@$(SHELL) -o pipefail -c "zcat -f < $< | ./scripts/filter.sh $(<F) | bgzip > $@"
+	@$(SHELL) -o pipefail -c "zcat -f < $< | ./scripts/filter $(<F) | bgzip > $@"

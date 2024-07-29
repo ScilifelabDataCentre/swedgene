@@ -9,45 +9,40 @@ SPECIES_DATA_DIR="${TARGET%/*}"
 
 JBROWSE_ARGS=(--force --target="$TARGET")
 
+# Ensure that we use a local copy of genomic file when available
+#
+# Arguments:
+#    URL: location of remote file
+#    FILENAME: explicit name of remote file (if URL is opaque)
+#    ARGS_REF: reference to an array of jbrowse CLI arguments
+# Globals:
+#    SPECIES_DATA_DIR: directory where species data files are expected
+# Returns:
+#    0, after extending the ARGS_REF array with file-related arguments
 ensure_local() {
-    # Ensure that we use a local copy of the file hosted at URL when
-    # available.
-    #
-    # Usage :
-    #    ensure_local URL FILENAME ARGS_REF
-    #
-    # ARGS_REF is the name of the array variable provided by the
-    # caller to hold file-related arguments expected by JBrowse.
-    URL="$1"
-    FILENAME="$2"
+    local -r URL="$1"
     local -n args_ref="$3"
 
     # Use explicit filename if provided, otherwise the file part of the URL
-    LOCAL_FILE="$(std_extension ${FILENAME:-${URL##*/}})"
+    filename="${2:-${URL##*/}}"
 
-    # Downloaded files are recompressed with bgzip(1) and saved
-    # locally with the .bgz extension. The original downloaded file
-    # name always ends with a compression extension that it is safe to
-    # strip off.
-    #
-    # Example: `original.fna.zip` is recompressed as `original.fna.bgz`
-    LOCAL_FILE="${LOCAL_FILE%.*}.bgz"
+    # Downloaded files are recompressed with bgzip(1), hence the --bgz
+    # flag to normalize the file name with the .bgz extension
+    local_file="$(normalize_filename --bgz "${filename}")"
 
-    if ! [[ -e "$SPECIES_DATA_DIR/$LOCAL_FILE" ]]; then
+    if ! [[ -e "${SPECIES_DATA_DIR}/${local_file}" ]]; then
 	args_ref=("$URL")
-	>&2 echo "Using remote file $URL"
+	echo "Using remote file $URL" >&2
 	return
     fi
-    >&2 echo "Using existing local file $SPECIES_DATA_DIR/$LOCAL_FILE"
+    echo "Using existing local file ${SPECIES_DATA_DIR}/${local_file}" >&2
 
     args_ref=(--load=inPlace)
-    case "$LOCAL_FILE" in
+    case "${local_file}" in
 	*.fna.bgz)
-	     args_ref+=(--type=bgzipFasta);;
-	*.2bit)
-	    args_ref+=(--type=twoBit);;
+	    args_ref+=(--type=bgzipFasta);;
     esac
-    args_ref+=("$LOCAL_FILE")
+    args_ref+=("$local_file")
 }
 
 
@@ -92,7 +87,7 @@ main () {
     add_hubs "$1"
 }
 
-if [[ ${BASH_SOURCE[0]} == $0 ]];
+if [[ ${BASH_SOURCE[0]} == "$0" ]];
 then
    [[ -f "$CONFIG" ]] && { main "$CONFIG" |& grep -v 'node'; } || echo "Non existing file: $CONFIG"
 fi
