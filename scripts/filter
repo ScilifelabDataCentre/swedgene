@@ -11,7 +11,7 @@ readonly gff_pattern='\.gff(\.|$)'
 
 if [[ "$1" =~ ${gff_pattern} ]]; then
     echo "Sorting GFF file $1" >&2
-    if ! grep -v "^#" | sort -t$'\t' -k1 -k4n; then
+    if ! grep -v "^#" | sort -t$'\t' -k1,1 -k4,4n; then
 	echo "Error filtering contents of GFF file: $1" >&2
     fi
 else
