@@ -34,12 +34,22 @@
         </div>
     </div>
 
+    <!-- This logic uses 1 JSON per species located in the assets folder to:
+            - Generate the table at build time (in the partials)
+            - Publish a copy into the static/public dir so it can be downloaded.
+        This means we don't need to store a copy of the data_tracks.json file inside the static dir. -->
+
     {{ $currentURL := .RelPermalink }}
     {{ $speciesName := index (split .RelPermalink "/") 1 }}
-    {{ $staticDirPath := printf "/download_tables/%s/data_tracks" $speciesName }}
 
-    {{ $tableDataPath := printf "%s/data_tracks" $speciesName }}
-    {{ $tableData := index .Site.Data (split $tableDataPath "/") }}
+    {{ $tableDataPath := printf "%s/data_tracks.json" $speciesName }}
+    {{ $tableDataResource := resources.Get $tableDataPath }}
+    {{ $tableData := $tableDataResource | transform.Unmarshal }}
+
+    {{ $staticDirPath := printf "/%s/data_tracks" $speciesName }}
+    {{ $staticDirFile := printf "%s/data_tracks.json" $speciesName }}
+
+    {{ (resources.Get $tableDataPath | resources.Copy $staticDirFile).Publish }}
 
     <div class="row">
         <div id="table-container-long">
