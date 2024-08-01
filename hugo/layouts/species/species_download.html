@@ -34,7 +34,8 @@
         </div>
     </div>
 
-    {{ $speciesName := .Params.species_name }}
+    {{ $currentURL := .RelPermalink }}
+    {{ $speciesName := index (split .RelPermalink "/") 1 }}
     {{ $staticDirPath := printf "/download_tables/%s/data_tracks" $speciesName }}
 
     {{ $tableDataPath := printf "%s/data_tracks" $speciesName }}
