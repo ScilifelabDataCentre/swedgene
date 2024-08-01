@@ -37,7 +37,7 @@ list_urls() {
 # Inputs:
 #   Reads TARGET;URL lines from stdin
 # Outputs:
-#   Writes TARGETs that need to be downloaded to stdout
+#   Forward lines whose TARGET need to be downloaded to stdout
 filter_download_targets () {
     local -ar DOWNLOAD_EXTENSIONS=(fna gff)
     local -a GREP_PATTERNS
@@ -45,7 +45,6 @@ filter_download_targets () {
     do
 	GREP_PATTERNS+=(-e ".${ext}")
     done
-    echo "filter_download_targets: using patterns ${GREP_PATTERNS[*]}" >&2
     grep "${GREP_PATTERNS[@]}"
 }
 
