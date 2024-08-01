@@ -1,12 +1,6 @@
 
 {{ define "main" }}
 
-{{ $json_file := (split .Params.download_data_path "/") }}
-{{ $data := index .Site.Data $json_file }}
-
-{{ $staticDirPath:= .Params.static_folder_path }}
-{{ $staticDirPath }}
-
 {{ partial "species_title.html" . }}
 
 {{ partial "species_nav.html" . }}
@@ -40,13 +34,19 @@
         </div>
     </div>
 
+    {{ $speciesName := .Params.species_name }}
+    {{ $staticDirPath := printf "/download_tables/%s/data_tracks" $speciesName }}
+
+    {{ $tableDataPath := printf "%s/data_tracks" $speciesName }}
+    {{ $tableData := index .Site.Data (split $tableDataPath "/") }}
+
     <div class="row">
         <div id="table-container-long">
-            {{ partial "download_table" (dict "tableType" "long" "data" $data "staticDirPath" $staticDirPath)}}
+            {{ partial "download_table" (dict "tableType" "long" "staticDirPath" $staticDirPath "tableData" $tableData)}}
         </div>
 
         <div id="table-container-short">
-            {{ partial "download_table" (dict "tableType" "short" "data" $data "staticDirPath" $staticDirPath)}}
+            {{ partial "download_table" (dict "tableType" "short" "staticDirPath" $staticDirPath "tableData" $tableData)}}
         </div>
     </div>
 

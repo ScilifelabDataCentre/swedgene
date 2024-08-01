@@ -1,6 +1,5 @@
-
-{{ $data := .data }}
 {{ $tableType := .tableType }}
+{{ $tableData := .tableData }}
 {{ $staticDirPath := .staticDirPath }}
 
 <div class="table-responsive">
@@ -23,7 +22,7 @@
             </tr>
         </thead>
         <tbody class="table-responsive">
-            {{ range $data }}
+            {{ range $tableData }}
                 <tr>
                     <td>{{ .dataTrackName }}</td>
                     <td>{{ .description }}</td>
@@ -85,7 +84,7 @@
 </div>
 
 
-{{ $json_file := (split .content.Params.download_data_path "/") }}
+
 
 
 <caption class="scilife-download-table-caption"> <a href="{{ $staticDirPath }}.csv" target="_blank" >
