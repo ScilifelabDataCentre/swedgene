@@ -1,12 +1,6 @@
 
 {{ define "main" }}
 
-{{ $json_file := (split .Params.download_data_path "/") }}
-{{ $data := index .Site.Data $json_file }}
-
-{{ $staticDirPath:= .Params.static_folder_path }}
-{{ $staticDirPath }}
-
 {{ partial "species_title.html" . }}
 
 {{ partial "species_nav.html" . }}
@@ -40,13 +34,28 @@
         </div>
     </div>
 
+    <!-- This logic uses 1 JSON per species located in the assets folder to:
+            - Generate the table at build time (in the partials)
+            - Publish a copy into the static/public dir so it can be downloaded.
+        This means we don't need to store a copy of the data_tracks.json file inside the static dir. -->
+    {{ $speciesName := index (split .RelPermalink "/") 1 }}
+
+    {{ $tableDataPath := printf "%s/data_tracks.json" $speciesName }}
+    {{ $tableDataResource := resources.Get $tableDataPath }}
+    {{ $tableData := $tableDataResource | transform.Unmarshal }}
+
+    {{ $staticDirPath := printf "/%s/data_tracks" $speciesName }}
+    {{ $staticDirFile := printf "%s/data_tracks.json" $speciesName }}
+
+    {{ (resources.Get $tableDataPath | resources.Copy $staticDirFile).Publish }}
+
     <div class="row">
         <div id="table-container-long">
-            {{ partial "download_table" (dict "tableType" "long" "data" $data "staticDirPath" $staticDirPath)}}
+            {{ partial "download_table" (dict "tableType" "long" "staticDirPath" $staticDirPath "tableData" $tableData)}}
         </div>
 
         <div id="table-container-short">
-            {{ partial "download_table" (dict "tableType" "short" "data" $data "staticDirPath" $staticDirPath)}}
+            {{ partial "download_table" (dict "tableType" "short" "staticDirPath" $staticDirPath "tableData" $tableData)}}
         </div>
     </div>
 

@@ -3,9 +3,6 @@ title: "Download"
 layout: "species_download"
 url: "parnassius_mnemosyne/download"
 weight: 3
-
-download_data_path: "parnassius_mnemosyne/data_tracks"
-static_folder_path: "/download_tables/data_tracks_parnassius_mnemosyne"
 ---
 
 ### Assembly

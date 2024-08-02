@@ -1,10 +1,9 @@
 """
 Use this script to create a new species entry for the website.
 
-This script will create new folders in the Hugo content and data directories.
+This script will create new folders in the Hugo content, data and assets directories.
 Then template files for these directories will be added which can be filled in.
 Places to fill in will be marked with: "[EDIT]"
-
 """
 
 import argparse
@@ -25,6 +24,7 @@ STATS_FILE = "species_stats.yml"
 DATA_FILES = (STATS_FILE,)
 
 LINEAGE_FILE = "lineage.json"
+DATA_TRACKS_FILE = "data_tracks.json"
 
 
 GBIF_ENDPOINT = r"https://api.gbif.org/v1/species/match?name="
@@ -55,10 +55,11 @@ def run_argparse() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def create_dirs(dir_name: str) -> tuple[Path, Path]:
+def create_dirs(dir_name: str) -> tuple[Path, Path, Path]:
     """
-    Create the content and data directories for the species
-    Return their locations as pathlib objects.
+    Create the content, data and assets directories for a species (inside Hugo).
+
+    Return each of their locations as pathlib objects.
     """
     content_dir_path = Path(__file__).parent / f"../hugo/content/species/{dir_name}"
     content_dir_path.mkdir(parents=False, exist_ok=True)
@@ -66,7 +67,10 @@ def create_dirs(dir_name: str) -> tuple[Path, Path]:
     data_dir_path = Path(__file__).parent / f"../hugo/data/{dir_name}"
     data_dir_path.mkdir(parents=False, exist_ok=True)
 
-    return content_dir_path, data_dir_path
+    assets_dir_path = Path(__file__).parent / f"../hugo/assets/{dir_name}"
+    assets_dir_path.mkdir(parents=False, exist_ok=True)
+
+    return content_dir_path, data_dir_path, assets_dir_path
 
 
 def add_content_files(species_name: str, content_dir_path: Path, tax_id: str) -> None:
@@ -119,6 +123,18 @@ def add_stats_file(data_dir_path: Path) -> None:
         print(f"File created: {output_file_path.resolve()}")
 
 
+def add_data_tracks_json(assets_dir_path: Path) -> None:
+    """
+    The download page of each species contains an info table about each of the data tracks avaialble.
+    This function creates a template JSON file (to fill in) for this table.
+    This file is stored in the assets folder and at build time, a duplicate it placed in the static folder.
+    """
+    template_file_path = TEMPLATE_DIR / DATA_TRACKS_FILE
+    output_file_path = assets_dir_path / DATA_TRACKS_FILE
+    shutil.copy(template_file_path, output_file_path)
+    print(f"File created: {output_file_path.resolve()}")
+
+
 def get_gbif_taxon_key(species_name: str) -> str:
     """
     Get the GBIF "usageKey" / "taxonKey" given a species name.
@@ -144,7 +160,7 @@ if __name__ == "__main__":
     args = run_argparse()
 
     dir_name = args.species_name.replace(" ", "_").lower()
-    content_dir_path, data_dir_path = create_dirs(dir_name)
+    content_dir_path, data_dir_path, assets_dir_path = create_dirs(dir_name)
 
     if (not args.overwrite) and ((content_dir_path / INDEX_FILE).exists()):
         raise FileExistsError(
@@ -165,4 +181,5 @@ if __name__ == "__main__":
         )
 
     add_stats_file(data_dir_path=data_dir_path)
+    add_data_tracks_json(assets_dir_path=assets_dir_path)
     add_content_files(species_name=args.species_name, content_dir_path=content_dir_path, tax_id=tax_id)
