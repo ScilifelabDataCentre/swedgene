@@ -7,39 +7,40 @@ SWG_CONFIG_DIR ?= config
 SWG_DATA_DIR ?= data
 SWG_INSTALL_DIR ?= hugo/static/data
 
-CONFIG_DIR=$(SWG_CONFIG_DIR)
-DATA_DIR=$(SWG_DATA_DIR)
-INSTALL_DIR=$(SWG_INSTALL_DIR)
+CONFIG_DIR := $(SWG_CONFIG_DIR)
+DATA_DIR := $(SWG_DATA_DIR)
+INSTALL_DIR := $(SWG_INSTALL_DIR)
 
 # To restrict operations to a subset of species, assign them as a
 # comma-separated list to the SPECIES variable. Example:
 #
 #     make SPECIES=linum_tenue,clupea_harengus build
-SPECIES=$(SPECIES:%:{%})
+SPECIES := $(SPECIES:%:{%})
 
-CONFIGS = $(shell find $(CONFIG_DIR)/$(SPECIES) -type f -name 'config.yml')
-JBROWSE_CONFIGS = $(patsubst $(CONFIG_DIR)/%,$(DATA_DIR)/%,$(CONFIGS:.yml=.json))
+CONFIGS := $(shell find $(CONFIG_DIR)/$(SPECIES) -type f -name 'config.yml')
+JBROWSE_CONFIGS := $(patsubst $(CONFIG_DIR)/%,$(DATA_DIR)/%,$(CONFIGS:.yml=.json))
 
-# Defines the DOWNLOAD_TARGETS variable
-include $(DATA_DIR)/targets.mk
+# Files to download for further processing (typically compressing and indexing)
+EXPORT := SWG_DATA_DIR=$(SWG_DATA_DIR) SWG_CONFIG_DIR=$(SWG_CONFIG_DIR)
+DOWNLOAD_TARGETS := $(shell $(EXPORT) ./scripts/make_download_targets $(CONFIGS) 2>/dev/null)
 
 # Assumes that each download target ends with a compression format
 # extension, for example .zip or .gz
-LOCAL_FILES = $(addsuffix .bgz,$(basename $(DOWNLOAD_TARGETS)))
-FASTA_INDICES = $(addsuffix .fai,$(filter %.fna.bgz,$(LOCAL_FILES)))
-FASTA_GZINDICES=$(FASTA_INDICES:.fai=.gzi)
-GFF_INDICES = $(addsuffix .tbi,$(filter %.gff.bgz,$(LOCAL_FILES)))
+LOCAL_FILES := $(addsuffix .bgz,$(basename $(DOWNLOAD_TARGETS)))
+FASTA_INDICES := $(addsuffix .fai,$(filter %.fna.bgz,$(LOCAL_FILES)))
+FASTA_GZINDICES := $(FASTA_INDICES:.fai=.gzi)
+GFF_INDICES := $(addsuffix .tbi,$(filter %.gff.bgz,$(LOCAL_FILES)))
 
 # Files to install
-INSTALLED_FILES = $(patsubst $(DATA_DIR)/%,$(INSTALL_DIR)/%,\
+INSTALLED_FILES := $(patsubst $(DATA_DIR)/%,$(INSTALL_DIR)/%,\
 	$(LOCAL_FILES) \
 	$(FASTA_INDICES) $(FASTA_GZINDICES) \
 	$(GFF_INDICES) \
 	$(JBROWSE_CONFIGS))
 
 # Formatting
-INFO = '\x1b[0;46m'
-RESET = '\x1b[0m'
+INFO := '\x1b[0;46m'
+RESET := '\x1b[0m'
 
 define greet
 $(info $(shell printf '%*s\U1f43f%s\n' 30 '** ' '  **'))
@@ -62,13 +63,13 @@ build: download index-gff index-fasta jbrowse-config
 
 .PHONY: debug
 debug:
-	$(info Restarts : $(MAKE_RESTARTS))
-	$(call log_list, "Target configuration files", $(JBROWSE_CONFIGS))
+	$(call log_list, "Configuration files :", $(CONFIGS))
+	$(call log_list, "JBrowse configuration files :", $(JBROWSE_CONFIGS))
 	$(call log_list, "Files to download :", $(DOWNLOAD_TARGETS))
-	$(call log_list, "Compressed local files :", $(LOCAL_FILES))
-	$(call log_list,"FASTA indices :", $(FASTA_INDICES) $(FASTA_GZINDICES))
+	$(call log_list, "Compressed files :", $(LOCAL_FILES))
+	$(call log_list, "FASTA indices :", $(FASTA_INDICES) $(FASTA_GZINDICES))
 	$(call log_list, "GFF indices :", $(GFF_INDICES))
-	$(call log_list, "Files to install:", $(INSTALLED_FILES))
+	$(call log_list, "Files to install :", $(INSTALLED_FILES))
 
 .PHONY: jbrowse-config
 jbrowse-config: $(JBROWSE_CONFIGS);
@@ -133,13 +134,6 @@ index-gff: $(GFF_INDICES)
 ifneq ($(GFF_INDICES),)
 	$(call log_info,'Indexed GFF files')
 	@printf '  - %s\n' $(GFF_INDICES)
-endif
-
-
-ifeq ($(MAKE_RESTARTS),)
-$(DATA_DIR)/targets.mk: FORCE
-	@CONFIG_DIR=$(CONFIG_DIR) DATA_DIR=$(DATA_DIR) $(SHELL) scripts/make_download_targets $(CONFIGS) > /dev/null
-FORCE:;
 endif
 
 
