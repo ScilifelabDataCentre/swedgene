@@ -38,8 +38,6 @@
             - Generate the table at build time (in the partials)
             - Publish a copy into the static/public dir so it can be downloaded.
         This means we don't need to store a copy of the data_tracks.json file inside the static dir. -->
-
-    {{ $currentURL := .RelPermalink }}
     {{ $speciesName := index (split .RelPermalink "/") 1 }}
 
     {{ $tableDataPath := printf "%s/data_tracks.json" $speciesName }}
