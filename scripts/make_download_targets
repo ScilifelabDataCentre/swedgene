@@ -2,11 +2,11 @@
 
 # List file names to be downloaded for local processing
 #
-# The output is used by make to initialize the DOWNLOAD_TARGETS make
+# The output is used by make to initialize the DOWNLOAD_TARGETS
 # variable.
 #
-# As a side effect, the URLs from which targets should be fetche are
-# cached on the filesystem under ${DATA_DIR}/.downloads
+# As a side effect, the URLs from which targets should be fetched are
+# cached on the filesystem under ${SWG_DATA_DIR}/.downloads
 #
 # Arguments:
 #   CONFIG [CONFIG...] : Names of the configuration files to consider
@@ -14,7 +14,7 @@
 #   SWG_CONFIG_DIR
 #   SWG_DATA_DIR
 # Outputs:
-#   Writes target file name one per line to stdout
+#   Writes target file names one per line to stdout
 
 : "${SWG_DATA_DIR:=data}"
 : "${SWG_CONFIG_DIR:=config}"
@@ -23,7 +23,7 @@
 SRC_DIR="${BASH_SOURCE%/*}"
 source "${SRC_DIR}/utils.sh"
 
-# List URLs and optional file name for assembly and tracks
+# List URLs and optional file name for every configured assembly and track
 # Arguments:
 #   CONFIG [CONFIG ...] : configuration files to consider
 # Outputs:
