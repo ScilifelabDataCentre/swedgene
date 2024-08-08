@@ -119,7 +119,7 @@ $(INSTALLED_FILES): $(INSTALL_DIR)/%: $(DATA_DIR)/%
 # Remove JBrowse data and configuration from hugo static folder
 .PHONY: uninstall
 uninstall:
-	rm -rf $(INSTALL_DIR)/$(DATA_DIR)
+	rm -f $(INSTALLED_FILES)
 
 
 .PHONY: index-fasta
