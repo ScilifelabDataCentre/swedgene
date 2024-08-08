@@ -20,7 +20,7 @@ readonly CWD
 # Directories on the host that are mounted in the container, and used
 # by `make`. Paths must be *relative* to the repository root.
 : ${SWG_DATA_DIR:="data"}
-: ${SWG_INSTALL_DIR:="hugo/static"}
+: ${SWG_INSTALL_DIR:="hugo/static/data"}
 : ${SWG_CONFIG_DIR:="config"}
 
 declare -a docker_flags
